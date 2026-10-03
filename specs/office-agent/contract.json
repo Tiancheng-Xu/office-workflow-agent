@@ -1,0 +1,234 @@
+{
+  "schema": "office-agent Contract v1",
+  "runId": "office-efdb85f5-73fd-4f04-9175-dbc3e7db3fb4",
+  "version": 2,
+  "feature": "office-workflow-agent",
+  "aiEngineering": true,
+  "goal": "独立、可运行的Web2办公流程Agent：合成采购需求登记，API读核+受控浏览器写表单+版本批准+结果核对+恢复；真实生产功能与owned Evidence",
+  "nonGoals": [
+    "Web3/钱包/资金操作",
+    "真实客户生产写入",
+    "退款售后MCP",
+    "评测平台",
+    "RAG",
+    "浏览器插件",
+    "全平台多Agent",
+    "新付费资源/升级"
+  ],
+  "repos": [
+    {
+      "path": "/Users/shier/AI-workspace/projects/office-workflow-agent",
+      "remote": "https://github.com/Tiancheng-Xu/office-workflow-agent.git",
+      "role": "monorepo",
+      "new": true
+    }
+  ],
+  "allowedWrites": [
+    "own repository and feature worktree",
+    "own 50-面试/26-Web2办公流程Agent与FDE面试准备.md",
+    "own outputs"
+  ],
+  "allowedReads": [
+    "指定Vault笔记及项目一/AM/PA/BS证据（只读）",
+    "official GitHub/docs",
+    "own Cloudflare resources/account settings"
+  ],
+  "dataScope": "only synthetic procurement records; no personal identifiers, private customer documents or user Chrome profile",
+  "tools": [
+    "Codex Sol ultra workers",
+    "Playwright isolated contexts",
+    "Node22/TS/SQLite",
+    "Cloudflare Pages GitIntegration/Browser Worker/D1",
+    "installed Ollama or confirmed free Workers AI",
+    "TC Kimi review"
+  ],
+  "authorization": {
+    "commitPushPRMergeProduction": "用户完整委托覆盖独立项目常规交付；TC默认Production人工部署在本Contract被用户明确委托覆盖，仍按实际门禁回读",
+    "kimiReview": "用户直接授权现有Kimi评审；有界请求。额度耗尽允许独立Sol ultra subagent审，不冒充Kimi/标准TC默认通过",
+    "dashboardNotify": "验收完成后向01a0c704-a61a-72c3-a950-dca0eb1dd0d8发送本项目完成包；不改其仓库",
+    "stillRequiresExactAuthority": [
+      "新收费购买/付费资源",
+      "GitHub App扩权",
+      "替换已有DNS",
+      "真实客户数据/生产写入"
+    ]
+  },
+  "reconcile": {
+    "oldDirection": "Web3事件索引",
+    "oldStatus": "research only; cancelled by user; no implementation or deployment",
+    "preserve": [
+      "created empty web3-event-reconciliation directory",
+      "official metadata and capability observations"
+    ],
+    "invalidated": [
+      "chain-specific design/Tasks/gates"
+    ],
+    "reused": [
+      "active Vault and ownership checks",
+      "TC runtime/source skill read",
+      "publish contract read",
+      "known Cloudflare authenticated read"
+    ]
+  },
+  "successCriteria": [
+    {
+      "id": "AC1",
+      "criterion": "一次已批准需求经真实浏览器登记并API核对，重复执行不重复写",
+      "gate": "deterministic+online",
+      "proof": "docs/evidence/functional.json"
+    },
+    {
+      "id": "AC2",
+      "criterion": "租户隔离/旧批准/页面漂移/跳转/不确定结果/取消/崩溃均有真实故障断言",
+      "gate": "deterministic",
+      "proof": "docs/evidence/tests.json"
+    },
+    {
+      "id": "AC3",
+      "criterion": "迁移、备份恢复、负载分母、CI/依赖安全/健康观测均可复现",
+      "gate": "deterministic",
+      "proof": "docs/evidence/operations.json"
+    },
+    {
+      "id": "AC4",
+      "criterion": "preview/commit/production/TLS/owned evidence及真实业务回读齐全",
+      "gate": "external",
+      "proof": "docs/evidence/deployment.json"
+    }
+  ],
+  "deterministicGates": [
+    "typecheck",
+    "unit/security/API tests",
+    "real browser E2E and faults",
+    "migration+backup+restore",
+    "bounded load measurement",
+    "build",
+    "secret/PII scan",
+    "CI/dependency audit",
+    "version and online business readback"
+  ],
+  "llmJudge": {
+    "dimensions": [
+      "readability of proposed finite plan",
+      "FDE explanation clarity"
+    ],
+    "identity": "Kimi isolated review or quota-authorized independent subagent",
+    "calibrated": false,
+    "noOverrideOfDeterministicGates": true
+  },
+  "rag": {
+    "enabled": false
+  },
+  "dag": {
+    "enabled": true,
+    "nodes": [
+      "propose finite plan",
+      "read target by API",
+      "preview",
+      "human approval",
+      "claim execution",
+      "DOM guard+submit",
+      "query effect",
+      "reconcile"
+    ],
+    "budget": {
+      "maxActions": 8,
+      "browserSeconds": 30,
+      "modelOutputTokens": 512,
+      "repairRounds": 3
+    },
+    "timeouts": "fail closed/unknown; never reissue ambiguous effect",
+    "humanApproval": "tenant+run+plan revision+payload hash+target revision+adapter version+expiry"
+  },
+  "serviceLevels": {
+    "modelCalls": "installed local model or verified free allowance only; no paid product fallback",
+    "p95": "measure sample and denominator; no fabricated target attainment",
+    "cost": "no new paid infrastructure; free quota fail closed",
+    "reliability": "bounded actions; uncertainty explicit; no exactly-once claim"
+  },
+  "feedback": {
+    "dataset": "frozen synthetic normal+fault cases",
+    "noCustomerData": true,
+    "measure": "sample counts and raw runs; no claimed improvement without same-environment baseline"
+  },
+  "proof": {
+    "public": [
+      "sanitized implementation/test/version/deployment receipts"
+    ],
+    "private": [
+      "session tokens",
+      "cookies",
+      "raw browser storage",
+      "credentials"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "T1",
+      "scope": "contracts/storage/authorization/API/legacy synthetic app",
+      "risk": "high",
+      "dependencies": []
+    },
+    {
+      "id": "T2",
+      "scope": "Playwright browser executor/DOM guards/network guards/recovery",
+      "risk": "high",
+      "dependencies": [
+        "T1"
+      ]
+    },
+    {
+      "id": "T3",
+      "scope": "natural language proposal/local model/free cloud model validation",
+      "risk": "medium",
+      "dependencies": [
+        "T1"
+      ]
+    },
+    {
+      "id": "T4",
+      "scope": "workbench frontend preview/approve/execute/reconcile/report",
+      "risk": "medium",
+      "dependencies": [
+        "T1"
+      ]
+    },
+    {
+      "id": "T5",
+      "scope": "independent browser+security+crash+load+backup verification",
+      "risk": "high",
+      "dependencies": [
+        "T1",
+        "T2",
+        "T3",
+        "T4"
+      ]
+    },
+    {
+      "id": "T6",
+      "scope": "CI/cloud adapters/evidence/interview notes",
+      "risk": "medium",
+      "dependencies": [
+        "T5"
+      ]
+    },
+    {
+      "id": "T7",
+      "scope": "remote PR/CI/preview/production and real business readback",
+      "risk": "high",
+      "dependencies": [
+        "T6"
+      ]
+    },
+    {
+      "id": "T8",
+      "scope": "completion package/dashboard notification",
+      "risk": "low",
+      "dependencies": [
+        "T7"
+      ]
+    }
+  ],
+  "frozenAt": "2026-10-03T16:26:50.909218+00:00",
+  "contractHash": "65f44f4bc910bb770ed08bc0298188e56cc585e0b7dc282784d2e4e5cfe38977"
+}
