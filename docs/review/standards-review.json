@@ -1,0 +1,802 @@
+{
+  "schema": "office-independent-standards-review-v1",
+  "axis": "Standards",
+  "scope": "Working tree tracked diff plus all untracked implementation source, tests, CI, cloud config; not empty HEAD diff",
+  "baseline": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "headAtReview": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "commitsFromBaseline": [],
+  "reviewer": {
+    "provider": "codex",
+    "agentType": "default",
+    "canonicalTask": "/root/office_standards_review",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "ultra",
+    "transport": "independent-subagent",
+    "forkTurns": "none",
+    "notImplementer": true,
+    "providerRequestId": null,
+    "identityEvidence": "Actual creation parameters confirmed by parent agent; transport exposes no provider request ID"
+  },
+  "verdict": "ALLOW",
+  "createdAt": "2026-10-04T01:47:11.817978+00:00",
+  "initialGate": {
+    "verdict": "BLOCK",
+    "snapshot": {
+      "capturedAt": "2026-10-04T01:41:57.998826+00:00",
+      "sourceFiles": [
+        {
+          "path": ".github/baby2b-publish.yml",
+          "sha256": "5a517fdfd1af4f3b2449f55058db8b9694d90c6498274a5f9fc005e887ab7bd0"
+        },
+        {
+          "path": ".github/workflows/verify.yml",
+          "sha256": "8bdc465f1c13061a9bb810cf4b92e700bf7afd8480e034e840a8a329f9669b0d"
+        },
+        {
+          "path": "functions/api/[[path]].ts",
+          "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+        },
+        {
+          "path": "functions/legacy/[[path]].ts",
+          "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+        },
+        {
+          "path": "index.html",
+          "sha256": "ac9797f33aa4b18011540eed75a293f4e5aa7884132bd0fd2841218792ced236"
+        },
+        {
+          "path": "migrations/001_initial.sql",
+          "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+        },
+        {
+          "path": "migrations/002_resource_budget.sql",
+          "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+        },
+        {
+          "path": "migrations/003_resource_window.sql",
+          "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+        },
+        {
+          "path": "package.json",
+          "sha256": "4c64e8b38464f235c8cfe5e7082718e09202895ef33d3e8e50d161636669e42c"
+        },
+        {
+          "path": "playwright.config.ts",
+          "sha256": "6b72fa19f44e6875d707b4b74896cd0a4624f17ad9dbcc1ac8822b7e748579f1"
+        },
+        {
+          "path": "pnpm-lock.yaml",
+          "sha256": "d40179991814668aed01dbc428957c5d42bab0bd3034d260f09386775863b3d0"
+        },
+        {
+          "path": "pnpm-workspace.yaml",
+          "sha256": "257173f727738c7b148e033451d00c9431273272049b0f390208b91de288fccf"
+        },
+        {
+          "path": "public/evidence/index.html",
+          "sha256": "7d201033a8c4442a0c422686199997be31106359f25818226c1bc9a8038d12a5"
+        },
+        {
+          "path": "public/evidence/styles.css",
+          "sha256": "519ed0cd1023768f245a6e3ddda1345a95c347583a66bdaf7a32ae3edf28e8be"
+        },
+        {
+          "path": "scripts/evaluate-planner.ts",
+          "sha256": "a1c452f8f99adff5cf7dd48f8237fdbcd9edb52d5843f63e04ecb656a2d9de06"
+        },
+        {
+          "path": "scripts/qa-crash.ts",
+          "sha256": "5e1fd496b886557abdb275f7deee66c0caf9dfef72fa47cfa35509888a40fda4"
+        },
+        {
+          "path": "scripts/qa-load.ts",
+          "sha256": "175d1576b823704ba85208f8ef21f1fd5d79a5ef670918269ec00e488c3a07b2"
+        },
+        {
+          "path": "src/browser/executor.ts",
+          "sha256": "38f93d805ae7b98fa1658bca575833ed939e2cd6e5676e204afa828fb4fbd828"
+        },
+        {
+          "path": "src/cloud/budget.ts",
+          "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+        },
+        {
+          "path": "src/cloud/origin.ts",
+          "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901"
+        },
+        {
+          "path": "src/cloud/repository.ts",
+          "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+        },
+        {
+          "path": "src/cloud/worker.ts",
+          "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033"
+        },
+        {
+          "path": "src/contracts.ts",
+          "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+        },
+        {
+          "path": "src/planner.ts",
+          "sha256": "1287568869f20dcdaa2d8dc3fb33145465ab879a43d1f2a768cdb0c5f1949d08"
+        },
+        {
+          "path": "src/runtime/handler.ts",
+          "sha256": "0a48e7915643f743fff5e097b58101de0a08b023f1c60adb644050e0032e1011"
+        },
+        {
+          "path": "src/runtime/proof.ts",
+          "sha256": "436729326ccc8c7077765cc567e9750b02a5eb56de6eeea41fbdf7de2672822b"
+        },
+        {
+          "path": "src/runtime/repository.ts",
+          "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+        },
+        {
+          "path": "src/runtime/session.ts",
+          "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+        },
+        {
+          "path": "src/runtime/sqlite.ts",
+          "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+        },
+        {
+          "path": "src/runtime/validation.ts",
+          "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+        },
+        {
+          "path": "src/server.ts",
+          "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+        },
+        {
+          "path": "src/ui/main.ts",
+          "sha256": "7294eed14e7762b584b207cfdcee5245742b509bcaaf15317578ff45b59026d3"
+        },
+        {
+          "path": "src/ui/styles.css",
+          "sha256": "98cfdd57571b1b3a2494cc95cc21dd2da8e435514651a29c5772ba85c187b56c"
+        },
+        {
+          "path": "tests/browser.test.ts",
+          "sha256": "7960085c96c9edf105c01c184c5685cd08c30909c2cccd174602b55fccdf0f0b"
+        },
+        {
+          "path": "tests/cloud-origin.test.ts",
+          "sha256": "c4498d9333ab195253b47c75b97fdfcdd985e0e19d9de29760ed5273720bdaa5"
+        },
+        {
+          "path": "tests/cloud-repository.test.ts",
+          "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+        },
+        {
+          "path": "tests/e2e/crash-server.ts",
+          "sha256": "1b4fcb0b5265a6c89a2fbf418051ae110d3ce27dc746e2a345869304969fd21e"
+        },
+        {
+          "path": "tests/e2e/harness.ts",
+          "sha256": "13f3b701d80107ae7b2ba052de5d30a45803b313dcd9b47da7bc71de13474723"
+        },
+        {
+          "path": "tests/e2e/office-flow.spec.ts",
+          "sha256": "996485349bc400505aefa71f8c89d42258fa35f09402f30a29a8f5264f48f07b"
+        },
+        {
+          "path": "tests/e2e/operations.spec.ts",
+          "sha256": "578d4c27aa0528c9fb0c700d070212c6b6e0858a504f99e444c3551576672c43"
+        },
+        {
+          "path": "tests/e2e/plan-revision.spec.ts",
+          "sha256": "69c9d1664dfc9d8566c7dcdb680f0020e51a83b41970d9a81133ca38eeb8acb4"
+        },
+        {
+          "path": "tests/e2e/proof-assertions.ts",
+          "sha256": "6e1511347aa76b256792fe734bc349a78b0e5f3ca9d640db9b963eda40c127cd"
+        },
+        {
+          "path": "tests/e2e/proof-http.spec.ts",
+          "sha256": "75119cd8367ade170e6db48e5d12843d59a7484dc3360e3b703151d4a98e66f9"
+        },
+        {
+          "path": "tests/e2e/qa-metadata.ts",
+          "sha256": "878a14eb18a0ce6f85b06f5f95889fe4497818bc718704927d196da80e644624"
+        },
+        {
+          "path": "tests/e2e/qa-reporter.ts",
+          "sha256": "e403ab8286bee15b57a81c055c9c6ea5cebd83a77c88fbc5e6bed19a39ac78b0"
+        },
+        {
+          "path": "tests/e2e/session-isolation.spec.ts",
+          "sha256": "136e97be8368bff7dcf6ac894edda4a118ee51475bb8fe446b4caee19e1e0d71"
+        },
+        {
+          "path": "tests/planner.test.ts",
+          "sha256": "210c7c8680ac48ed4aaa3f659eb6ec5a303e16c11f3a139e88b850f218ea38d0"
+        },
+        {
+          "path": "tests/proof.test.ts",
+          "sha256": "ba9cc348bcdfbcc9b20edef52817b40382f3a282b3b19ee3a21a147bbe5ea6b3"
+        },
+        {
+          "path": "tests/runtime.test.ts",
+          "sha256": "f04e5a6ece3f7a554328799a0949bdb777aefea2a115744cc846f9c3289a15b8"
+        },
+        {
+          "path": "tsconfig.cloud.json",
+          "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+        },
+        {
+          "path": "wrangler.jsonc",
+          "sha256": "2bbfa16a77d5e89c33b9f98bea52d806311103f0e4064b07960d2cb43be613eb"
+        },
+        {
+          "path": "wrangler.runtime-preview.jsonc",
+          "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422"
+        },
+        {
+          "path": "wrangler.runtime.jsonc",
+          "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+        }
+      ],
+      "standardsFiles": [
+        {
+          "path": "agents/roles.md",
+          "sha256": "e25af96887e5e7b41efb266413e058c3f10a14c81b1414059d278fcabfd451ed"
+        },
+        {
+          "path": "specs/office-agent/contract.json",
+          "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+        },
+        {
+          "path": "specs/office-agent/design.md",
+          "sha256": "390e76e41debea2f646e00e74561a177c32aabcdc0442b3ab73f1d698fa8d9fd"
+        },
+        {
+          "path": "specs/office-agent/requirements.md",
+          "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+        },
+        {
+          "path": "specs/office-agent/tasks.md",
+          "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+        },
+        {
+          "path": "docs/architecture/decisions.md",
+          "sha256": "ed2ee567492d24fa1615f838e140da40bae0b18e957d0f10ef373b8c62bc79e0"
+        },
+        {
+          "path": "docs/architecture/proof.md",
+          "sha256": "65561d4cdf159d8b1191707cd27f08ad3a2e7e218e9474478e3283dd6aa14ed6"
+        },
+        {
+          "path": "README.md",
+          "sha256": "32ffc71bada6bc6550ae3234287b82dc098a8cb8e6acb00c7c7bba4f4418ff25"
+        }
+      ],
+      "sourceBundleHash": "80dda77ffe49fab8f32d8a6364b56fa9c73884e75c8d7736a51af9d12ec7b596",
+      "inputBundleHash": "5406fa7c41967ae4bbb3a4256a154380f83cef4ec54f938e84d611f5406b3aeb",
+      "trackedWorkingTreeDiffSha256": "4df1eb82b5b8d04697d1a75f2983516df9752fbe7123051ee1d811cdcd069d49"
+    },
+    "diffHash": "f5803dce90ad0d20644a23d7d284a01f62f13a1c7e8e1a406199402f759ff222",
+    "diffHashMethod": "SHA256 canonical JSON of baseline, tracked working-tree diff byte hash and ordered untracked implementation SHA256 manifest",
+    "findings": [
+      {
+        "id": "OFFICE-STANDARDS-001",
+        "priority": "P2",
+        "category": "documented-runtime-correctness",
+        "title": "Declared Node >=22.13 fails before local runtime startup",
+        "file": "src/runtime/sqlite.ts",
+        "lineStart": 1,
+        "lineEnd": 1,
+        "inputSha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29",
+        "relatedFiles": [
+          {
+            "path": "package.json",
+            "sha256": "4c64e8b38464f235c8cfe5e7082718e09202895ef33d3e8e50d161636669e42c",
+            "lineStart": 6
+          },
+          {
+            "path": "README.md",
+            "sha256": "32ffc71bada6bc6550ae3234287b82dc098a8cb8e6acb00c7c7bba4f4418ff25",
+            "lineStart": 11
+          }
+        ],
+        "standard": {
+          "file": "specs/office-agent/design.md",
+          "rule": "TS/Node22 and real node:sqlite local runtime; README declares minimum Node >=22.13"
+        },
+        "evidence": {
+          "node": "v22.13.0",
+          "command": "Node v22.13.0 --import tsx --input-type=module -e \"console.log(process.version); await import('./src/runtime/sqlite.ts');\"",
+          "exitCode": 1,
+          "observed": "SyntaxError: The requested module node:sqlite does not provide an export named backup",
+          "officialSource": "https://nodejs.org/download/release/v22.17.0/docs/api/sqlite.html#sqlitebackupsource-db-destination-options",
+          "officialApiAddedIn": "v22.16.0"
+        },
+        "recommendation": "Raise package engines and documented minimum to Node >=22.16, or implement real backup without importing an unavailable API; verify actual Node 22 runtime.",
+        "status": "OPEN"
+      }
+    ],
+    "judgementSmells": [
+      {
+        "id": "OFFICE-SMELL-001",
+        "name": "possible Duplicated Code",
+        "judgementOnly": true,
+        "blocking": false,
+        "file": "src/ui/main.ts",
+        "inputSha256": "7294eed14e7762b584b207cfdcee5245742b509bcaaf15317578ff45b59026d3",
+        "locations": [
+          {
+            "lineStart": 143,
+            "lineEnd": 160
+          },
+          {
+            "lineStart": 418,
+            "lineEnd": 430
+          }
+        ],
+        "hunk": "state.runs.clear(); state.technical.clear(); state.editors.clear(); state.proofs.clear(); state.proofLoading.clear(); state.proofErrors.clear(); state.proofTechnical.clear(); state.actions.clear();",
+        "recommendation": "A small shared workspace-cache reset helper would keep reconnect and SESSION_CHANGED invalidation aligned as new caches are added. This is optional, not a documented-standard breach."
+      }
+    ],
+    "verification": [
+      {
+        "command": "node node_modules/typescript/bin/tsc --noEmit",
+        "outcome": "PASS",
+        "node": "v24.20.0"
+      },
+      {
+        "command": "node node_modules/typescript/bin/tsc -p tsconfig.cloud.json",
+        "outcome": "PASS",
+        "node": "v24.20.0"
+      },
+      {
+        "command": "node --import tsx --test tests/planner.test.ts tests/proof.test.ts tests/cloud-origin.test.ts tests/cloud-repository.test.ts",
+        "outcome": "PASS",
+        "passed": 28,
+        "total": 28,
+        "node": "v24.20.0"
+      },
+      {
+        "command": "Actual Node v22.13.0 + --import tsx imports src/runtime/sqlite.ts",
+        "outcome": "FAIL_REPRODUCED",
+        "finding": "OFFICE-STANDARDS-001"
+      },
+      {
+        "command": "Bounded local secret/capability scan across docs JSON/Markdown and public HTML",
+        "outcome": "PASS",
+        "scannedFiles": 32,
+        "matchingCredentialValues": 0,
+        "limitation": "Pattern scan supplements explicit proof whitelists; not an absolute absence guarantee"
+      }
+    ]
+  },
+  "closure": {
+    "status": "CLOSED_STABLE_SOURCE_REVIEW",
+    "verdict": "ALLOW",
+    "initialBlockPreserved": true,
+    "closedAt": "2026-10-04T01:59:35.930666+00:00",
+    "snapshot": {
+      "capturedAt": "2026-10-04T01:57:57.664083+00:00",
+      "sourceFiles": [
+        {
+          "path": ".github/baby2b-publish.yml",
+          "sha256": "5a517fdfd1af4f3b2449f55058db8b9694d90c6498274a5f9fc005e887ab7bd0"
+        },
+        {
+          "path": ".github/workflows/verify.yml",
+          "sha256": "8bdc465f1c13061a9bb810cf4b92e700bf7afd8480e034e840a8a329f9669b0d"
+        },
+        {
+          "path": "functions/api/[[path]].ts",
+          "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+        },
+        {
+          "path": "functions/legacy/[[path]].ts",
+          "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+        },
+        {
+          "path": "index.html",
+          "sha256": "ac9797f33aa4b18011540eed75a293f4e5aa7884132bd0fd2841218792ced236"
+        },
+        {
+          "path": "migrations/001_initial.sql",
+          "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+        },
+        {
+          "path": "migrations/002_resource_budget.sql",
+          "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+        },
+        {
+          "path": "migrations/003_resource_window.sql",
+          "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+        },
+        {
+          "path": "package.json",
+          "sha256": "b15814fbcb535989d0d71ce3147c31e45bedb853e7f66c57ee980349b6296982"
+        },
+        {
+          "path": "playwright.config.ts",
+          "sha256": "4290d5cea48d931b4c4141e9db96e6260d12f2adde20df3a66223c7bac475ee7"
+        },
+        {
+          "path": "pnpm-lock.yaml",
+          "sha256": "d40179991814668aed01dbc428957c5d42bab0bd3034d260f09386775863b3d0"
+        },
+        {
+          "path": "pnpm-workspace.yaml",
+          "sha256": "257173f727738c7b148e033451d00c9431273272049b0f390208b91de288fccf"
+        },
+        {
+          "path": "public/evidence/index.html",
+          "sha256": "7d201033a8c4442a0c422686199997be31106359f25818226c1bc9a8038d12a5"
+        },
+        {
+          "path": "public/evidence/styles.css",
+          "sha256": "519ed0cd1023768f245a6e3ddda1345a95c347583a66bdaf7a32ae3edf28e8be"
+        },
+        {
+          "path": "scripts/evaluate-planner.ts",
+          "sha256": "b8a9c075c698305bcad2b6cc00b0c9f83c641d05068350a7e4674227e4268b3a"
+        },
+        {
+          "path": "scripts/qa-crash.ts",
+          "sha256": "5e1fd496b886557abdb275f7deee66c0caf9dfef72fa47cfa35509888a40fda4"
+        },
+        {
+          "path": "scripts/qa-load.ts",
+          "sha256": "175d1576b823704ba85208f8ef21f1fd5d79a5ef670918269ec00e488c3a07b2"
+        },
+        {
+          "path": "src/browser/executor.ts",
+          "sha256": "38f93d805ae7b98fa1658bca575833ed939e2cd6e5676e204afa828fb4fbd828"
+        },
+        {
+          "path": "src/cloud/budget.ts",
+          "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+        },
+        {
+          "path": "src/cloud/origin.ts",
+          "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901"
+        },
+        {
+          "path": "src/cloud/repository.ts",
+          "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+        },
+        {
+          "path": "src/cloud/worker.ts",
+          "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033"
+        },
+        {
+          "path": "src/contracts.ts",
+          "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+        },
+        {
+          "path": "src/planner.ts",
+          "sha256": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8"
+        },
+        {
+          "path": "src/runtime/handler.ts",
+          "sha256": "0a48e7915643f743fff5e097b58101de0a08b023f1c60adb644050e0032e1011"
+        },
+        {
+          "path": "src/runtime/proof.ts",
+          "sha256": "436729326ccc8c7077765cc567e9750b02a5eb56de6eeea41fbdf7de2672822b"
+        },
+        {
+          "path": "src/runtime/repository.ts",
+          "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+        },
+        {
+          "path": "src/runtime/session.ts",
+          "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+        },
+        {
+          "path": "src/runtime/sqlite.ts",
+          "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+        },
+        {
+          "path": "src/runtime/validation.ts",
+          "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+        },
+        {
+          "path": "src/server.ts",
+          "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+        },
+        {
+          "path": "src/ui/main.ts",
+          "sha256": "7294eed14e7762b584b207cfdcee5245742b509bcaaf15317578ff45b59026d3"
+        },
+        {
+          "path": "src/ui/styles.css",
+          "sha256": "98cfdd57571b1b3a2494cc95cc21dd2da8e435514651a29c5772ba85c187b56c"
+        },
+        {
+          "path": "tests/browser.test.ts",
+          "sha256": "7960085c96c9edf105c01c184c5685cd08c30909c2cccd174602b55fccdf0f0b"
+        },
+        {
+          "path": "tests/cloud-origin.test.ts",
+          "sha256": "c4498d9333ab195253b47c75b97fdfcdd985e0e19d9de29760ed5273720bdaa5"
+        },
+        {
+          "path": "tests/cloud-repository.test.ts",
+          "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+        },
+        {
+          "path": "tests/e2e/crash-server.ts",
+          "sha256": "1b4fcb0b5265a6c89a2fbf418051ae110d3ce27dc746e2a345869304969fd21e"
+        },
+        {
+          "path": "tests/e2e/harness.ts",
+          "sha256": "a8de11de0949a8047963f2332d189ab2e747c6f97ee8eb97c09395eec8369e90"
+        },
+        {
+          "path": "tests/e2e/office-flow.spec.ts",
+          "sha256": "ca286146cc06903b4894a9df8e540eda699b722418acdf6e92f8012eb748e2b3"
+        },
+        {
+          "path": "tests/e2e/operations.spec.ts",
+          "sha256": "578d4c27aa0528c9fb0c700d070212c6b6e0858a504f99e444c3551576672c43"
+        },
+        {
+          "path": "tests/e2e/plan-revision.spec.ts",
+          "sha256": "69c9d1664dfc9d8566c7dcdb680f0020e51a83b41970d9a81133ca38eeb8acb4"
+        },
+        {
+          "path": "tests/e2e/proof-assertions.ts",
+          "sha256": "3aa2bf369df47a97aa020ed19c685b1fb7349c5958af60ef86e69e2788f182b5"
+        },
+        {
+          "path": "tests/e2e/proof-http.spec.ts",
+          "sha256": "e6526af68165bbf8b7793d63823373d44d762d7750552ba8749f2c2372a1c200"
+        },
+        {
+          "path": "tests/e2e/qa-metadata.ts",
+          "sha256": "e35958f188981d8f6c44f7ac7c042c35c12b7f237b7a8a282e9f908482fe8a25"
+        },
+        {
+          "path": "tests/e2e/qa-reporter.ts",
+          "sha256": "fb09c2c6dacd57a131786026fab4f6d85e58998649c1073afaf50c026c863c3d"
+        },
+        {
+          "path": "tests/e2e/session-isolation.spec.ts",
+          "sha256": "136e97be8368bff7dcf6ac894edda4a118ee51475bb8fe446b4caee19e1e0d71"
+        },
+        {
+          "path": "tests/planner.test.ts",
+          "sha256": "43e9e7cb7269536181bf15a0fbab7d6084694e1f3467b4b8711126e2936bff99"
+        },
+        {
+          "path": "tests/proof.test.ts",
+          "sha256": "ba9cc348bcdfbcc9b20edef52817b40382f3a282b3b19ee3a21a147bbe5ea6b3"
+        },
+        {
+          "path": "tests/runtime.test.ts",
+          "sha256": "f04e5a6ece3f7a554328799a0949bdb777aefea2a115744cc846f9c3289a15b8"
+        },
+        {
+          "path": "tsconfig.cloud.json",
+          "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+        },
+        {
+          "path": "wrangler.jsonc",
+          "sha256": "2bbfa16a77d5e89c33b9f98bea52d806311103f0e4064b07960d2cb43be613eb"
+        },
+        {
+          "path": "wrangler.runtime-preview.jsonc",
+          "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422"
+        },
+        {
+          "path": "wrangler.runtime.jsonc",
+          "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+        }
+      ],
+      "standardsFiles": [
+        {
+          "path": "agents/roles.md",
+          "sha256": "e25af96887e5e7b41efb266413e058c3f10a14c81b1414059d278fcabfd451ed"
+        },
+        {
+          "path": "specs/office-agent/contract.json",
+          "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+        },
+        {
+          "path": "specs/office-agent/design.md",
+          "sha256": "5cd873a4ed6902cfb1aceaae979cdbd5e73bb9f36f1cebde1f2ca60987fd50c7"
+        },
+        {
+          "path": "specs/office-agent/requirements.md",
+          "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+        },
+        {
+          "path": "specs/office-agent/tasks.md",
+          "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+        },
+        {
+          "path": "docs/architecture/decisions.md",
+          "sha256": "72f7b19a5ca8849af755e0115454af583ca09194a51e2d81c9d95337d50993be"
+        },
+        {
+          "path": "docs/architecture/proof.md",
+          "sha256": "65561d4cdf159d8b1191707cd27f08ad3a2e7e218e9474478e3283dd6aa14ed6"
+        },
+        {
+          "path": "README.md",
+          "sha256": "fae65e06cf56cc57043c2e5ce22e323e6fd9d81fcc1582a7cc9a815f49dca08f"
+        },
+        {
+          "path": "docs/deployment/README.md",
+          "sha256": "7ec5184d9f5bcb206fc177b8115321600b4f2005777d6017674c8a5f6a495c07"
+        },
+        {
+          "path": "docs/deployment/preflight.json",
+          "sha256": "500d5b679696db3a388fc564bf04245e5cf45013af867a903e162560b8d63dbf"
+        },
+        {
+          "path": "docs/deployment/followup.json",
+          "sha256": "84c4267bc9048a1815b186c88d2c53107736a690f5b80ef4234998ac7769d8b2"
+        },
+        {
+          "path": "docs/evidence/planner-evaluation.json",
+          "sha256": "6dd944d49036a07213379a3f2322f6f3b8058a97672e9e34e0d4e147c33c8a8b"
+        }
+      ],
+      "sourceBundleHash": "2a3b873a3c7b6541740e4d20770ed38bc4add10a48d6e94683c0cc63dbb0932b",
+      "inputBundleHash": "c15f105d56f579c627fe3888b9467beab3501853a9963f10eac132736bd8c6da",
+      "trackedWorkingTreeDiffSha256": "ef75490d604594a2affccc98606bc7a26558f59b6b40d7d4e6a9ebf17d368dca",
+      "diffHash": "e9edf0bf0e18919d43db47c0d076af498d484f023de5ef4b151f2f20b5a2d79d",
+      "servedDistManifest": [
+        {
+          "path": "dist/assets/index-CezGusb5.css",
+          "sha256": "e0f7da773510903011850308bc4e023f52b16df3aa9a15416aa897562ae18287"
+        },
+        {
+          "path": "dist/assets/index-CyBQkoDk.js",
+          "sha256": "470d525673c1015c81e7d5dcc581a1f360386f46fbd6850c51eb4c8452a21cbb"
+        },
+        {
+          "path": "dist/evidence/index.html",
+          "sha256": "7d201033a8c4442a0c422686199997be31106359f25818226c1bc9a8038d12a5"
+        },
+        {
+          "path": "dist/evidence/styles.css",
+          "sha256": "519ed0cd1023768f245a6e3ddda1345a95c347583a66bdaf7a32ae3edf28e8be"
+        },
+        {
+          "path": "dist/index.html",
+          "sha256": "39a87d3d832ad118c5f02ba049a88687bc8dd2a3875c078164fd7af2e1351ea3"
+        }
+      ],
+      "servedDistBundleHash": "8af00aad75bac10440295f70fc4743a803fcde8e864b0bcad228e321e5e4c39b"
+    },
+    "finalInputStabilityCheck": {
+      "outcome": "PASS",
+      "changedInputs": []
+    },
+    "closedFindings": [
+      {
+        "id": "OFFICE-STANDARDS-001",
+        "status": "CLOSED",
+        "change": "package engines, README and design now require Node >=22.16; actual minimum runtime SQLite backup/restore passes."
+      }
+    ],
+    "hardFindings": [],
+    "judgementSmells": [
+      {
+        "id": "OFFICE-SMELL-001",
+        "name": "possible Duplicated Code",
+        "judgementOnly": true,
+        "blocking": false,
+        "file": "src/ui/main.ts",
+        "inputSha256": "7294eed14e7762b584b207cfdcee5245742b509bcaaf15317578ff45b59026d3",
+        "locations": [
+          {
+            "lineStart": 143,
+            "lineEnd": 160
+          },
+          {
+            "lineStart": 418,
+            "lineEnd": 430
+          }
+        ],
+        "hunk": "state.runs.clear(); state.technical.clear(); state.editors.clear(); state.proofs.clear(); state.proofLoading.clear(); state.proofErrors.clear(); state.proofTechnical.clear(); state.actions.clear();",
+        "recommendation": "A small shared workspace-cache reset helper would keep reconnect and SESSION_CHANGED invalidation aligned as new caches are added. This is optional, not a documented-standard breach."
+      }
+    ],
+    "verification": [
+      {
+        "command": "Actual Node v22.23.2 --import tsx --test tests/runtime.test.ts tests/planner.test.ts tests/proof.test.ts tests/cloud-origin.test.ts tests/cloud-repository.test.ts",
+        "outcome": "PASS",
+        "passed": 54,
+        "total": 54,
+        "exitCode": 0,
+        "scope": "Current application source and targeted tests; final QA metadata/harness changes separately typechecked, not a full browser re-run."
+      },
+      {
+        "command": "Actual Node v22.16.0 --import tsx: SqliteRepository import, fresh DB, migrations, backup, restore and health comparison",
+        "outcome": "PASS",
+        "node": "v22.16.0",
+        "observed": {
+          "realRepositoryImport": true,
+          "realSqliteMigrations": 3,
+          "actualBackup": true,
+          "actualRestore": true,
+          "syntheticOnly": true
+        }
+      },
+      {
+        "command": "Actual Node v22.23.2 --import tsx src/server.ts in a temporary data directory; real HTTP /, JS asset, signed session, proposal and health",
+        "outcome": "PASS",
+        "node": "v22.23.2",
+        "observed": {
+          "actualServerStartup": true,
+          "csrHtml": true,
+          "compiledJsBundleServed": true,
+          "signedSession": true,
+          "realProposal": true,
+          "recordedRuns": 1,
+          "backendEffects": 0,
+          "syntheticOnly": true
+        },
+        "compiledOutputBundleHash": "8af00aad75bac10440295f70fc4743a803fcde8e864b0bcad228e321e5e4c39b"
+      },
+      {
+        "command": "node node_modules/typescript/bin/tsc --noEmit",
+        "outcome": "PASS",
+        "node": "v24.20.0",
+        "includesFinalQAHarnessMetadata": true
+      },
+      {
+        "command": "node node_modules/typescript/bin/tsc -p tsconfig.cloud.json",
+        "outcome": "PASS",
+        "node": "v24.20.0"
+      },
+      {
+        "command": "Recompute complete final source and standards SHA256 manifest",
+        "outcome": "PASS",
+        "changedInputs": []
+      }
+    ],
+    "boundariesVerifiedInSource": [
+      "Exact browser origin, fixed paths/methods/query and payload; popup/redirect/subresource guard",
+      "Signed tenant-derived session, CSRF, generation invalidation and late-response suppression",
+      "Server version approval and atomic capability/target/payload effect rechecks",
+      "UNKNOWN/crash query-only recovery; applied effects survive cancel/query failure",
+      "Report property whitelist; independent browser/database/fresh API layers; digest is a checksum",
+      "Separate preview/production Worker+D1; browser/AI default disabled before free proof",
+      "Bounded explicit dependencies; honest CSR/local/production status",
+      "QA implementation and harness hashes are both captured; source/harness drift gates fail explicitly"
+    ],
+    "nonGateObservations": [
+      {
+        "subject": "Intermediate Node v22.23.2 run before planner fix",
+        "outcome": "53/54 passed; newly added range-token lexical test failed",
+        "reason": "Same independently reported planner range issue; current application source and tests pass 54/54."
+      },
+      {
+        "subject": "Existing model receipt",
+        "source": "docs/evidence/planner-evaluation.json",
+        "observed": "20/20 baseline and candidate, 3 normal candidate results as ollama; plannerSourceHash matches current source",
+        "scope": "Bounded receipt review only; no model quality or production claim"
+      }
+    ],
+    "integrationPolicy": "Later QA/deployment status-only README changes belong to final whole-tree release review; this source gate does not certify production."
+  },
+  "limitations": [
+    "No full browser QA was rerun by this Standards reviewer; independent office_qa owns that gate.",
+    "Cloud quota/account plan, actual D1, remote CI and production browser/API business readback are separate external gates and are not claimed verified.",
+    "D1 tests use a local SQLite SQL shim, not deployed D1.",
+    "System/plugin skills and original docs/review/task-review artifacts were left unchanged."
+  ],
+  "originalVerdict": "BLOCK",
+  "finalFindingCount": 0,
+  "judgementSmellCount": 1,
+  "closedAt": "2026-10-04T01:59:35.930666+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "syntheticOnly": true,
+  "staleAbsenceObserved": true,
+  "realPendingBrowserSubmitCommitted": true,
+  "receiptWithheldUntilCancelReturned": true,
+  "immediateCancelStatus": "verified",
+  "immediateCancelEffect": "applied",
+  "persistedEffect": "applied",
+  "finalStatus": "verified",
+  "browserLaunches": 1,
+  "actualFormPosts": 1,
+  "demandCount": 1,
+  "node": "v24.20.0"
+}

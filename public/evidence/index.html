@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="OfficeFlow 办公流程 Agent 的工作证明：实现、验证和上线证据分别记录。">
+  <title>工作证明 · OfficeFlow</title>
+  <link rel="stylesheet" href="/evidence/styles.css">
+</head>
+<body>
+  <header><a class="brand" href="/" aria-label="OfficeFlow 项目主页"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div>Office<span>Flow</span></div></a><nav aria-label="项目导航"><a href="https://baby2b.online/">作品集</a><a href="/">项目主页</a><a href="/evidence/" aria-current="page">工作证明</a></nav></header>
+  <main>
+    <div class="kicker">OFFICEFLOW / 工作证明</div><h1>每个结论，都有对应证据。</h1><div class="intro"><p>记录合成采购需求从语言提案、人工确认、浏览器登记到 API 核对的全过程。实现、测试与生产回读分别确认；本页不包含客户数据、会话令牌或浏览器存储。</p></div>
+    <div class="pending-banner" role="note"><span class="pending-dot" aria-hidden="true"></span><div><strong>本地验证已完成，线上验收待补</strong><p>当前冻结代码通过64项测试和36项独立浏览器验收，独立审查已放行。<a href="/evidence/local-verification.json">查看本地机器收据</a>。远端CI、HTTPS及云端业务回读仍待验，不能从本地结果推定上线成功。</p></div></div>
+    <div class="proof-grid">
+      <section class="proof-card" aria-labelledby="functional"><div class="proof-top"><span class="proof-number">01</span><h2 id="functional">功能与实际登记</h2><span class="badge">本地通过</span></div><p>一次明确批准的需求，经隔离浏览器填写并提交固定表单，再由 API 读取真实登记结果。相同需求重复请求不得重复写入。</p><dl><div><dt>需要的证据</dt><dd>真实修订12→15、旧批准拒绝、浏览器POST及fresh API核对</dd></div><div><dt>当前结论</dt><dd>36/36独立本地验收；本次无浏览器动作时明确无证据</dd></div></dl></section>
+      <section class="proof-card" aria-labelledby="safety"><div class="proof-top"><span class="proof-number">02</span><h2 id="safety">失败、隔离与恢复</h2><span class="badge">本地通过</span></div><p>检查租户隔离、过期批准、表单结构变化、跨域跳转、提交后断线、取消、并发及进程崩溃后的恢复行为。</p><dl><div><dt>需要的证据</dt><dd>DOM/跳转拦截、取消竞态、会话轮转、真实SIGKILL恢复</dd></div><div><dt>当前结论</dt><dd>强杀2/2通过；恢复零新浏览器与POST，仅查询原需求</dd></div></dl></section>
+      <section class="proof-card" aria-labelledby="operations"><div class="proof-top"><span class="proof-number">03</span><h2 id="operations">数据与运行检查</h2><span class="badge">本地通过</span></div><p>验证数据库迁移、备份恢复、依赖安全和健康观测。耗时与负载结论必须提供实际样本数量、条件和原始结果。</p><dl><div><dt>需要的证据</dt><dd>SQLite迁移1/2/3、在线备份还原、完整依赖审计</dd></div><div><dt>当前结论</dt><dd>Node22.16测试64/64；165个测量操作零错误；审计零漏洞</dd></div></dl></section>
+      <section class="proof-card" aria-labelledby="deployment"><div class="proof-top"><span class="proof-number">04</span><h2 id="deployment">版本与生产回读</h2><span class="badge">待核验</span></div><p>核对代码版本、部署版本、HTTPS 和公开证据入口，再在生产环境执行一条合成业务需求，确认完整闭环。</p><dl><div><dt>需要的证据</dt><dd>版本 / 部署收据、生产合成需求回读与独立审核</dd></div><div><dt>当前结论</dt><dd>预览/生产自有D1已创建；Worker/Pages、CI、TLS、云浏览器回读待验</dd></div></dl></section>
+    </div>
+    <section class="principle"><h2>每次修订重新批准，每层结果分别留证</h2><p>计划保存新版本后清除旧批准，展示实际字段差异。浏览器观察、后台持久效果和API核对分别记录；报告摘要是内容校验，不是签名。结果不确定时只查询原需求，取消保留已发生效果。公开体验仅用合成数据和隔离工作区。</p></section>
+    <a href="/" class="return-link">进入需求工作台 <span aria-hidden="true">→</span></a>
+  </main>
+  <footer><span>OfficeFlow · 办公流程 Agent</span><nav aria-label="页脚导航"><a href="https://baby2b.online/">作品集首页</a><a href="/">项目主页</a><a href="/evidence/">工作证明</a></nav></footer>
+</body>
+</html>

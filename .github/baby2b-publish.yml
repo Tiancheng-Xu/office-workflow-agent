@@ -1,0 +1,10 @@
+schema-version: 1
+slug: office-workflow-agent
+site-kind: project
+production-branch: main
+build-command: pnpm build
+output-directory: dist
+pages-project: office-workflow-agent
+production-url: https://office-workflow-agent.baby2b.online/
+evidence-url: https://office-workflow-agent.baby2b.online/evidence/
+backup-url: ""

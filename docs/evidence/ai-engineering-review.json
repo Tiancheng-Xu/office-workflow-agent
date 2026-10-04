@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "aiEngineering": true,
+  "at": "2026-10-04T02:22:06.645777+00:00",
+  "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+  "implementationHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "scope": "Local synthetic validation; this adapter records actual engineering gates, not production completion or a calibrated LLM judge score.",
+  "successCriteria": [
+    {
+      "id": "AC1",
+      "metric": "approved browser form submission and independent API exact-field readback with duplicate prevention",
+      "threshold": "one durable effect per tenant/request; local flow passed; production separate",
+      "gateType": "deterministic",
+      "evidence": "docs/qa/normal-flow.json"
+    },
+    {
+      "id": "AC2",
+      "metric": "fault, isolation, cancellation and query-only recovery assertions",
+      "threshold": "36/36 E2E; 2/2 actual SIGKILL recovery; zero new recovered browser/POST",
+      "gateType": "deterministic",
+      "evidence": "docs/qa/independent-gate.json"
+    },
+    {
+      "id": "AC3-local",
+      "metric": "migration, backup restore, load and dependency checks",
+      "threshold": "migrations1/2/3 restored;165 measured operations zero errors; audit0 vulnerabilities; remoteCI pending",
+      "gateType": "deterministic",
+      "evidence": "docs/qa/independent-gate.json"
+    },
+    {
+      "id": "AC4",
+      "metric": "GitIntegration/CI/commit/TLS and cloud browser+database+API business readback",
+      "threshold": "all actual external gates required before production verified; currently pending",
+      "gateType": "deterministic",
+      "evidence": "docs/deployment/followup.json"
+    },
+    {
+      "id": "AC5",
+      "metric": "same-run revision diff invalidates old approval and requires a new exact approval",
+      "threshold": "v1 quantity12 to v2 quantity15; old approval denied; actual result15",
+      "gateType": "deterministic",
+      "evidence": "docs/qa/revision-ui-proof.json"
+    },
+    {
+      "id": "AC6",
+      "metric": "layered observations and fresh proof integrity; UNKNOWN query-only",
+      "threshold": "8 actual HTTP proof digests independently recomputed; mismatch/unavailable states honest; no secret fields",
+      "gateType": "deterministic",
+      "evidence": "docs/qa/independent-gate.json"
+    },
+    {
+      "id": "planner-regression",
+      "metric": "frozen finite extraction and unsupported-input rejection",
+      "threshold": "20/20 baseline and candidate;3 actual local model accepted; no established general quality uplift",
+      "gateType": "deterministic",
+      "evidence": "docs/evidence/planner-evaluation.json"
+    }
+  ],
+  "deterministicGates": [
+    {
+      "id": "build-types",
+      "check": "application and cloud TypeScript plus production build",
+      "evidence": "docs/qa/independent-gate.json"
+    },
+    {
+      "id": "schema-permissions-effects",
+      "check": "finite plan schema, CSRF/session/Context, version approval, capability and atomic effect invariants",
+      "evidence": "docs/review/revision-review.json"
+    },
+    {
+      "id": "runtime-qa",
+      "check": "64unit and36independent real browser/fault cases; frozen source and harness hashes",
+      "evidence": "docs/qa/independent-gate.json"
+    },
+    {
+      "id": "privacy",
+      "check": "public JSON/text valid, no personal machine paths, rawcap/session or private fields",
+      "evidence": "docs/qa/public-evidence-scan.json"
+    },
+    {
+      "id": "minimum-node",
+      "check": "actual minimum Node22.16 executes64tests including realSQLite/Chromium",
+      "evidence": "docs/evidence/node-minimum-verification.json"
+    },
+    {
+      "id": "full-dependency-audit",
+      "check": "production and development dependencies audited; zero reported vulnerabilities",
+      "evidence": "docs/evidence/dependency-audit.json"
+    }
+  ],
+  "llmJudge": {
+    "enabled": false,
+    "canOverrideDeterministic": false,
+    "reason": "No calibrated product LLM judge is enabled. Independent Sol ultra source review is engineering review, not a calibrated scoring model.",
+    "engineeringReviewEvidence": [
+      "docs/review/revision-review.json",
+      "docs/review/standards-review.json"
+    ]
+  },
+  "rag": {
+    "enabled": false,
+    "reason": "No retrieval needed for fixed synthetic procurement fields."
+  },
+  "dag": {
+    "enabled": true,
+    "humanApproval": true,
+    "nodes": [
+      "propose/read-target",
+      "revision-preview",
+      "approve-current-version",
+      "durable-claim",
+      "guarded-browser-submit",
+      "fresh-query",
+      "reconcile"
+    ],
+    "failureRouting": [
+      "unsupported input -> request rewrite; never broaden actions",
+      "DOM/network definite denial before submit -> blocked/none",
+      "possible effect or expired execution lease -> UNKNOWN and original-key query only",
+      "durable applied with unavailable query -> preserve applied; no new submit",
+      "stale revision/approval/target -> reject; revision clears approval"
+    ],
+    "budget": {
+      "browserMs": 30000,
+      "cloudBrowserMs": 25000,
+      "localModelMaxOutputTokens": 512,
+      "cloudModelMaxOutputTokens": 256,
+      "modelTimeoutMs": 15000,
+      "repairRounds": 3
+    },
+    "authority": "signed tenant session; approval binds plan hash/revision/target/adapter/expiry; model cannot approve"
+  },
+  "serviceLevels": {
+    "qualityThreshold": "20/20 bounded frozen regression; no general-model quality claim",
+    "ttftMs": "not measured; endpoint is non-streaming",
+    "p95LatencyMs": "6022 ms across20 frozen cases including early rejections; local API/browser distributions documented separately, not a production SLO",
+    "costBudget": "No paid API fallback/new paid plan; local compute unmetered; cloud browser and AI disabled until current account/free conditions verified",
+    "reliabilityThreshold": "36/36 local browser QA;2/2 real crash recovery; no unlimited-concurrency or exactly-once claim"
+  },
+  "feedback": {
+    "clean": true,
+    "deduplicate": true,
+    "redact": true,
+    "frozenEvaluationSet": true,
+    "releaseRegressionGate": true,
+    "scope": "Unique synthetic inputs; actual failures retained, unsupported/sensitive text rejected, public receipts sanitized; stable source+QA hashes required. No customer feedback/data collected."
+  },
+  "proof": [
+    {
+      "kind": "local-browser-recovery-operations",
+      "location": "docs/qa/independent-gate.json",
+      "proves": "local temporary SQLite/HTTP/Chromium acceptance only",
+      "status": "verified-local"
+    },
+    {
+      "kind": "planner-baseline-candidate",
+      "location": "docs/evidence/planner-evaluation.json",
+      "proves": "same20fixedcases, actual3localmodel outputs, no business action",
+      "status": "verified-local"
+    },
+    {
+      "kind": "independent-spec-review",
+      "location": "docs/review/revision-review.json",
+      "proves": "pinned source ALLOW after preserved BLOCK rounds; not production",
+      "status": "verified-local"
+    },
+    {
+      "kind": "independent-standards-review",
+      "location": "docs/review/standards-review.json",
+      "proves": "source standards ALLOW and true minimum runtime repair; not production",
+      "status": "verified-local"
+    },
+    {
+      "kind": "public-local-summary",
+      "location": "public/evidence/local-verification.json",
+      "proves": "whitelisted local summaries with external acceptance clearly pending",
+      "status": "verified-local"
+    },
+    {
+      "kind": "deployment-readiness",
+      "location": "docs/deployment/followup.json",
+      "proves": "actual own empty D1 IDs and isolated configs; no deployed Worker/Pages/TLS/live business claim",
+      "status": "pending-external"
+    }
+  ]
+}

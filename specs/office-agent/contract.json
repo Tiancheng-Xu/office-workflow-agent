@@ -1,7 +1,7 @@
 {
   "schema": "office-agent Contract v1",
   "runId": "office-efdb85f5-73fd-4f04-9175-dbc3e7db3fb4",
-  "version": 2,
+  "version": 4,
   "feature": "office-workflow-agent",
   "aiEngineering": true,
   "goal": "独立、可运行的Web2办公流程Agent：合成采购需求登记，API读核+受控浏览器写表单+版本批准+结果核对+恢复；真实生产功能与owned Evidence",
@@ -40,11 +40,11 @@
     "Node22/TS/SQLite",
     "Cloudflare Pages GitIntegration/Browser Worker/D1",
     "installed Ollama or confirmed free Workers AI",
-    "TC Kimi review"
+    "project-local independent Sol ultra review"
   ],
   "authorization": {
     "commitPushPRMergeProduction": "用户完整委托覆盖独立项目常规交付；TC默认Production人工部署在本Contract被用户明确委托覆盖，仍按实际门禁回读",
-    "kimiReview": "用户直接授权现有Kimi评审；有界请求。额度耗尽允许独立Sol ultra subagent审，不冒充Kimi/标准TC默认通过",
+    "kimiReview": "superseded: no Kimi/DeepSeek review calls; independent Sol ultra only",
     "dashboardNotify": "验收完成后向01a0c704-a61a-72c3-a950-dca0eb1dd0d8发送本项目完成包；不改其仓库",
     "stillRequiresExactAuthority": [
       "新收费购买/付费资源",
@@ -68,7 +68,8 @@
       "TC runtime/source skill read",
       "publish contract read",
       "known Cloudflare authenticated read"
-    ]
+    ],
+    "reviewPreviousContractHash": "65f44f4bc910bb770ed08bc0298188e56cc585e0b7dc282784d2e4e5cfe38977"
   },
   "successCriteria": [
     {
@@ -94,6 +95,18 @@
       "criterion": "preview/commit/production/TLS/owned evidence及真实业务回读齐全",
       "gate": "external",
       "proof": "docs/evidence/deployment.json"
+    },
+    {
+      "id": "AC5",
+      "criterion": "真实修订同一运行的计划，展示字段diff，revision+1清原批准，旧批准/迟到修订拒绝，执行或UNKNOWN不可改",
+      "gate": "deterministic+UI",
+      "proof": "docs/evidence/revision.json"
+    },
+    {
+      "id": "AC6",
+      "criterion": "浏览器提交观察、数据库效果与API验收分别留证，报告公开字段白名单及可验证digest；UNKNOWN只核对恢复面板不隐式重发",
+      "gate": "deterministic+UI",
+      "proof": "docs/evidence/proof.json"
     }
   ],
   "deterministicGates": [
@@ -112,7 +125,7 @@
       "readability of proposed finite plan",
       "FDE explanation clarity"
     ],
-    "identity": "Kimi isolated review or quota-authorized independent subagent",
+    "identity": "independent GPT-6.1 Sol ultra reviewer",
     "calibrated": false,
     "noOverrideOfDeterministicGates": true
   },
@@ -125,6 +138,7 @@
       "propose finite plan",
       "read target by API",
       "preview",
+      "revision/diff clears previous approval",
       "human approval",
       "claim execution",
       "DOM guard+submit",
@@ -201,7 +215,9 @@
         "T1",
         "T2",
         "T3",
-        "T4"
+        "T4",
+        "T9",
+        "T10"
       ]
     },
     {
@@ -227,8 +243,49 @@
       "dependencies": [
         "T7"
       ]
+    },
+    {
+      "id": "T9",
+      "scope": "real plan revisions/diff/approval invalidation",
+      "risk": "high",
+      "dependencies": [
+        "T1",
+        "T3",
+        "T4"
+      ]
+    },
+    {
+      "id": "T10",
+      "scope": "structured browser witness/API proof/digest/query-only recovery panel",
+      "risk": "high",
+      "dependencies": [
+        "T1",
+        "T2",
+        "T4"
+      ]
     }
   ],
-  "frozenAt": "2026-10-03T16:26:50.909218+00:00",
-  "contractHash": "65f44f4bc910bb770ed08bc0298188e56cc585e0b7dc282784d2e4e5cfe38977"
+  "frozenAt": "2026-10-04T01:12:20.255314+00:00",
+  "reviewPolicy": {
+    "worker": {
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "ultra"
+    },
+    "reviewer": {
+      "provider": "codex",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "ultra",
+      "transport": "independent-subagent",
+      "forkTurns": "none",
+      "notImplementer": true
+    },
+    "override": "用户2026-10-03直接明确：三个项目都用Sol ultra审核，不走Kimi/DeepSeek",
+    "localAdapter": "保留TC确定性门禁与checkpoint；独立Sol artifact采用项目局部schema，不伪造TC Kimi身份",
+    "invalidateOnly": [
+      "old-provider-routing",
+      "Kimi/DeepSeek mandatory/fallback/human-degraded-confirmation"
+    ]
+  },
+  "depthAuthorization": "用户2026-10-03：继续，项目要有亮点、深入些；补齐真实计划修订、分层执行证明与查询式恢复，不增加资金/真实客户/付费范围",
+  "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28"
 }

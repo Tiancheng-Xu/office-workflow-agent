@@ -1,0 +1,12 @@
+{
+  "name":"office-workflow-agent-runtime-preview",
+  "main":"src/cloud/worker.ts",
+  "compatibility_date":"2026-10-03",
+  "compatibility_flags":["nodejs_compat"],
+  "workers_dev":false,
+  "browser":{"binding":"BROWSER"},
+  "ai":{"binding":"AI"},
+  "d1_databases":[{"binding":"DB","database_name":"office-workflow-agent-preview","database_id":"4ea992c7-482b-4d7d-8cfb-14195ebf7b49","migrations_dir":"migrations"}],
+  "vars":{"PUBLIC_ORIGINS":"https://tc-office-agent-65f44f4b.office-workflow-agent.pages.dev","TRUSTED_PREVIEW_PROJECT":"office-workflow-agent","ENABLE_FREE_AI":"false","ENABLE_BROWSER_RUN":"false","RELEASE_VERSION":"unverified-preview"},
+  "observability":{"enabled":true}
+}

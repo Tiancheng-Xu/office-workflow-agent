@@ -1,0 +1,273 @@
+{
+  "at": "2026-10-04T01:52:17.194Z",
+  "schema": "office-planner-evaluation-v1",
+  "datasetHash": "351116f49102d11cc5aae9c8d9dfcf5f28d883986757cf34bd560c4099e67a17",
+  "plannerSourceHash": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8",
+  "environment": {
+    "node": "v24.20.0",
+    "model": "qwen2.5-coder:7b-code",
+    "syntheticOnly": true
+  },
+  "baseline": {
+    "name": "bounded-rule",
+    "samples": 20,
+    "passed": 20,
+    "modelAccepted": 0,
+    "p95Ms": 1,
+    "results": [
+      {
+        "passed": true,
+        "source": "bounded-rule",
+        "accepted": true,
+        "latencyMs": 4
+      },
+      {
+        "passed": true,
+        "source": "bounded-rule",
+        "accepted": true,
+        "latencyMs": 1
+      },
+      {
+        "passed": true,
+        "source": "bounded-rule",
+        "accepted": true,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      }
+    ]
+  },
+  "candidate": {
+    "name": "product-local-ollama-with-validated-rule-fallback",
+    "samples": 20,
+    "passed": 20,
+    "modelAccepted": 3,
+    "p95Ms": 6022,
+    "results": [
+      {
+        "passed": true,
+        "source": "ollama",
+        "accepted": true,
+        "latencyMs": 10842
+      },
+      {
+        "passed": true,
+        "source": "ollama",
+        "accepted": true,
+        "latencyMs": 6022
+      },
+      {
+        "passed": true,
+        "source": "ollama",
+        "accepted": true,
+        "latencyMs": 5721
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      },
+      {
+        "passed": true,
+        "source": "rejected",
+        "accepted": false,
+        "latencyMs": 0
+      }
+    ]
+  },
+  "ttft": "not measured: non-streaming endpoint",
+  "cost": "local compute not metered; no paid API provider called",
+  "limit": "20 fixed synthetic cases; this is regression evidence, not a general model quality benchmark.",
+  "notExecuted": true
+}

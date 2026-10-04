@@ -1,0 +1,41 @@
+{
+  "schema": "office-independent-qa-v1",
+  "reviewer": "independent Codex Sol ultra QA; not implementation author",
+  "syntheticOnly": true,
+  "startedAt": "2026-10-03T23:36:21.390Z",
+  "completedAt": "2026-10-03T23:36:22.297Z",
+  "status": "failed",
+  "node": "v24.20.0",
+  "nodeExecutable": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node",
+  "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node node_modules/@playwright/test/cli.js test tests/e2e/office-flow.spec.ts --grep stale absent cancel-check",
+  "revision": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "diffHash": "e737271785531455c7ee417805bd49b70981ad571c1301fe48d74e2e1a21f78e",
+  "hashMethod": "sha256 ordered src+migrations+package+lock+index+frozen contract bytes; includes untracked implementation",
+  "finalDiffHash": "e737271785531455c7ee417805bd49b70981ad571c1301fe48d74e2e1a21f78e",
+  "implementationStableDuringRun": true,
+  "denominator": 1,
+  "passed": 0,
+  "failed": 1,
+  "tests": [
+    {
+      "title": " > office-flow.spec.ts > stale absent cancel-check cannot erase a real browser effect committed before the live CAS",
+      "status": "failed",
+      "durationMs": 621,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"applied\"\nReceived: \"none\"",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 36,
+            "line": 273
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Local synthetic HTTP/SQLite/Chromium only; production business readback is a separate gate.",
+    "Node 22 not verified in this run."
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "schema": "office-independent-qa-v1",
+  "reviewer": "independent Codex Sol ultra QA; not implementation author",
+  "syntheticOnly": true,
+  "startedAt": "2026-10-03T16:59:00.093Z",
+  "completedAt": "2026-10-03T16:59:41.378Z",
+  "status": "failed",
+  "node": "v24.20.0",
+  "nodeExecutable": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node",
+  "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node node_modules/@playwright/test/cli.js test",
+  "revision": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "diffHash": "fef667534a322e3ab6b8aaba945d0a5643808e800cdad7e3130cb73140871f59",
+  "hashMethod": "sha256 ordered src+migrations+package+lock+index+frozen contract bytes; includes untracked implementation",
+  "finalDiffHash": "fef667534a322e3ab6b8aaba945d0a5643808e800cdad7e3130cb73140871f59",
+  "implementationStableDuringRun": true,
+  "denominator": 20,
+  "passed": 11,
+  "failed": 9,
+  "tests": [
+    {
+      "title": " > office-flow.spec.ts > actual workbench preview → human approval → isolated browser form → API reconciliation and report",
+      "status": "failed",
+      "durationMs": 13357,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('#plan-panel')\nTimeout: 10000ms\n- Expected substring  -  1\n+ Received string     + 10\n\n- 已通过 API 核对登记结果\n+ 02动作预览当前需求 REQ-2026-001结果待核对\n+     固定动作新增一条合成采购需求合成采购后台部门研发部采购品类显示器数量12件需求编号REQ-2026-001采购原因合成采购需求登记\n+       实际提案来源有界规则固定范围字段抽取\n+       这次会做的事1校验固定目标与本次批准检查计划内容、后台版本及执行权限。2浏览器填写并提交旧后台表单只允许本次需求的固定字段，不接受任意网页或脚本。3API 读取并核对实际登记结果提交结果不确定时，仅查询原需求，不重新发送。\n+       提交结果暂不确定请核对原需求编号的登记结果。系统不会重新提交；查询未找到也不会自动再次写入。停止原因：SUBMISSION_REJECTED\n+       \n+       核对原需求结果停止后续操作导出报告登记会新增后台记录；取消只停止后续动作，不撤销已经发生的写入。\n+       计划与目标校验信息用于防止过期批准和目标变化人工确认绑定这些信息。计划内容或目标版本变化后，旧确认不能用于新的写入。计划版本v1目标版本0表单适配器synthetic-procurement-v1计划内容 hashda5f1b5ee5b1a85ddab1fb6ad47aa784c07bdb94885660cd87ecd0df5f8d20b9执行记录 ID49aaa45b-c99d-4f7a-b0ed-b2f8dd16ac3e持久效果状态待核对\n+       实际事件时间线5 条事件已提出合成采购计划；来源：bounded-rule。等待人工确认。proposed10/03 12:59:00用户已确认完整计划；批准有效期五分钟。approved10/03 12:59:00提交前执行认领已持久化；后续故障只核对原需求编号。execution-claimed10/03 12:59:00API 未发现登记结果；本次核对没有发起写入。execution-query10/03 12:59:00浏览器中断，登记效果尚不确定；仅可核对，禁止自动重写。browser-stopped10/03 12:59:00\n+     \n\nCall log:\n  - Expect \"toContainText\" locator('#plan-panel') with timeout 10000ms\n  - waiting for locator('#plan-panel')\n    3 × locator resolved to <section id=\"plan-panel\" class=\"card plan-card\" aria-label=\"动作预览与执行结果\">…</section>\n      - unexpected value \"02动作预览当前需求 REQ-2026-001执行请求处理中\n    固定动作新增一条合成采购需求合成采购后台部门研发部采购品类显示器数量12件需求编号REQ-2026-001采购原因合成采购需求登记\n      实际提案来源有界规则固定范围字段抽取\n      这次会做的事1校验固定目标与本次批准检查计划内容、后台版本及执行权限。2浏览器填写并提交旧后台表单只允许本次需求的固定字段，不接受任意网页或脚本。3API 读取并核对实际登记结果提交结果不确定时，仅查询原需求，不重新发送。\n      你的确认已记录点击执行后，隔离浏览器会填写并提交合成后台的固定表单，再由 API 核对结果。确认有效至 10/03 13:04:00\n      \n      正在执行…停止后续操作导出报告登记会新增后台记录；取消只停止后续动作，不撤销已经发生的写入。\n      计划与目标校验信息用于防止过期批准和目标变化人工确认绑定这些信息。计划内容或目标版本变化后，旧确认不能用于新的写入。计划版本v1目标版本0表单适配器synthetic-procurement-v1计划内容 hashda5f1b5ee5b1a85ddab1fb6ad47aa784c07bdb94885660cd87ecd0df5f8d20b9执行记录 ID49aaa45b-c99d-4f7a-b0ed-b2f8dd16ac3e持久效果状态尚无写入效果\n      实际事件时间线2 条事件已提出合成采购计划；来源：bounded-rule。等待人工确认。proposed10/03 12:59:00用户已确认完整计划；批准有效期五分钟。approved10/03 12:59:00\n    \"\n    6 × locator resolved to <section id=\"plan-panel\" class=\"card plan-card\" aria-label=\"动作预览与执行结果\">…</section>\n      - unexpected value \"02动作预览当前需求 REQ-2026-001执行请求处理中\n    固定动作新增一条合成采购需求合成采购后台部门研发部采购品类显示器数量12件需求编号REQ-2026-001采购原因合成采购需求登记\n      实际提案来源有界规则固定范围字段抽取\n      这次会做的事1校验固定目标与本次批准检查计划内容、后台版本及执行权限。2浏览器填写并提交旧后台表单只允许本次需求的固定字段，不接受任意网页或脚本。3API 读取并核对实际登记结果提交结果不确定时，仅查询原需求，不重新发送。\n      受控浏览器正在处理浏览器在服务端的隔离环境中运行。这里展示真实记录，执行结束后会自动刷新。\n      \n      核对原需求结果停止后续操作导出报告登记会新增后台记录；取消只停止后续动作，不撤销已经发生的写入。\n      计划与目标校验信息用于防止过期批准和目标变化人工确认绑定这些信息。计划内容或目标版本变化后，旧确认不能用于新的写入。计划版本v1目标版本0表单适配器synthetic-procurement-v1计划内容 hashda5f1b5ee5b1a85ddab1fb6ad47aa784c07bdb94885660cd87ecd0df5f8d20b9执行记录 ID49aaa45b-c99d-4f7a-b0ed-b2f8dd16ac3e持久效果状态待核对\n      实际事件时间线3 条事件已提出合成采购计划；来源：bounded-rule。等待人工确认。proposed10/03 12:59:00用户已确认完整计划；批准有效期五分钟。approved10/03 12:59:00提交前执行认领已持久化；后续故障只核对原需求编号。execution-claimed10/03 12:59:00\n    \"\n    15 × locator r",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 45,
+            "line": 27
+          }
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > front end cancels draft without launching a browser or writing",
+      "status": "passed",
+      "durationMs": 667,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > tenant isolation: another signed session cannot report, approve, execute, cancel or reconcile another run",
+      "status": "passed",
+      "durationMs": 34,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > CSRF, cross origin and body-selected tenant are rejected before proposal or effect",
+      "status": "passed",
+      "durationMs": 17,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > unapproved, stale plan revision and expired approval cannot write",
+      "status": "passed",
+      "durationMs": 12,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on dom-label",
+      "status": "passed",
+      "durationMs": 1408,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on duplicate-input",
+      "status": "passed",
+      "durationMs": 1088,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on duplicate-button",
+      "status": "passed",
+      "durationMs": 831,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on action-drift",
+      "status": "passed",
+      "durationMs": 713,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on same-origin-redirect",
+      "status": "passed",
+      "durationMs": 716,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on cross-origin-redirect",
+      "status": "passed",
+      "durationMs": 882,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > 24 concurrent executes and repeated verified execution produce one real form submission",
+      "status": "failed",
+      "durationMs": 953,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"verified\"\nReceived: \"unknown\"",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 29,
+            "line": 124
+          }
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > two separately approved runs with the same stable key never duplicate a demand; changed payload conflicts",
+      "status": "failed",
+      "durationMs": 1393,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 59,
+            "line": 136
+          }
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > target revision drift after approval is rejected before the second browser launch",
+      "status": "failed",
+      "durationMs": 1433,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toMatchObject(expected)\n\n- Expected  - 5\n+ Received  + 2\n\n  Object {\n    \"body\": Object {\n-     \"error\": Object {\n-       \"code\": \"TARGET_DRIFT\",\n-     },\n-     \"ok\": false,\n+     \"ok\": true,\n    },\n-   \"status\": 409,\n+   \"status\": 200,\n  }",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 17,
+            "line": 152
+          }
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > committed form effect with lost receipt is independently reconciled and never rewritten",
+      "status": "failed",
+      "durationMs": 654,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: route.fetch: socket hang up\nCall log:\n  - → POST http://127.0.0.1:65021/legacy/submit\n    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36\n    - accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\n    - accept-encoding: gzip,deflate,br\n    - accept-language: en-US\n    - content-type: application/x-www-form-urlencoded\n    - origin: null\n    - upgrade-insecure-requests: 1\n    - sec-ch-ua: \"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"\n    - sec-ch-ua-mobile: ?0\n    - sec-ch-ua-platform: \"macOS\"\n    - content-length: 438\n",
+          "location": {
+            "file": "src/browser/executor.ts",
+            "column": 36,
+            "line": 50
+          }
+        },
+        {
+          "message": "TypeError: fetch failed"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > uncertain submission not found stays UNKNOWN through execute and reconcile with no new POST",
+      "status": "failed",
+      "durationMs": 598,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: route.fetch: socket hang up\nCall log:\n  - → POST http://127.0.0.1:65095/legacy/submit\n    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36\n    - accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\n    - accept-encoding: gzip,deflate,br\n    - accept-language: en-US\n    - content-type: application/x-www-form-urlencoded\n    - origin: null\n    - upgrade-insecure-requests: 1\n    - sec-ch-ua: \"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"\n    - sec-ch-ua-mobile: ?0\n    - sec-ch-ua-platform: \"macOS\"\n    - content-length: 438\n",
+          "location": {
+            "file": "src/browser/executor.ts",
+            "column": 36,
+            "line": 50
+          }
+        },
+        {
+          "message": "TypeError: fetch failed"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > cancel received before a delayed form effect prevents the write",
+      "status": "passed",
+      "durationMs": 580,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > late cancel after committed effect cannot revoke it or overwrite verified state",
+      "status": "failed",
+      "durationMs": 508,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"verified\"\nReceived: \"cancelled\"",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 23,
+            "line": 196
+          }
+        },
+        {
+          "message": "Error: route.fetch: socket hang up\nCall log:\n  - → POST http://127.0.0.1:65180/legacy/submit\n    - user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36\n    - accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\n    - accept-encoding: gzip,deflate,br\n    - accept-language: en-US\n    - content-type: application/x-www-form-urlencoded\n    - origin: null\n    - upgrade-insecure-requests: 1\n    - sec-ch-ua: \"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"\n    - sec-ch-ua-mobile: ?0\n    - sec-ch-ua-platform: \"macOS\"\n    - content-length: 438\n",
+          "location": {
+            "file": "src/browser/executor.ts",
+            "column": 36,
+            "line": 50
+          }
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > online SQLite backup restores schema, signed session, persisted result and uniqueness to a new service",
+      "status": "failed",
+      "durationMs": 799,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"verified\"\nReceived: \"unknown\"",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 90,
+            "line": 205
+          }
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > unsupported natural language receives actionable rewrite guidance instead of a server fault",
+      "status": "failed",
+      "durationMs": 21,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 400\nReceived: 500",
+          "location": {
+            "file": "tests/e2e/office-flow.spec.ts",
+            "column": 29,
+            "line": 232
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Local synthetic HTTP/SQLite/Chromium only; production business readback is a separate gate.",
+    "Node 22 not verified in this run."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name":"office-workflow-agent",
+  "compatibility_date":"2026-10-03",
+  "pages_build_output_dir":"dist",
+  "services":[{"binding":"OFFICE_RUNTIME","service":"office-workflow-agent-runtime"}],
+  "env":{
+    "production":{"services":[{"binding":"OFFICE_RUNTIME","service":"office-workflow-agent-runtime"}]},
+    "preview":{"services":[{"binding":"OFFICE_RUNTIME","service":"office-workflow-agent-runtime-preview"}]}
+  }
+}

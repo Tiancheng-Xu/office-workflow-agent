@@ -7,6 +7,7 @@ dist/
 .tc-flow/
 test-results/
 playwright-report/
+work/
 *.db
 *.db-shm
 *.db-wal

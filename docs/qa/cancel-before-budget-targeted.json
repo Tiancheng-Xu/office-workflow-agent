@@ -1,0 +1,39 @@
+{
+  "schema": "office-qa-harness-budget-targeted-v1",
+  "syntheticOnly": true,
+  "startedAt": "2026-10-04T01:56:07.394Z",
+  "completedAt": "2026-10-04T01:56:08.614Z",
+  "denominator": 1,
+  "passed": 1,
+  "node": "v24.20.0",
+  "qaBudgets": {
+    "browserExecutorMs": 10000,
+    "faultGateMs": 15000,
+    "expectationMs": 20000,
+    "testMs": 45000
+  },
+  "sourceHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "finalSourceHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "sourceStable": true,
+  "status": "cancelled",
+  "effectStatus": "unknown",
+  "actualFormPosts": 1,
+  "actualDemands": 0,
+  "browserLaunches": 1,
+  "browserEvidence": {
+    "startedAt": "2026-10-04T01:56:07.427Z",
+    "completedAt": "2026-10-04T01:56:08.611Z",
+    "elapsedMs": 1184,
+    "origin": "http://127.0.0.1:52379",
+    "adapterVersion": "synthetic-procurement-v1",
+    "planHash": "a9f1eb61b79b20479277bf90400ae1f2d13bc971e1978025648217512eb90fb3",
+    "domMatched": true,
+    "payloadMatched": true,
+    "postObserved": true,
+    "registeredMarker": false,
+    "stopCode": "SUBMISSION_REJECTED"
+  },
+  "limitations": [
+    "Targeted test of QA timing configuration, not a final source gate."
+  ]
+}

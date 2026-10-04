@@ -1,0 +1,335 @@
+{
+  "schema": "office-independent-qa-v1",
+  "reviewer": "independent Codex Sol ultra QA; not implementation author",
+  "syntheticOnly": true,
+  "startedAt": "2026-10-04T01:58:52.096Z",
+  "completedAt": "2026-10-04T01:59:55.751Z",
+  "status": "passed",
+  "node": "v24.20.0",
+  "nodeExecutable": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node",
+  "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node node_modules/@playwright/test/cli.js test",
+  "revision": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "diffHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "hashMethod": "sha256 ordered source manifest path+bytes; recursive src (including origin/cloud worker/proof), migrations, package/lock/index, frozen contract and runtime config; includes untracked implementation",
+  "sourceManifest": [
+    "index.html",
+    "migrations/001_initial.sql",
+    "migrations/002_resource_budget.sql",
+    "migrations/003_resource_window.sql",
+    "package.json",
+    "pnpm-lock.yaml",
+    "specs/office-agent/contract.json",
+    "src/browser/executor.ts",
+    "src/cloud/budget.ts",
+    "src/cloud/origin.ts",
+    "src/cloud/repository.ts",
+    "src/cloud/worker.ts",
+    "src/contracts.ts",
+    "src/planner.ts",
+    "src/runtime/handler.ts",
+    "src/runtime/proof.ts",
+    "src/runtime/repository.ts",
+    "src/runtime/session.ts",
+    "src/runtime/sqlite.ts",
+    "src/runtime/validation.ts",
+    "src/server.ts",
+    "src/ui/main.ts",
+    "src/ui/styles.css",
+    "tsconfig.cloud.json",
+    "tsconfig.json",
+    "wrangler.jsonc",
+    "wrangler.runtime-preview.jsonc",
+    "wrangler.runtime.jsonc"
+  ],
+  "contractVersion": 4,
+  "declaredContractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+  "contractFileByteHash": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602",
+  "finalDiffHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "implementationStableDuringRun": true,
+  "sourceGate": "PASS_LOCAL_SOURCE",
+  "qaHarnessHash": "74874572cb1d5e6ae6afc15b403e3ad5a866efabdac067f6a0c482b2177a8a6c",
+  "finalQAHarnessHash": "74874572cb1d5e6ae6afc15b403e3ad5a866efabdac067f6a0c482b2177a8a6c",
+  "qaHarnessManifest": [
+    "playwright.config.ts",
+    "scripts/qa-crash.ts",
+    "scripts/qa-load.ts",
+    "tests/e2e/crash-server.ts",
+    "tests/e2e/harness.ts",
+    "tests/e2e/office-flow.spec.ts",
+    "tests/e2e/operations.spec.ts",
+    "tests/e2e/plan-revision.spec.ts",
+    "tests/e2e/proof-assertions.ts",
+    "tests/e2e/proof-http.spec.ts",
+    "tests/e2e/qa-metadata.ts",
+    "tests/e2e/qa-reporter.ts",
+    "tests/e2e/session-isolation.spec.ts"
+  ],
+  "qaHarnessStableDuringRun": true,
+  "qaBudgets": {
+    "browserExecutorMs": 10000,
+    "faultGateMs": 15000,
+    "expectationMs": 20000,
+    "testMs": 45000
+  },
+  "denominator": 36,
+  "passed": 36,
+  "failed": 0,
+  "tests": [
+    {
+      "title": " > office-flow.spec.ts > actual workbench preview → human approval → isolated browser form → API reconciliation and report",
+      "status": "passed",
+      "durationMs": 1462,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > front end cancels draft without launching a browser or writing",
+      "status": "passed",
+      "durationMs": 330,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > actual front end double clicks approval and execution submit only one approved browser effect",
+      "status": "passed",
+      "durationMs": 1114,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > actual front end exposes UNKNOWN and manual reconciliation only queries the original demand",
+      "status": "passed",
+      "durationMs": 10777,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > tenant isolation: another signed session cannot report, approve, execute, cancel or reconcile another run",
+      "status": "passed",
+      "durationMs": 22,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > CSRF, cross origin and body-selected tenant are rejected before proposal or effect",
+      "status": "passed",
+      "durationMs": 10,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > unapproved, stale plan revision and expired approval cannot write",
+      "status": "passed",
+      "durationMs": 10,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on dom-label",
+      "status": "passed",
+      "durationMs": 439,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on duplicate-input",
+      "status": "passed",
+      "durationMs": 392,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on duplicate-button",
+      "status": "passed",
+      "durationMs": 459,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on action-drift",
+      "status": "passed",
+      "durationMs": 397,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on same-origin-redirect",
+      "status": "passed",
+      "durationMs": 363,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on cross-origin-redirect",
+      "status": "passed",
+      "durationMs": 486,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > 24 concurrent executes and repeated verified execution produce one real form submission",
+      "status": "passed",
+      "durationMs": 486,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > two separately approved runs with the same stable key never duplicate a demand; changed payload conflicts",
+      "status": "passed",
+      "durationMs": 1491,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > target revision drift after approval is rejected before the second browser launch",
+      "status": "passed",
+      "durationMs": 518,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > committed form effect with lost receipt is independently reconciled and never rewritten",
+      "status": "passed",
+      "durationMs": 10053,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > uncertain submission not found stays UNKNOWN through execute and reconcile with no new POST",
+      "status": "passed",
+      "durationMs": 10054,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > cancel received before a delayed form effect prevents the write",
+      "status": "passed",
+      "durationMs": 744,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > late cancel after committed effect cannot revoke it or overwrite verified state",
+      "status": "passed",
+      "durationMs": 524,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > stale absent cancel-check cannot erase a real browser effect committed before the live CAS",
+      "status": "passed",
+      "durationMs": 499,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > online SQLite backup restores schema, signed session, persisted result and uniqueness to a new service",
+      "status": "passed",
+      "durationMs": 630,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > office-flow.spec.ts > unsupported natural language receives actionable rewrite guidance instead of a server fault",
+      "status": "passed",
+      "durationMs": 26,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > operations.spec.ts > real child process SIGKILL recovers before and after an actual form effect without reissuing a browser",
+      "status": "passed",
+      "durationMs": 2192,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > operations.spec.ts > bounded load measures real HTTP API denominator and five real Chromium business registrations",
+      "status": "passed",
+      "durationMs": 1719,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > plan-revision.spec.ts > actual UI revises approved 12 to 15, displays a real diff, revokes old approval and registers 15 with verified proof",
+      "status": "passed",
+      "durationMs": 1933,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > plan-revision.spec.ts > two concurrent revision requests from one version yield exactly one new revision and stale input cannot overwrite it",
+      "status": "passed",
+      "durationMs": 14,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > plan-revision.spec.ts > an actual stale UI editor cannot overwrite a newer API revision",
+      "status": "passed",
+      "durationMs": 367,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > plan-revision.spec.ts > executing and verified plans cannot be revised while the real browser owns the claim",
+      "status": "passed",
+      "durationMs": 876,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > plan-revision.spec.ts > UNKNOWN recovery report is query-only and cannot authorize a revision or a new browser POST",
+      "status": "passed",
+      "durationMs": 10290,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > proof-http.spec.ts > fresh HTTP proof detects actual SQLite field drift and query failure without erasing an applied effect or making the API layer green",
+      "status": "passed",
+      "durationMs": 871,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > proof-http.spec.ts > a real UI new run reuses an existing result through query-only recovery and cannot claim a browser action for that run",
+      "status": "passed",
+      "durationMs": 1265,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > session-isolation.spec.ts > actual session rotation clears the previous tenant and ignores late approval results",
+      "status": "passed",
+      "durationMs": 544,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > session-isolation.spec.ts > actual session rotation clears the previous tenant and ignores late proposal results",
+      "status": "passed",
+      "durationMs": 548,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > session-isolation.spec.ts > actual session rotation clears the previous tenant and ignores late list results",
+      "status": "passed",
+      "durationMs": 508,
+      "retry": 0,
+      "errors": []
+    },
+    {
+      "title": " > session-isolation.spec.ts > an external tab session replacement invalidates the old UI context before reconnecting to the new tenant",
+      "status": "passed",
+      "durationMs": 377,
+      "retry": 0,
+      "errors": []
+    }
+  ],
+  "limitations": [
+    "Local synthetic HTTP/SQLite/Chromium only; production business readback is a separate gate.",
+    "Node 22 not verified in this run."
+  ]
+}

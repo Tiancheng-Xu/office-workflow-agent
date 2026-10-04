@@ -1,0 +1,13 @@
+{
+  "syntheticOnly": true,
+  "oldTenantCachedBeforeRotation": true,
+  "externalRequestEstablishedNewSignedSession": true,
+  "actualRefreshStatus": 403,
+  "actualErrorCode": "SESSION_CHANGED",
+  "oldTenantCacheClearedBeforeReconnect": true,
+  "newTenantEmptyAfterReconnect": true,
+  "preservedEstablishedReplacementSession": true,
+  "browserLaunches": 0,
+  "demandCount": 0,
+  "node": "v24.20.0"
+}

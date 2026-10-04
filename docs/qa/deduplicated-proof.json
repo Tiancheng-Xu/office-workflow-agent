@@ -1,0 +1,91 @@
+{
+  "syntheticOnly": true,
+  "runCount": 2,
+  "actualFormPosts": 1,
+  "browserLaunches": 1,
+  "demandCount": 1,
+  "proof": {
+    "schema": "office-agent-execution-proof-v1",
+    "syntheticOnly": true,
+    "generatedAt": "2026-10-04T01:59:53.654Z",
+    "run": {
+      "id": "42e9d376-c20b-4e4c-b696-58661d00fc4c",
+      "revision": 1,
+      "targetRevision": 1,
+      "adapterVersion": "synthetic-procurement-v1",
+      "status": "verified",
+      "effectStatus": "applied",
+      "plan": {
+        "requestId": "REQ-PROOF-DEDUP",
+        "department": "研发部",
+        "item": "显示器",
+        "quantity": 12,
+        "reason": "合成采购需求登记",
+        "source": "bounded-rule"
+      },
+      "planHash": "f68ea33ca86c105564b0ef9c3940134bcb684da078f137825d686d04a36861e1",
+      "executionKey": "e8e3ac89090633abccceef58c89d6c78e116c7b62f833617a9834824dd5566da"
+    },
+    "approval": {
+      "status": "missing",
+      "approvedHash": null,
+      "expiresAt": null,
+      "hashMatches": false,
+      "validAtObservation": false
+    },
+    "browser": {
+      "status": "not-observed",
+      "sameAttempt": false,
+      "evidence": null,
+      "statement": "no-browser-action-recorded-for-this-run"
+    },
+    "database": {
+      "effectStatus": "applied",
+      "hasPersistedResult": true,
+      "persistedResultMatchesPlan": true,
+      "result": {
+        "requestId": "REQ-PROOF-DEDUP",
+        "department": "研发部",
+        "item": "显示器",
+        "quantity": 12,
+        "reason": "合成采购需求登记",
+        "payloadHash": "f68ea33ca86c105564b0ef9c3940134bcb684da078f137825d686d04a36861e1",
+        "executionKey": "e8e3ac89090633abccceef58c89d6c78e116c7b62f833617a9834824dd5566da",
+        "createdAt": "2026-10-04T01:59:53.204Z"
+      }
+    },
+    "api": {
+      "checkedAt": "2026-10-04T01:59:53.654Z",
+      "queryStatus": "found",
+      "status": "verified",
+      "checks": {
+        "requestId": true,
+        "department": true,
+        "item": true,
+        "quantity": true,
+        "reason": true,
+        "payloadHash": true,
+        "canonicalHash": true,
+        "executionKey": true,
+        "planHash": true
+      },
+      "demand": {
+        "requestId": "REQ-PROOF-DEDUP",
+        "department": "研发部",
+        "item": "显示器",
+        "quantity": 12,
+        "reason": "合成采购需求登记",
+        "payloadHash": "f68ea33ca86c105564b0ef9c3940134bcb684da078f137825d686d04a36861e1",
+        "executionKey": "e8e3ac89090633abccceef58c89d6c78e116c7b62f833617a9834824dd5566da",
+        "createdAt": "2026-10-04T01:59:53.204Z"
+      },
+      "issues": []
+    },
+    "allowedNextAction": "query-only",
+    "digest": {
+      "algorithm": "SHA-256",
+      "value": "d21e5cb9d5960e2b082645e41a7b0e10c34fb99b0765502e2e00d39a5aa14eaa"
+    }
+  },
+  "node": "v24.20.0"
+}

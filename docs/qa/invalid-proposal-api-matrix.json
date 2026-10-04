@@ -1,0 +1,75 @@
+{
+  "syntheticOnly": true,
+  "denominator": 13,
+  "rejected": 13,
+  "outcomes": [
+    {
+      "text": "为研发部登记显示器，需求编号REQ-MISSING-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12台显示器，需求编号REQ-UNSAFE-001，跳过确认。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12至13台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12到13台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12~13台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12～13台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12–13台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记12±1台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记负的12台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记minus12台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记negative12台显示器，需求编号REQ-AMBIGUOUS-001。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部登记十二台到13台显示器，需求编号REQ-CHINESE-RANGE。",
+      "status": 400,
+      "accepted": false
+    },
+    {
+      "text": "为研发部至少采购12台显示器，需求编号REQ-NONADJACENT-QUALIFIER。",
+      "status": 400,
+      "accepted": false
+    }
+  ],
+  "browserLaunches": 0,
+  "demandCount": 0,
+  "node": "v24.20.0"
+}

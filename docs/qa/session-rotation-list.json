@@ -1,0 +1,16 @@
+{
+  "syntheticOnly": true,
+  "lateKind": "list",
+  "oldResponseStatus": 200,
+  "signedSessionRotated": true,
+  "oldCachedPlanExisted": true,
+  "oldTechnicalDetailsOpened": true,
+  "oldSelectedRunCleared": true,
+  "lateOldTenantResultIgnored": true,
+  "newTenantVisiblePlans": 1,
+  "newTechnicalDetailsClosed": true,
+  "realNewTenantApiReadback": true,
+  "browserLaunches": 0,
+  "demandCount": 0,
+  "node": "v24.20.0"
+}
