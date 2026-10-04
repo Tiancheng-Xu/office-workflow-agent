@@ -1,0 +1,1230 @@
+{
+  "schema": "officeflow-retained-local-flow-v1",
+  "recordId": "case-10",
+  "title": "真实浏览器写入后，独立新鲜API字段核对全部通过",
+  "syntheticOnly": true,
+  "acceptanceScope": "local synthetic QA; no cloud acceptance",
+  "displayTimeZone": "America/New_York",
+  "startedAt": "2026-10-04T03:32:48.663Z",
+  "endedAt": "2026-10-04T03:32:49.527Z",
+  "nodeVersion": "v24.20.0",
+  "browserVersion": "153.0.8010.12",
+  "plannerMode": "rules",
+  "modelCalls": 0,
+  "runId": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+  "runStatus": "verified",
+  "effectStatus": "applied",
+  "actualEndStage": "API_VERIFIED",
+  "endEvidence": {
+    "code": null,
+    "httpStatus": 200,
+    "source": {
+      "file": "src/runtime/proof.ts",
+      "line": 152
+    },
+    "observation": "Fresh query found demand and all nine independent API field checks are true."
+  },
+  "notReached": [],
+  "faultInjection": null,
+  "clock": {
+    "basis": "wall clock plus TestApp offset",
+    "virtualAdvanceMs": 0,
+    "wallWaitForApprovalExpiry": false
+  },
+  "steps": [
+    {
+      "sequence": 1,
+      "kind": "http",
+      "name": "建立独立合成会话",
+      "method": "GET",
+      "path": "/api/session",
+      "input": null,
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:48.663Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.663Z",
+      "completedAt": "2026-10-04T03:32:48.664Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:48.664Z",
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "tenantLabel": "独立合成体验租户",
+            "adapterVersion": "synthetic-procurement-v1",
+            "planner": "bounded-rule"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "http",
+      "name": "生成规则计划",
+      "method": "POST",
+      "path": "/api/propose",
+      "input": {
+        "text": "为研发部登记12台显示器，需求编号REQ-RETAIN-010。"
+      },
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:48.664Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.664Z",
+      "completedAt": "2026-10-04T03:32:48.665Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:48.665Z",
+      "response": {
+        "status": 201,
+        "body": {
+          "ok": true,
+          "data": {
+            "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+            "revision": 1,
+            "previousRevision": null,
+            "previousPlan": null,
+            "plan": {
+              "requestId": "REQ-RETAIN-010",
+              "department": "研发部",
+              "item": "显示器",
+              "quantity": 12,
+              "reason": "合成采购需求登记",
+              "source": "bounded-rule"
+            },
+            "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "targetRevision": 0,
+            "adapterVersion": "synthetic-procurement-v1",
+            "status": "draft",
+            "effectStatus": "none",
+            "approvedHash": null,
+            "approvalExpiresAt": null,
+            "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+            "epoch": 0,
+            "events": [
+              {
+                "at": "2026-10-04T03:32:48.665Z",
+                "type": "proposed",
+                "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+              }
+            ],
+            "result": null,
+            "error": null,
+            "browserEvidence": null
+          }
+        }
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "http",
+      "name": "批准本次版本",
+      "method": "POST",
+      "path": "/api/runs/21c8047a-0ae0-4049-86eb-b9368ff37d3a/approve",
+      "input": {
+        "revision": 1,
+        "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "targetRevision": 0
+      },
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:48.667Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.667Z",
+      "completedAt": "2026-10-04T03:32:48.668Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:48.668Z",
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+            "revision": 1,
+            "previousRevision": null,
+            "previousPlan": null,
+            "plan": {
+              "requestId": "REQ-RETAIN-010",
+              "department": "研发部",
+              "item": "显示器",
+              "quantity": 12,
+              "reason": "合成采购需求登记",
+              "source": "bounded-rule"
+            },
+            "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "targetRevision": 0,
+            "adapterVersion": "synthetic-procurement-v1",
+            "status": "approved",
+            "effectStatus": "none",
+            "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+            "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+            "epoch": 1,
+            "events": [
+              {
+                "at": "2026-10-04T03:32:48.665Z",
+                "type": "proposed",
+                "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+              },
+              {
+                "at": "2026-10-04T03:32:48.668Z",
+                "type": "approved",
+                "message": "用户已确认完整计划；批准有效期五分钟。"
+              }
+            ],
+            "result": null,
+            "error": null,
+            "browserEvidence": null
+          }
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "local-observation",
+      "name": "执行前计数基线（同库B只有批准，没有写入）",
+      "outOfBand": true,
+      "startedAt": "2026-10-04T03:32:48.670Z",
+      "completedAt": "2026-10-04T03:32:48.670Z",
+      "virtualClockAt": "2026-10-04T03:32:48.670Z",
+      "data": {
+        "wallAt": "2026-10-04T03:32:48.670Z",
+        "virtualClockAt": "2026-10-04T03:32:48.670Z",
+        "formGets": 0,
+        "formPosts": 0,
+        "browserLaunches": 0,
+        "externalHits": 0,
+        "database": {
+          "runs": 2,
+          "demands": 0,
+          "sessions": 1,
+          "capabilities": 0,
+          "targetRevisions": [
+            0
+          ],
+          "thisRunDemandRows": 0,
+          "persistedRun": {
+            "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+            "revision": 1,
+            "previousRevision": null,
+            "previousPlan": null,
+            "plan": {
+              "requestId": "REQ-RETAIN-010",
+              "department": "研发部",
+              "item": "显示器",
+              "quantity": 12,
+              "reason": "合成采购需求登记",
+              "source": "bounded-rule"
+            },
+            "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "targetRevision": 0,
+            "adapterVersion": "synthetic-procurement-v1",
+            "status": "approved",
+            "effectStatus": "none",
+            "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+            "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+            "epoch": 1,
+            "events": [
+              {
+                "at": "2026-10-04T03:32:48.665Z",
+                "type": "proposed",
+                "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+              },
+              {
+                "at": "2026-10-04T03:32:48.668Z",
+                "type": "approved",
+                "message": "用户已确认完整计划；批准有效期五分钟。"
+              }
+            ],
+            "result": null,
+            "error": null,
+            "browserEvidence": null
+          }
+        }
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "http",
+      "name": "A真实受控Chromium登记",
+      "method": "POST",
+      "path": "/api/runs/21c8047a-0ae0-4049-86eb-b9368ff37d3a/execute",
+      "input": {},
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:48.670Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.670Z",
+      "completedAt": "2026-10-04T03:32:49.525Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:49.525Z",
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+            "revision": 1,
+            "previousRevision": null,
+            "previousPlan": null,
+            "plan": {
+              "requestId": "REQ-RETAIN-010",
+              "department": "研发部",
+              "item": "显示器",
+              "quantity": 12,
+              "reason": "合成采购需求登记",
+              "source": "bounded-rule"
+            },
+            "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "targetRevision": 0,
+            "adapterVersion": "synthetic-procurement-v1",
+            "status": "verified",
+            "effectStatus": "applied",
+            "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+            "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+            "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+            "epoch": 5,
+            "events": [
+              {
+                "at": "2026-10-04T03:32:48.665Z",
+                "type": "proposed",
+                "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+              },
+              {
+                "at": "2026-10-04T03:32:48.668Z",
+                "type": "approved",
+                "message": "用户已确认完整计划；批准有效期五分钟。"
+              },
+              {
+                "at": "2026-10-04T03:32:48.672Z",
+                "type": "execution-claimed",
+                "message": "提交前执行认领已持久化；后续故障只核对原需求编号。"
+              },
+              {
+                "at": "2026-10-04T03:32:49.449Z",
+                "type": "effect-applied",
+                "message": "旧后台已登记合成采购需求；等待独立查询核对。"
+              },
+              {
+                "at": "2026-10-04T03:32:49.524Z",
+                "type": "browser-observed",
+                "message": "已记录受控浏览器的字段、POST及回执观测；业务效果仍由独立查询确认。"
+              },
+              {
+                "at": "2026-10-04T03:32:49.524Z",
+                "type": "execution-query",
+                "message": "API 独立查询确认登记结果；重复执行不会重复登记。"
+              }
+            ],
+            "result": {
+              "requestId": "REQ-RETAIN-010",
+              "department": "研发部",
+              "item": "显示器",
+              "quantity": 12,
+              "reason": "合成采购需求登记",
+              "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+              "createdAt": "2026-10-04T03:32:49.449Z",
+              "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+            },
+            "error": null,
+            "browserEvidence": {
+              "startedAt": "2026-10-04T03:32:48.672Z",
+              "completedAt": "2026-10-04T03:32:49.523Z",
+              "elapsedMs": 851,
+              "origin": "http://127.0.0.1:53335",
+              "adapterVersion": "synthetic-procurement-v1",
+              "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+              "domMatched": true,
+              "payloadMatched": true,
+              "postObserved": true,
+              "registeredMarker": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "http",
+      "name": "读取生产proof的独立API观察",
+      "method": "GET",
+      "path": "/api/runs/21c8047a-0ae0-4049-86eb-b9368ff37d3a/report",
+      "input": null,
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:49.525Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:49.525Z",
+      "completedAt": "2026-10-04T03:32:49.527Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:49.527Z",
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "schema": "office-agent-execution-proof-v1",
+            "syntheticOnly": true,
+            "generatedAt": "2026-10-04T03:32:49.526Z",
+            "run": {
+              "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+              "revision": 1,
+              "targetRevision": 0,
+              "adapterVersion": "synthetic-procurement-v1",
+              "status": "verified",
+              "effectStatus": "applied",
+              "plan": {
+                "requestId": "REQ-RETAIN-010",
+                "department": "研发部",
+                "item": "显示器",
+                "quantity": 12,
+                "reason": "合成采购需求登记",
+                "source": "bounded-rule"
+              },
+              "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+              "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+            },
+            "approval": {
+              "status": "matched",
+              "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+              "expiresAt": "2026-10-04T03:37:48.668Z",
+              "hashMatches": true,
+              "validAtObservation": true
+            },
+            "browser": {
+              "status": "observed",
+              "sameAttempt": true,
+              "evidence": {
+                "startedAt": "2026-10-04T03:32:48.672Z",
+                "completedAt": "2026-10-04T03:32:49.523Z",
+                "elapsedMs": 851,
+                "origin": "http://127.0.0.1:53335",
+                "adapterVersion": "synthetic-procurement-v1",
+                "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+                "domMatched": true,
+                "payloadMatched": true,
+                "postObserved": true,
+                "registeredMarker": true,
+                "stopCode": null
+              },
+              "statement": "browser-observations-only-not-business-effect"
+            },
+            "database": {
+              "effectStatus": "applied",
+              "hasPersistedResult": true,
+              "persistedResultMatchesPlan": true,
+              "result": {
+                "requestId": "REQ-RETAIN-010",
+                "department": "研发部",
+                "item": "显示器",
+                "quantity": 12,
+                "reason": "合成采购需求登记",
+                "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+                "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+                "createdAt": "2026-10-04T03:32:49.449Z"
+              }
+            },
+            "api": {
+              "checkedAt": "2026-10-04T03:32:49.526Z",
+              "queryStatus": "found",
+              "status": "verified",
+              "checks": {
+                "requestId": true,
+                "department": true,
+                "item": true,
+                "quantity": true,
+                "reason": true,
+                "payloadHash": true,
+                "canonicalHash": true,
+                "executionKey": true,
+                "planHash": true
+              },
+              "demand": {
+                "requestId": "REQ-RETAIN-010",
+                "department": "研发部",
+                "item": "显示器",
+                "quantity": 12,
+                "reason": "合成采购需求登记",
+                "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+                "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+                "createdAt": "2026-10-04T03:32:49.449Z"
+              },
+              "issues": []
+            },
+            "allowedNextAction": "query-only",
+            "digest": {
+              "algorithm": "SHA-256",
+              "value": "38a81afb1f217167095d5798e56580a0872189cefb2fc499f294648eed86fa80"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "name": "session HTTP 200",
+      "actual": 200,
+      "expected": 200,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.664Z"
+    },
+    {
+      "name": "session accepted",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.664Z"
+    },
+    {
+      "name": "proposal HTTP 201",
+      "actual": 201,
+      "expected": 201,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.665Z"
+    },
+    {
+      "name": "proposal accepted",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.665Z"
+    },
+    {
+      "name": "approval HTTP 200",
+      "actual": 200,
+      "expected": 200,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.669Z"
+    },
+    {
+      "name": "approval accepted",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.669Z"
+    },
+    {
+      "name": "approval status",
+      "actual": "approved",
+      "expected": "approved",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.669Z"
+    },
+    {
+      "name": "successful execute HTTP",
+      "actual": 200,
+      "expected": 200,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.525Z"
+    },
+    {
+      "name": "verified run",
+      "actual": "verified",
+      "expected": "verified",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.525Z"
+    },
+    {
+      "name": "persisted applied effect",
+      "actual": "applied",
+      "expected": "applied",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.525Z"
+    },
+    {
+      "name": "report HTTP 200",
+      "actual": 200,
+      "expected": 200,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "report accepted",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "independent proof SHA-256",
+      "actual": "38a81afb1f217167095d5798e56580a0872189cefb2fc499f294648eed86fa80",
+      "expected": "38a81afb1f217167095d5798e56580a0872189cefb2fc499f294648eed86fa80",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "production proof verification",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "proof belongs to this run",
+      "actual": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+      "expected": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "fresh API verified",
+      "actual": "verified",
+      "expected": "verified",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "fresh API found",
+      "actual": "found",
+      "expected": "found",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "every API field check true",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "browser matched same attempt",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "browser registered marker",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "one actual run demand",
+      "actual": 1,
+      "expected": 1,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "only one browser POST",
+      "actual": 1,
+      "expected": 1,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.527Z"
+    },
+    {
+      "name": "retained SQLite integrity",
+      "actual": "ok",
+      "expected": "ok",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.534Z"
+    },
+    {
+      "name": "retained persisted run exactly matches captured state",
+      "actual": {
+        "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+        "revision": 1,
+        "previousRevision": null,
+        "previousPlan": null,
+        "plan": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "source": "bounded-rule"
+        },
+        "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "targetRevision": 0,
+        "adapterVersion": "synthetic-procurement-v1",
+        "status": "verified",
+        "effectStatus": "applied",
+        "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+        "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+        "epoch": 5,
+        "events": [
+          {
+            "at": "2026-10-04T03:32:48.665Z",
+            "type": "proposed",
+            "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.668Z",
+            "type": "approved",
+            "message": "用户已确认完整计划；批准有效期五分钟。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.672Z",
+            "type": "execution-claimed",
+            "message": "提交前执行认领已持久化；后续故障只核对原需求编号。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.449Z",
+            "type": "effect-applied",
+            "message": "旧后台已登记合成采购需求；等待独立查询核对。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.524Z",
+            "type": "browser-observed",
+            "message": "已记录受控浏览器的字段、POST及回执观测；业务效果仍由独立查询确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.524Z",
+            "type": "execution-query",
+            "message": "API 独立查询确认登记结果；重复执行不会重复登记。"
+          }
+        ],
+        "result": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "createdAt": "2026-10-04T03:32:49.449Z",
+          "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+        },
+        "error": null,
+        "browserEvidence": {
+          "startedAt": "2026-10-04T03:32:48.672Z",
+          "completedAt": "2026-10-04T03:32:49.523Z",
+          "elapsedMs": 851,
+          "origin": "http://127.0.0.1:53335",
+          "adapterVersion": "synthetic-procurement-v1",
+          "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "domMatched": true,
+          "payloadMatched": true,
+          "postObserved": true,
+          "registeredMarker": true
+        }
+      },
+      "expected": {
+        "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+        "revision": 1,
+        "previousRevision": null,
+        "previousPlan": null,
+        "plan": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "source": "bounded-rule"
+        },
+        "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "targetRevision": 0,
+        "adapterVersion": "synthetic-procurement-v1",
+        "status": "verified",
+        "effectStatus": "applied",
+        "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+        "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+        "epoch": 5,
+        "events": [
+          {
+            "at": "2026-10-04T03:32:48.665Z",
+            "type": "proposed",
+            "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.668Z",
+            "type": "approved",
+            "message": "用户已确认完整计划；批准有效期五分钟。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.672Z",
+            "type": "execution-claimed",
+            "message": "提交前执行认领已持久化；后续故障只核对原需求编号。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.449Z",
+            "type": "effect-applied",
+            "message": "旧后台已登记合成采购需求；等待独立查询核对。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.524Z",
+            "type": "browser-observed",
+            "message": "已记录受控浏览器的字段、POST及回执观测；业务效果仍由独立查询确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.524Z",
+            "type": "execution-query",
+            "message": "API 独立查询确认登记结果；重复执行不会重复登记。"
+          }
+        ],
+        "result": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "createdAt": "2026-10-04T03:32:49.449Z",
+          "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+        },
+        "error": null,
+        "browserEvidence": {
+          "startedAt": "2026-10-04T03:32:48.672Z",
+          "completedAt": "2026-10-04T03:32:49.523Z",
+          "elapsedMs": 851,
+          "origin": "http://127.0.0.1:53335",
+          "adapterVersion": "synthetic-procurement-v1",
+          "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "domMatched": true,
+          "payloadMatched": true,
+          "postObserved": true,
+          "registeredMarker": true
+        }
+      },
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.534Z"
+    },
+    {
+      "name": "retained run demand rows match",
+      "actual": 1,
+      "expected": 1,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.534Z"
+    },
+    {
+      "name": "all scenario assertions passed",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:49.534Z"
+    }
+  ],
+  "baseline": {
+    "wallAt": "2026-10-04T03:32:48.663Z",
+    "virtualClockAt": "2026-10-04T03:32:48.663Z",
+    "formGets": 0,
+    "formPosts": 0,
+    "browserLaunches": 0,
+    "externalHits": 0,
+    "database": {
+      "runs": 0,
+      "demands": 0,
+      "sessions": 0,
+      "capabilities": 0,
+      "targetRevisions": [],
+      "thisRunDemandRows": null,
+      "persistedRun": null
+    }
+  },
+  "guardBaseline": {
+    "wallAt": "2026-10-04T03:32:48.670Z",
+    "virtualClockAt": "2026-10-04T03:32:48.670Z",
+    "formGets": 0,
+    "formPosts": 0,
+    "browserLaunches": 0,
+    "externalHits": 0,
+    "database": {
+      "runs": 2,
+      "demands": 0,
+      "sessions": 1,
+      "capabilities": 0,
+      "targetRevisions": [
+        0
+      ],
+      "thisRunDemandRows": 0,
+      "persistedRun": {
+        "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+        "revision": 1,
+        "previousRevision": null,
+        "previousPlan": null,
+        "plan": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "source": "bounded-rule"
+        },
+        "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "targetRevision": 0,
+        "adapterVersion": "synthetic-procurement-v1",
+        "status": "approved",
+        "effectStatus": "none",
+        "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+        "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+        "epoch": 1,
+        "events": [
+          {
+            "at": "2026-10-04T03:32:48.665Z",
+            "type": "proposed",
+            "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.668Z",
+            "type": "approved",
+            "message": "用户已确认完整计划；批准有效期五分钟。"
+          }
+        ],
+        "result": null,
+        "error": null,
+        "browserEvidence": null
+      }
+    }
+  },
+  "after": {
+    "wallAt": "2026-10-04T03:32:49.527Z",
+    "virtualClockAt": "2026-10-04T03:32:49.527Z",
+    "formGets": 1,
+    "formPosts": 1,
+    "browserLaunches": 1,
+    "externalHits": 0,
+    "database": {
+      "runs": 2,
+      "demands": 1,
+      "sessions": 1,
+      "capabilities": 1,
+      "targetRevisions": [
+        1
+      ],
+      "thisRunDemandRows": 1,
+      "persistedRun": {
+        "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+        "revision": 1,
+        "previousRevision": null,
+        "previousPlan": null,
+        "plan": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "source": "bounded-rule"
+        },
+        "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "targetRevision": 0,
+        "adapterVersion": "synthetic-procurement-v1",
+        "status": "verified",
+        "effectStatus": "applied",
+        "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+        "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+        "epoch": 5,
+        "events": [
+          {
+            "at": "2026-10-04T03:32:48.665Z",
+            "type": "proposed",
+            "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.668Z",
+            "type": "approved",
+            "message": "用户已确认完整计划；批准有效期五分钟。"
+          },
+          {
+            "at": "2026-10-04T03:32:48.672Z",
+            "type": "execution-claimed",
+            "message": "提交前执行认领已持久化；后续故障只核对原需求编号。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.449Z",
+            "type": "effect-applied",
+            "message": "旧后台已登记合成采购需求；等待独立查询核对。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.524Z",
+            "type": "browser-observed",
+            "message": "已记录受控浏览器的字段、POST及回执观测；业务效果仍由独立查询确认。"
+          },
+          {
+            "at": "2026-10-04T03:32:49.524Z",
+            "type": "execution-query",
+            "message": "API 独立查询确认登记结果；重复执行不会重复登记。"
+          }
+        ],
+        "result": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "createdAt": "2026-10-04T03:32:49.449Z",
+          "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+        },
+        "error": null,
+        "browserEvidence": {
+          "startedAt": "2026-10-04T03:32:48.672Z",
+          "completedAt": "2026-10-04T03:32:49.523Z",
+          "elapsedMs": 851,
+          "origin": "http://127.0.0.1:53335",
+          "adapterVersion": "synthetic-procurement-v1",
+          "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "domMatched": true,
+          "payloadMatched": true,
+          "postObserved": true,
+          "registeredMarker": true
+        }
+      }
+    }
+  },
+  "countsDelta": {
+    "formGets": 1,
+    "formPosts": 1,
+    "browserLaunches": 1,
+    "externalHits": 0,
+    "databaseRuns": 0,
+    "databaseDemands": 1,
+    "thisRunDemandRows": 1
+  },
+  "finalRun": {
+    "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+    "revision": 1,
+    "previousRevision": null,
+    "previousPlan": null,
+    "plan": {
+      "requestId": "REQ-RETAIN-010",
+      "department": "研发部",
+      "item": "显示器",
+      "quantity": 12,
+      "reason": "合成采购需求登记",
+      "source": "bounded-rule"
+    },
+    "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+    "targetRevision": 0,
+    "adapterVersion": "synthetic-procurement-v1",
+    "status": "verified",
+    "effectStatus": "applied",
+    "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+    "approvalExpiresAt": "2026-10-04T03:37:48.668Z",
+    "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+    "epoch": 5,
+    "events": [
+      {
+        "at": "2026-10-04T03:32:48.665Z",
+        "type": "proposed",
+        "message": "已提出合成采购计划；来源：bounded-rule。等待人工确认。"
+      },
+      {
+        "at": "2026-10-04T03:32:48.668Z",
+        "type": "approved",
+        "message": "用户已确认完整计划；批准有效期五分钟。"
+      },
+      {
+        "at": "2026-10-04T03:32:48.672Z",
+        "type": "execution-claimed",
+        "message": "提交前执行认领已持久化；后续故障只核对原需求编号。"
+      },
+      {
+        "at": "2026-10-04T03:32:49.449Z",
+        "type": "effect-applied",
+        "message": "旧后台已登记合成采购需求；等待独立查询核对。"
+      },
+      {
+        "at": "2026-10-04T03:32:49.524Z",
+        "type": "browser-observed",
+        "message": "已记录受控浏览器的字段、POST及回执观测；业务效果仍由独立查询确认。"
+      },
+      {
+        "at": "2026-10-04T03:32:49.524Z",
+        "type": "execution-query",
+        "message": "API 独立查询确认登记结果；重复执行不会重复登记。"
+      }
+    ],
+    "result": {
+      "requestId": "REQ-RETAIN-010",
+      "department": "研发部",
+      "item": "显示器",
+      "quantity": 12,
+      "reason": "合成采购需求登记",
+      "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+      "createdAt": "2026-10-04T03:32:49.449Z",
+      "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+    },
+    "error": null,
+    "browserEvidence": {
+      "startedAt": "2026-10-04T03:32:48.672Z",
+      "completedAt": "2026-10-04T03:32:49.523Z",
+      "elapsedMs": 851,
+      "origin": "http://127.0.0.1:53335",
+      "adapterVersion": "synthetic-procurement-v1",
+      "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+      "domMatched": true,
+      "payloadMatched": true,
+      "postObserved": true,
+      "registeredMarker": true
+    }
+  },
+  "proofObservation": {
+    "outOfBand": false,
+    "proof": {
+      "schema": "office-agent-execution-proof-v1",
+      "syntheticOnly": true,
+      "generatedAt": "2026-10-04T03:32:49.526Z",
+      "run": {
+        "id": "21c8047a-0ae0-4049-86eb-b9368ff37d3a",
+        "revision": 1,
+        "targetRevision": 0,
+        "adapterVersion": "synthetic-procurement-v1",
+        "status": "verified",
+        "effectStatus": "applied",
+        "plan": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "source": "bounded-rule"
+        },
+        "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92"
+      },
+      "approval": {
+        "status": "matched",
+        "approvedHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+        "expiresAt": "2026-10-04T03:37:48.668Z",
+        "hashMatches": true,
+        "validAtObservation": true
+      },
+      "browser": {
+        "status": "observed",
+        "sameAttempt": true,
+        "evidence": {
+          "startedAt": "2026-10-04T03:32:48.672Z",
+          "completedAt": "2026-10-04T03:32:49.523Z",
+          "elapsedMs": 851,
+          "origin": "http://127.0.0.1:53335",
+          "adapterVersion": "synthetic-procurement-v1",
+          "planHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "domMatched": true,
+          "payloadMatched": true,
+          "postObserved": true,
+          "registeredMarker": true,
+          "stopCode": null
+        },
+        "statement": "browser-observations-only-not-business-effect"
+      },
+      "database": {
+        "effectStatus": "applied",
+        "hasPersistedResult": true,
+        "persistedResultMatchesPlan": true,
+        "result": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+          "createdAt": "2026-10-04T03:32:49.449Z"
+        }
+      },
+      "api": {
+        "checkedAt": "2026-10-04T03:32:49.526Z",
+        "queryStatus": "found",
+        "status": "verified",
+        "checks": {
+          "requestId": true,
+          "department": true,
+          "item": true,
+          "quantity": true,
+          "reason": true,
+          "payloadHash": true,
+          "canonicalHash": true,
+          "executionKey": true,
+          "planHash": true
+        },
+        "demand": {
+          "requestId": "REQ-RETAIN-010",
+          "department": "研发部",
+          "item": "显示器",
+          "quantity": 12,
+          "reason": "合成采购需求登记",
+          "payloadHash": "29f9aca75c63c65ca5a0afaa0bfe11d7e6eecc4edc375fabfcc3b2a8d187a709",
+          "executionKey": "b2ebf4c8f6f9feb316f185f2360d8dafd6262668be9aab386f9ce570cd5f5c92",
+          "createdAt": "2026-10-04T03:32:49.449Z"
+        },
+        "issues": []
+      },
+      "allowedNextAction": "query-only",
+      "digest": {
+        "algorithm": "SHA-256",
+        "value": "38a81afb1f217167095d5798e56580a0872189cefb2fc499f294648eed86fa80"
+      }
+    }
+  },
+  "serverHttpTelemetry": [
+    {
+      "sequence": 1,
+      "recordId": "case-10",
+      "method": "GET",
+      "path": "/api/session",
+      "startedAt": "2026-10-04T03:32:48.663Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.663Z",
+      "finishedAt": "2026-10-04T03:32:48.664Z",
+      "closedAt": "2026-10-04T03:32:48.664Z",
+      "status": 200,
+      "finished": true
+    },
+    {
+      "sequence": 2,
+      "recordId": "case-10",
+      "method": "POST",
+      "path": "/api/propose",
+      "startedAt": "2026-10-04T03:32:48.664Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.664Z",
+      "finishedAt": "2026-10-04T03:32:48.665Z",
+      "closedAt": "2026-10-04T03:32:48.665Z",
+      "status": 201,
+      "finished": true
+    },
+    {
+      "sequence": 4,
+      "recordId": "case-10",
+      "method": "POST",
+      "path": "/api/runs/21c8047a-0ae0-4049-86eb-b9368ff37d3a/approve",
+      "startedAt": "2026-10-04T03:32:48.668Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.668Z",
+      "finishedAt": "2026-10-04T03:32:48.668Z",
+      "closedAt": "2026-10-04T03:32:48.668Z",
+      "status": 200,
+      "finished": true
+    },
+    {
+      "sequence": 6,
+      "recordId": "case-10",
+      "method": "POST",
+      "path": "/api/runs/21c8047a-0ae0-4049-86eb-b9368ff37d3a/execute",
+      "startedAt": "2026-10-04T03:32:48.672Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.672Z",
+      "finishedAt": "2026-10-04T03:32:49.524Z",
+      "closedAt": "2026-10-04T03:32:49.524Z",
+      "status": 200,
+      "finished": true
+    },
+    {
+      "sequence": 7,
+      "recordId": "case-10",
+      "method": "GET",
+      "path": "/legacy/form",
+      "startedAt": "2026-10-04T03:32:49.307Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:49.307Z",
+      "finishedAt": "2026-10-04T03:32:49.308Z",
+      "closedAt": "2026-10-04T03:32:49.308Z",
+      "status": 200,
+      "finished": true
+    },
+    {
+      "sequence": 8,
+      "recordId": "case-10",
+      "method": "POST",
+      "path": "/legacy/submit",
+      "startedAt": "2026-10-04T03:32:49.449Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:49.449Z",
+      "finishedAt": "2026-10-04T03:32:49.450Z",
+      "closedAt": "2026-10-04T03:32:49.450Z",
+      "status": 200,
+      "finished": true
+    },
+    {
+      "sequence": 9,
+      "recordId": "case-10",
+      "method": "GET",
+      "path": "/api/runs/21c8047a-0ae0-4049-86eb-b9368ff37d3a/report",
+      "startedAt": "2026-10-04T03:32:49.526Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:49.526Z",
+      "finishedAt": "2026-10-04T03:32:49.527Z",
+      "closedAt": "2026-10-04T03:32:49.527Z",
+      "status": 200,
+      "finished": true
+    }
+  ],
+  "repositoryBoundaryObservations": []
+}

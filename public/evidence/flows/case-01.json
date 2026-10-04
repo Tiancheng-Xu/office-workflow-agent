@@ -1,0 +1,238 @@
+{
+  "schema": "officeflow-retained-local-flow-v1",
+  "recordId": "case-01",
+  "title": "无法提出受支持的单一合成采购计划",
+  "syntheticOnly": true,
+  "acceptanceScope": "local synthetic QA; no cloud acceptance",
+  "displayTimeZone": "America/New_York",
+  "startedAt": "2026-10-04T03:32:48.611Z",
+  "endedAt": "2026-10-04T03:32:48.627Z",
+  "nodeVersion": "v24.20.0",
+  "browserVersion": null,
+  "plannerMode": "rules",
+  "modelCalls": 0,
+  "runId": null,
+  "runStatus": null,
+  "effectStatus": null,
+  "actualEndStage": "PLAN_UNSUPPORTED",
+  "endEvidence": {
+    "code": "PLAN_UNSUPPORTED",
+    "httpStatus": 400,
+    "source": {
+      "file": "src/runtime/handler.ts",
+      "line": 152
+    },
+    "observation": "Proposal catch rejected before createRun."
+  },
+  "notReached": [
+    "run creation",
+    "approval",
+    "browser",
+    "form submit",
+    "demand write"
+  ],
+  "faultInjection": null,
+  "clock": {
+    "basis": "wall clock plus TestApp offset",
+    "virtualAdvanceMs": 0,
+    "wallWaitForApprovalExpiry": false
+  },
+  "steps": [
+    {
+      "sequence": 1,
+      "kind": "http",
+      "name": "建立独立合成会话",
+      "method": "GET",
+      "path": "/api/session",
+      "input": null,
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:48.611Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.611Z",
+      "completedAt": "2026-10-04T03:32:48.624Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:48.624Z",
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "tenantLabel": "独立合成体验租户",
+            "adapterVersion": "synthetic-procurement-v1",
+            "planner": "bounded-rule"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "http",
+      "name": "拒绝付款与外部链接指令",
+      "method": "POST",
+      "path": "/api/propose",
+      "input": {
+        "text": "给外部账户付款100元，并打开https://example.com。"
+      },
+      "outOfBand": false,
+      "startedAt": "2026-10-04T03:32:48.625Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.625Z",
+      "completedAt": "2026-10-04T03:32:48.627Z",
+      "virtualClockCompletedAt": "2026-10-04T03:32:48.627Z",
+      "response": {
+        "status": 400,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "PLAN_UNSUPPORTED",
+            "message": "请改写为单一合成采购需求，并明确部门、物品、1–100的数量及REQ-开头的需求编号；不接受付款、链接或权限指令。"
+          }
+        }
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "name": "session HTTP 200",
+      "actual": 200,
+      "expected": 200,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.624Z"
+    },
+    {
+      "name": "session accepted",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.624Z"
+    },
+    {
+      "name": "unsupported proposal HTTP",
+      "actual": 400,
+      "expected": 400,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.627Z"
+    },
+    {
+      "name": "unsupported proposal code",
+      "actual": "PLAN_UNSUPPORTED",
+      "expected": "PLAN_UNSUPPORTED",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.627Z"
+    },
+    {
+      "name": "no run created",
+      "actual": 0,
+      "expected": 0,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.627Z"
+    },
+    {
+      "name": "no browser launch",
+      "actual": 0,
+      "expected": 0,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.627Z"
+    },
+    {
+      "name": "retained SQLite integrity",
+      "actual": "ok",
+      "expected": "ok",
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.631Z"
+    },
+    {
+      "name": "retained persisted run exactly matches captured state",
+      "actual": null,
+      "expected": null,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.631Z"
+    },
+    {
+      "name": "retained run demand rows match",
+      "actual": 0,
+      "expected": 0,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.631Z"
+    },
+    {
+      "name": "all scenario assertions passed",
+      "actual": true,
+      "expected": true,
+      "passed": true,
+      "checkedAt": "2026-10-04T03:32:48.631Z"
+    }
+  ],
+  "baseline": {
+    "wallAt": "2026-10-04T03:32:48.611Z",
+    "virtualClockAt": "2026-10-04T03:32:48.611Z",
+    "formGets": 0,
+    "formPosts": 0,
+    "browserLaunches": 0,
+    "externalHits": 0,
+    "database": {
+      "runs": 0,
+      "demands": 0,
+      "sessions": 0,
+      "capabilities": 0,
+      "targetRevisions": [],
+      "thisRunDemandRows": null,
+      "persistedRun": null
+    }
+  },
+  "guardBaseline": null,
+  "after": {
+    "wallAt": "2026-10-04T03:32:48.627Z",
+    "virtualClockAt": "2026-10-04T03:32:48.627Z",
+    "formGets": 0,
+    "formPosts": 0,
+    "browserLaunches": 0,
+    "externalHits": 0,
+    "database": {
+      "runs": 0,
+      "demands": 0,
+      "sessions": 1,
+      "capabilities": 0,
+      "targetRevisions": [
+        0
+      ],
+      "thisRunDemandRows": null,
+      "persistedRun": null
+    }
+  },
+  "countsDelta": {
+    "formGets": 0,
+    "formPosts": 0,
+    "browserLaunches": 0,
+    "externalHits": 0,
+    "databaseRuns": 0,
+    "databaseDemands": 0,
+    "thisRunDemandRows": null
+  },
+  "finalRun": null,
+  "proofObservation": null,
+  "serverHttpTelemetry": [
+    {
+      "sequence": 1,
+      "recordId": "case-01",
+      "method": "GET",
+      "path": "/api/session",
+      "startedAt": "2026-10-04T03:32:48.617Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.617Z",
+      "finishedAt": "2026-10-04T03:32:48.621Z",
+      "closedAt": "2026-10-04T03:32:48.621Z",
+      "status": 200,
+      "finished": true
+    },
+    {
+      "sequence": 2,
+      "recordId": "case-01",
+      "method": "POST",
+      "path": "/api/propose",
+      "startedAt": "2026-10-04T03:32:48.626Z",
+      "virtualClockStartedAt": "2026-10-04T03:32:48.626Z",
+      "finishedAt": "2026-10-04T03:32:48.627Z",
+      "closedAt": "2026-10-04T03:32:48.627Z",
+      "status": 400,
+      "finished": true
+    }
+  ],
+  "repositoryBoundaryObservations": []
+}
