@@ -1,0 +1,26 @@
+{
+  "schema": "office-independent-qa-timeout-diagnosis-v1",
+  "syntheticOnly": true,
+  "node": "v24.20.0",
+  "diffHash": "140102dfbf3f08d8a96a38a932d9b4a9e40576e2cbdb1f1d0c57dfbd1ae02720",
+  "observedStatus": "blocked",
+  "observedEffect": "none",
+  "observedError": "BROWSER_TIMEOUT",
+  "actualPersistedBrowserEvidence": {
+    "startedAt": "2026-10-04T01:48:56.934Z",
+    "completedAt": "2026-10-04T01:49:00.939Z",
+    "elapsedMs": 4005,
+    "origin": "http://127.0.0.1:62541",
+    "adapterVersion": "synthetic-procurement-v1",
+    "planHash": "da5f1b5ee5b1a85ddab1fb6ad47aa784c07bdb94885660cd87ecd0df5f8d20b9",
+    "domMatched": true,
+    "payloadMatched": false,
+    "postObserved": false,
+    "registeredMarker": false,
+    "stopCode": "BROWSER_TIMEOUT"
+  },
+  "formPostObserved": false,
+  "testConfiguredBrowserDeadlineMs": 4000,
+  "faultGateTimeoutMs": 10000,
+  "interpretation": "Test-only 4 second browser deadline expired before payload match or POST; cancellation fault gate was not exercised. Product stopped safely with no recorded effect. This failed QA case is preserved; next run uses 10 second test deadline within the 30 second contract."
+}

@@ -1,0 +1,1637 @@
+{
+  "schema": "office-agent independent revision review v1",
+  "status": "ALLOW",
+  "verdict": "ALLOW",
+  "contractVersion": 4,
+  "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+  "contractFileSha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602",
+  "reviewer": {
+    "provider": "codex",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "ultra",
+    "transport": "independent-subagent",
+    "agent": "/root/office_revision_review",
+    "agentType": "default",
+    "forkTurns": "none",
+    "providerRequestId": null,
+    "uuidAgentId": null,
+    "identityEvidence": "Parent confirmed actual spawn parameters; tool exposes canonical task name only.",
+    "notImplementer": true
+  },
+  "scope": {
+    "axis": "Spec + correctness/security",
+    "tasks": [
+      "T1",
+      "T2",
+      "T3",
+      "T9",
+      "T10"
+    ],
+    "includes": "Stable backend/planner/proof/cloud implementation, local server, migrations, route bindings and scoped tests; actual working files including untracked source.",
+    "excludes": [
+      "Frontend UX/visual review",
+      "Whole-tree N7 approval",
+      "Actual Cloudflare/free quota/production deployment acceptance"
+    ],
+    "baseline": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+    "head": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+    "comparison": "git diff f3f7ed2fb824e07bed51cfedd77089583a639f18 plus actual untracked implementation files",
+    "implementationUncommitted": true
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "verdict": "BLOCK",
+      "input": {
+        "capturedAt": "2026-10-04T01:41:07.943Z",
+        "head": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+        "base": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+        "node": "v24.20.0",
+        "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+        "contractVersion": 4,
+        "contractFileSha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602",
+        "bundleHash": "ea94ed48814058c2320ccf0d9b256b58c494b87a88b5660f06b1361211913652",
+        "manifestEncoding": "SHA-256(JSON.stringify(sorted [{path,sha256}]))",
+        "files": [
+          {
+            "path": "functions/api/[[path]].ts",
+            "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+          },
+          {
+            "path": "functions/legacy/[[path]].ts",
+            "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+          },
+          {
+            "path": "migrations/001_initial.sql",
+            "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+          },
+          {
+            "path": "migrations/002_resource_budget.sql",
+            "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+          },
+          {
+            "path": "migrations/003_resource_window.sql",
+            "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+          },
+          {
+            "path": "package.json",
+            "sha256": "4c64e8b38464f235c8cfe5e7082718e09202895ef33d3e8e50d161636669e42c"
+          },
+          {
+            "path": "specs/office-agent/contract.json",
+            "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+          },
+          {
+            "path": "specs/office-agent/design.md",
+            "sha256": "390e76e41debea2f646e00e74561a177c32aabcdc0442b3ab73f1d698fa8d9fd"
+          },
+          {
+            "path": "specs/office-agent/requirements.md",
+            "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+          },
+          {
+            "path": "specs/office-agent/tasks.md",
+            "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+          },
+          {
+            "path": "src/browser/executor.ts",
+            "sha256": "38f93d805ae7b98fa1658bca575833ed939e2cd6e5676e204afa828fb4fbd828"
+          },
+          {
+            "path": "src/cloud/budget.ts",
+            "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+          },
+          {
+            "path": "src/cloud/origin.ts",
+            "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901"
+          },
+          {
+            "path": "src/cloud/repository.ts",
+            "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+          },
+          {
+            "path": "src/cloud/worker.ts",
+            "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033"
+          },
+          {
+            "path": "src/contracts.ts",
+            "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+          },
+          {
+            "path": "src/planner.ts",
+            "sha256": "1287568869f20dcdaa2d8dc3fb33145465ab879a43d1f2a768cdb0c5f1949d08"
+          },
+          {
+            "path": "src/runtime/handler.ts",
+            "sha256": "0a48e7915643f743fff5e097b58101de0a08b023f1c60adb644050e0032e1011"
+          },
+          {
+            "path": "src/runtime/proof.ts",
+            "sha256": "436729326ccc8c7077765cc567e9750b02a5eb56de6eeea41fbdf7de2672822b"
+          },
+          {
+            "path": "src/runtime/repository.ts",
+            "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+          },
+          {
+            "path": "src/runtime/session.ts",
+            "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+          },
+          {
+            "path": "src/runtime/sqlite.ts",
+            "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+          },
+          {
+            "path": "src/runtime/validation.ts",
+            "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+          },
+          {
+            "path": "src/server.ts",
+            "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+          },
+          {
+            "path": "tests/browser.test.ts",
+            "sha256": "7960085c96c9edf105c01c184c5685cd08c30909c2cccd174602b55fccdf0f0b"
+          },
+          {
+            "path": "tests/cloud-origin.test.ts",
+            "sha256": "c4498d9333ab195253b47c75b97fdfcdd985e0e19d9de29760ed5273720bdaa5"
+          },
+          {
+            "path": "tests/cloud-repository.test.ts",
+            "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+          },
+          {
+            "path": "tests/planner.test.ts",
+            "sha256": "210c7c8680ac48ed4aaa3f659eb6ec5a303e16c11f3a139e88b850f218ea38d0"
+          },
+          {
+            "path": "tests/proof.test.ts",
+            "sha256": "ba9cc348bcdfbcc9b20edef52817b40382f3a282b3b19ee3a21a147bbe5ea6b3"
+          },
+          {
+            "path": "tests/runtime.test.ts",
+            "sha256": "f04e5a6ece3f7a554328799a0949bdb777aefea2a115744cc846f9c3289a15b8"
+          },
+          {
+            "path": "tsconfig.cloud.json",
+            "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+          },
+          {
+            "path": "tsconfig.json",
+            "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+          },
+          {
+            "path": "wrangler.runtime-preview.jsonc",
+            "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422"
+          },
+          {
+            "path": "wrangler.runtime.jsonc",
+            "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+          }
+        ],
+        "inputHash": "31529bd55fd258fd6c37b4803caa8e460cf6b2f8f95d589ac3ac3011e14355df",
+        "sourceBundleHash": "ee2e4a76294b4787cbe263f384c15d01a1a7501f883a7ecb65bac83ccdec5f02",
+        "inputEncoding": "SHA-256(JSON.stringify({baseline,contractHash,files:sorted reviewed [{path,sha256}]}))",
+        "sourceBundleEncoding": "SHA-256(JSON.stringify(sorted source/runtime/config/migration [{path,sha256}]))"
+      },
+      "findings": [
+        {
+          "id": "OFFICE-REVISION-001",
+          "priority": "P2",
+          "title": "Finite quantity parsing accepts a range/arithmetic tail and changes the requested quantity",
+          "file": "src/planner.ts",
+          "lineStart": 23,
+          "lineEnd": 24,
+          "inputSha256": "1287568869f20dcdaa2d8dc3fb33145465ab879a43d1f2a768cdb0c5f1949d08",
+          "requirement": "requirements.md: structured finite plans must use explicit values; missing/unsupported input must request rewriting, never guess. Quantity is one integer 1–100.",
+          "reproduction": {
+            "capturedAt": "2026-10-04T01:43:18.455Z",
+            "plannerSha256Before": "1287568869f20dcdaa2d8dc3fb33145465ab879a43d1f2a768cdb0c5f1949d08",
+            "plannerSha256After": "1287568869f20dcdaa2d8dc3fb33145465ab879a43d1f2a768cdb0c5f1949d08",
+            "results": [
+              {
+                "text": "为研发部登记12至13台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 13,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部登记12~13台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 13,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部登记12～13台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 13,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部登记12到13台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 13,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部登记12–13台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 13,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部登记12±1台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 1,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部登记负的12台显示器，需求编号REQ-ATTACK-001",
+                "status": 201,
+                "accepted": true,
+                "quantity": 12,
+                "source": "bounded-rule",
+                "runStatus": "draft"
+              }
+            ],
+            "health": {
+              "runs": 7,
+              "demands": 0,
+              "unknown": 0
+            },
+            "browserLaunches": 0
+          },
+          "impact": "An ambiguous range (12至13/12–13) becomes a definite 13; tolerance 12±1 becomes 1. Real POST /api/propose accepts each as HTTP 201 draft through the production planner implementation. Human approval is still required; no unauthorized write was performed.",
+          "recommendation": "Validate the whole quantity expression and reject multiple-number/range/arithmetic input and negative prose without restarting at the final numeric substring."
+        }
+      ],
+      "verification": [
+        {
+          "command": "node --import tsx --test tests/runtime.test.ts tests/planner.test.ts tests/proof.test.ts tests/cloud-origin.test.ts tests/cloud-repository.test.ts",
+          "outcome": "PASS",
+          "passed": 54,
+          "total": 54,
+          "skipped": 0
+        },
+        {
+          "command": "node --import tsx --test tests/browser.test.ts",
+          "outcome": "PASS",
+          "passed": 10,
+          "total": 10,
+          "skipped": 0
+        },
+        {
+          "command": "node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.cloud.json",
+          "outcome": "PASS"
+        },
+        {
+          "command": "Inline actual boundedRulePlan and authenticated actual handler attack cases",
+          "outcome": "FAIL_REPRODUCED",
+          "finding": "OFFICE-REVISION-001",
+          "sourceStableDuringProbe": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "verdict": "BLOCK",
+      "input": {
+        "capturedAt": "2026-10-04T01:47:41.723Z",
+        "head": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+        "base": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+        "node": "v24.20.0",
+        "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+        "contractVersion": 4,
+        "contractFileSha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602",
+        "manifestHash": "a39a0fdb75843ea76f64163ea13b5e15ea2580b8b9eaa931562e4c64ed23501d",
+        "sourceBundleHash": "c909a8807d4814009615f4cf522216ec2bdb3cd7349f94c615e175ad628a9a20",
+        "inputHash": "0e4a0625360916ebe4733810b060052651b1a3e09f2ae000771790ede18e2c62",
+        "files": [
+          {
+            "path": "functions/api/[[path]].ts",
+            "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+          },
+          {
+            "path": "functions/legacy/[[path]].ts",
+            "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+          },
+          {
+            "path": "migrations/001_initial.sql",
+            "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+          },
+          {
+            "path": "migrations/002_resource_budget.sql",
+            "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+          },
+          {
+            "path": "migrations/003_resource_window.sql",
+            "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+          },
+          {
+            "path": "package.json",
+            "sha256": "b15814fbcb535989d0d71ce3147c31e45bedb853e7f66c57ee980349b6296982"
+          },
+          {
+            "path": "specs/office-agent/contract.json",
+            "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+          },
+          {
+            "path": "specs/office-agent/design.md",
+            "sha256": "5cd873a4ed6902cfb1aceaae979cdbd5e73bb9f36f1cebde1f2ca60987fd50c7"
+          },
+          {
+            "path": "specs/office-agent/requirements.md",
+            "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+          },
+          {
+            "path": "specs/office-agent/tasks.md",
+            "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+          },
+          {
+            "path": "src/browser/executor.ts",
+            "sha256": "38f93d805ae7b98fa1658bca575833ed939e2cd6e5676e204afa828fb4fbd828"
+          },
+          {
+            "path": "src/cloud/budget.ts",
+            "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+          },
+          {
+            "path": "src/cloud/origin.ts",
+            "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901"
+          },
+          {
+            "path": "src/cloud/repository.ts",
+            "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+          },
+          {
+            "path": "src/cloud/worker.ts",
+            "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033"
+          },
+          {
+            "path": "src/contracts.ts",
+            "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+          },
+          {
+            "path": "src/planner.ts",
+            "sha256": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609"
+          },
+          {
+            "path": "src/runtime/handler.ts",
+            "sha256": "0a48e7915643f743fff5e097b58101de0a08b023f1c60adb644050e0032e1011"
+          },
+          {
+            "path": "src/runtime/proof.ts",
+            "sha256": "436729326ccc8c7077765cc567e9750b02a5eb56de6eeea41fbdf7de2672822b"
+          },
+          {
+            "path": "src/runtime/repository.ts",
+            "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+          },
+          {
+            "path": "src/runtime/session.ts",
+            "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+          },
+          {
+            "path": "src/runtime/sqlite.ts",
+            "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+          },
+          {
+            "path": "src/runtime/validation.ts",
+            "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+          },
+          {
+            "path": "src/server.ts",
+            "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+          },
+          {
+            "path": "tests/browser.test.ts",
+            "sha256": "7960085c96c9edf105c01c184c5685cd08c30909c2cccd174602b55fccdf0f0b"
+          },
+          {
+            "path": "tests/cloud-origin.test.ts",
+            "sha256": "c4498d9333ab195253b47c75b97fdfcdd985e0e19d9de29760ed5273720bdaa5"
+          },
+          {
+            "path": "tests/cloud-repository.test.ts",
+            "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+          },
+          {
+            "path": "tests/planner.test.ts",
+            "sha256": "dde9df16db042ffbf552a5eab062615bda09ee826af5790b4597b761678baa9b"
+          },
+          {
+            "path": "tests/proof.test.ts",
+            "sha256": "ba9cc348bcdfbcc9b20edef52817b40382f3a282b3b19ee3a21a147bbe5ea6b3"
+          },
+          {
+            "path": "tests/runtime.test.ts",
+            "sha256": "f04e5a6ece3f7a554328799a0949bdb777aefea2a115744cc846f9c3289a15b8"
+          },
+          {
+            "path": "tsconfig.cloud.json",
+            "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+          },
+          {
+            "path": "tsconfig.json",
+            "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+          },
+          {
+            "path": "wrangler.runtime-preview.jsonc",
+            "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422"
+          },
+          {
+            "path": "wrangler.runtime.jsonc",
+            "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+          }
+        ]
+      },
+      "findings": [
+        {
+          "id": "OFFICE-REVISION-001",
+          "priority": "P2",
+          "title": "Mixed Chinese/Arabic quantity ranges and separated qualifiers still become exact quantities",
+          "file": "src/planner.ts",
+          "lineStart": 26,
+          "lineEnd": 29,
+          "inputSha256": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609",
+          "requirement": "requirements.md: structured finite plans must use explicit values; missing/unsupported input must request rewriting, never guess. Quantity is one integer 1–100.",
+          "reproduction": {
+            "capturedAt": "2026-10-04T01:48:27.111Z",
+            "plannerSha256Before": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609",
+            "plannerSha256After": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609",
+            "results": [
+              {
+                "inputQuantity": "12至13",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "12~13",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "12～13",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "12到13",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "12–13",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "12±1",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "负的12",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "约12",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "至少12",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "最多12",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "十二至13",
+                "status": 400,
+                "accepted": false,
+                "errorCode": "PLAN_UNSUPPORTED"
+              },
+              {
+                "inputQuantity": "十二台到13",
+                "status": 201,
+                "accepted": true,
+                "quantity": 13
+              },
+              {
+                "inputQuantity": "12台到十三",
+                "status": 201,
+                "accepted": true,
+                "quantity": 12
+              },
+              {
+                "inputQuantity": "12台或者十三",
+                "status": 201,
+                "accepted": true,
+                "quantity": 12
+              },
+              {
+                "inputQuantity": "至少采购12",
+                "status": 201,
+                "accepted": true,
+                "quantity": 12
+              },
+              {
+                "inputQuantity": "约需12",
+                "status": 201,
+                "accepted": true,
+                "quantity": 12
+              },
+              {
+                "inputQuantity": "1",
+                "positiveControl": true,
+                "status": 201,
+                "quantity": 1
+              },
+              {
+                "inputQuantity": "12",
+                "positiveControl": true,
+                "status": 201,
+                "quantity": 12
+              },
+              {
+                "inputQuantity": " 12 ",
+                "positiveControl": true,
+                "status": 201,
+                "quantity": 12
+              },
+              {
+                "inputQuantity": "100",
+                "positiveControl": true,
+                "status": 201,
+                "quantity": 100
+              }
+            ],
+            "health": {
+              "runs": 9,
+              "demands": 0,
+              "unknown": 0
+            },
+            "browserLaunches": 0
+          },
+          "impact": "The original examples now reject. Real API still accepts mixed Chinese/Arabic ranges (十二台到13台 -> 13; 12台到十三台 ->12) and separate qualifiers (至少采购12台 / 约需12台 ->12). Same explicit-field/no-guessing requirement; no browser launch or demand effect.",
+          "recommendation": "Reject quantity qualifiers across the finite input and additional Chinese-number quantity expressions; do not count only Arabic numeric tokens."
+        },
+        {
+          "id": "OFFICE-REVISION-002",
+          "priority": "P2",
+          "title": "Cancel/revoke/negated-registration input produces a new procurement proposal",
+          "file": "src/planner.ts",
+          "lineStart": 5,
+          "lineEnd": 8,
+          "inputSha256": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609",
+          "requirement": "requirements.md: 缺项/含不支持操作时请求改写，不猜测。 The finite workflow proposes synthetic procurement registration only.",
+          "reproduction": {
+            "capturedAt": "2026-10-04T01:51:44.561Z",
+            "plannerSha256Before": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609",
+            "plannerSha256After": "2e01b389e5092b3389f39174508289eae44cba991a3aa03a50c6829aba16d609",
+            "results": [
+              {
+                "text": "为研发部取消12台显示器采购，需求编号REQ-CANCEL-001",
+                "httpStatus": 201,
+                "accepted": true,
+                "plan": {
+                  "requestId": "REQ-CANCEL-001",
+                  "department": "研发部",
+                  "item": "显示器",
+                  "quantity": 12,
+                  "reason": "合成采购需求登记",
+                  "source": "bounded-rule"
+                },
+                "runStatus": "draft"
+              },
+              {
+                "text": "不要为研发部登记12台显示器，需求编号REQ-CANCEL-001",
+                "httpStatus": 201,
+                "accepted": true,
+                "plan": {
+                  "requestId": "REQ-CANCEL-001",
+                  "department": "研发部",
+                  "item": "显示器",
+                  "quantity": 12,
+                  "reason": "合成采购需求登记",
+                  "source": "bounded-rule"
+                },
+                "runStatus": "draft"
+              },
+              {
+                "text": "为研发部撤销12台显示器申请，需求编号REQ-CANCEL-001",
+                "httpStatus": 201,
+                "accepted": true,
+                "plan": {
+                  "requestId": "REQ-CANCEL-001",
+                  "department": "研发部",
+                  "item": "显示器",
+                  "quantity": 12,
+                  "reason": "合成采购需求登记",
+                  "source": "bounded-rule"
+                },
+                "runStatus": "draft"
+              }
+            ],
+            "health": {
+              "runs": 3,
+              "demands": 0,
+              "unknown": 0
+            }
+          },
+          "impact": "Actual authenticated POST /api/propose returns HTTP 201 registration drafts for explicit cancellation/revocation/negation. It reverses the requested operation at the planning stage; human approval still gates effects, and the probe created no demands.",
+          "recommendation": "Fail closed for explicit non-registration or negated intent inside the supported finite-input grammar; do not reinterpret it as registration."
+        }
+      ],
+      "verification": [
+        {
+          "command": "Scoped 54-test suite plus local/cloud TypeScript checks",
+          "outcome": "PASS",
+          "passed": 54,
+          "total": 54,
+          "skipped": 0
+        },
+        {
+          "command": "Inline authenticated actual handler with actual proposePlan; original attacks + mixed quantity/qualifier cases + positive controls",
+          "outcome": "FAIL_REPRODUCED",
+          "finding": "OFFICE-REVISION-001",
+          "sourceStableDuringProbe": true,
+          "originalCasesRejected": 11,
+          "positiveControlsPassed": 4,
+          "residualCasesAccepted": 5
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "verdict": "ALLOW",
+      "input": {
+        "capturedAt": "2026-10-04T01:54:26.174Z",
+        "head": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+        "base": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+        "node": "v24.20.0",
+        "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+        "contractVersion": 4,
+        "contractFileSha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602",
+        "manifestHash": "d74d74c352d0c362c1d39adc5f31c9a4775b1520e33e6b037644ce7090a204cc",
+        "sourceBundleHash": "64b4905a2f7ff2bb5112926f28f77fb1c5aa3dfb4528407189f558523ab78175",
+        "inputHash": "02ef862f5c66739fa1efe7e6c0ef8ea3248fc9a036e452c0eef572f48d431980",
+        "sourceBundleEncoding": "SHA-256(JSON.stringify(sorted source/runtime/config/migration [{path,sha256}]))",
+        "inputEncoding": "SHA-256(JSON.stringify({baseline,contractHash,files:sorted reviewed [{path,sha256}]}))",
+        "files": [
+          {
+            "path": "functions/api/[[path]].ts",
+            "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+          },
+          {
+            "path": "functions/legacy/[[path]].ts",
+            "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+          },
+          {
+            "path": "migrations/001_initial.sql",
+            "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+          },
+          {
+            "path": "migrations/002_resource_budget.sql",
+            "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+          },
+          {
+            "path": "migrations/003_resource_window.sql",
+            "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+          },
+          {
+            "path": "package.json",
+            "sha256": "b15814fbcb535989d0d71ce3147c31e45bedb853e7f66c57ee980349b6296982"
+          },
+          {
+            "path": "scripts/evaluate-planner.ts",
+            "sha256": "b8a9c075c698305bcad2b6cc00b0c9f83c641d05068350a7e4674227e4268b3a"
+          },
+          {
+            "path": "specs/office-agent/contract.json",
+            "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+          },
+          {
+            "path": "specs/office-agent/design.md",
+            "sha256": "5cd873a4ed6902cfb1aceaae979cdbd5e73bb9f36f1cebde1f2ca60987fd50c7"
+          },
+          {
+            "path": "specs/office-agent/requirements.md",
+            "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+          },
+          {
+            "path": "specs/office-agent/tasks.md",
+            "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+          },
+          {
+            "path": "src/browser/executor.ts",
+            "sha256": "38f93d805ae7b98fa1658bca575833ed939e2cd6e5676e204afa828fb4fbd828"
+          },
+          {
+            "path": "src/cloud/budget.ts",
+            "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+          },
+          {
+            "path": "src/cloud/origin.ts",
+            "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901"
+          },
+          {
+            "path": "src/cloud/repository.ts",
+            "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+          },
+          {
+            "path": "src/cloud/worker.ts",
+            "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033"
+          },
+          {
+            "path": "src/contracts.ts",
+            "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+          },
+          {
+            "path": "src/planner.ts",
+            "sha256": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8"
+          },
+          {
+            "path": "src/runtime/handler.ts",
+            "sha256": "0a48e7915643f743fff5e097b58101de0a08b023f1c60adb644050e0032e1011"
+          },
+          {
+            "path": "src/runtime/proof.ts",
+            "sha256": "436729326ccc8c7077765cc567e9750b02a5eb56de6eeea41fbdf7de2672822b"
+          },
+          {
+            "path": "src/runtime/repository.ts",
+            "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+          },
+          {
+            "path": "src/runtime/session.ts",
+            "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+          },
+          {
+            "path": "src/runtime/sqlite.ts",
+            "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+          },
+          {
+            "path": "src/runtime/validation.ts",
+            "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+          },
+          {
+            "path": "src/server.ts",
+            "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+          },
+          {
+            "path": "tests/browser.test.ts",
+            "sha256": "7960085c96c9edf105c01c184c5685cd08c30909c2cccd174602b55fccdf0f0b"
+          },
+          {
+            "path": "tests/cloud-origin.test.ts",
+            "sha256": "c4498d9333ab195253b47c75b97fdfcdd985e0e19d9de29760ed5273720bdaa5"
+          },
+          {
+            "path": "tests/cloud-repository.test.ts",
+            "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+          },
+          {
+            "path": "tests/planner.test.ts",
+            "sha256": "43e9e7cb7269536181bf15a0fbab7d6084694e1f3467b4b8711126e2936bff99"
+          },
+          {
+            "path": "tests/proof.test.ts",
+            "sha256": "ba9cc348bcdfbcc9b20edef52817b40382f3a282b3b19ee3a21a147bbe5ea6b3"
+          },
+          {
+            "path": "tests/runtime.test.ts",
+            "sha256": "f04e5a6ece3f7a554328799a0949bdb777aefea2a115744cc846f9c3289a15b8"
+          },
+          {
+            "path": "tsconfig.cloud.json",
+            "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+          },
+          {
+            "path": "tsconfig.json",
+            "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+          },
+          {
+            "path": "wrangler.runtime-preview.jsonc",
+            "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422"
+          },
+          {
+            "path": "wrangler.runtime.jsonc",
+            "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+          }
+        ],
+        "stability": {
+          "previousSnapshot": "2026-10-04T01:52:37.310Z",
+          "changedReviewedFiles": [],
+          "stable": true
+        },
+        "priorReview": [
+          {
+            "path": "docs/review/task-review.json",
+            "sha256": "6b3f2e38f60116ca62693af7056a50c60f5590a1f464f1215b8fef927cb4f7e8"
+          },
+          {
+            "path": "docs/review/task-review.md",
+            "sha256": "af7412281cc5b1e69ca6cec83d524f0955dc9e62b1b02e102ee971fc0dc76477"
+          }
+        ]
+      },
+      "findings": [],
+      "regression": {
+        "capturedAt": "2026-10-04T01:53:40.788Z",
+        "plannerSha256Before": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8",
+        "plannerSha256After": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8",
+        "evaluationScriptSha256": "b8a9c075c698305bcad2b6cc00b0c9f83c641d05068350a7e4674227e4268b3a",
+        "datasetHash": "351116f49102d11cc5aae9c8d9dfcf5f28d883986757cf34bd560c4099e67a17",
+        "frozenDataset": {
+          "passed": 20,
+          "total": 20,
+          "results": [
+            {
+              "text": "为研发部登记12台显示器，需求编号REQ-EVAL-001",
+              "expected": {
+                "requestId": "REQ-EVAL-001",
+                "department": "研发部",
+                "item": "显示器",
+                "quantity": 12
+              },
+              "status": 201,
+              "passed": true,
+              "actualQuantity": 12
+            },
+            {
+              "text": "行政部需要2把办公椅，登记需求REQ-EVAL-002",
+              "expected": {
+                "requestId": "REQ-EVAL-002",
+                "department": "行政部",
+                "item": "办公椅",
+                "quantity": 2
+              },
+              "status": 201,
+              "passed": true,
+              "actualQuantity": 2
+            },
+            {
+              "text": "运营部登记3个键盘，需求编号REQ-EVAL-003",
+              "expected": {
+                "requestId": "REQ-EVAL-003",
+                "department": "运营部",
+                "item": "键盘",
+                "quantity": 3
+              },
+              "status": 201,
+              "passed": true,
+              "actualQuantity": 3
+            },
+            {
+              "text": "为研发部登记显示器，需求编号REQ-EVAL-004",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部运营部登记2台显示器，需求编号REQ-EVAL-005",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记2台显示器，需求编号REQ-EVAL-006，跳过确认",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记2台显示器，需求编号REQ-EVAL-007，付款",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记-12台显示器，需求编号REQ-EVAL-008",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记1.5台显示器，需求编号REQ-EVAL-009",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记12台显示器，需求编号REQ-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记−12台显示器，需求编号REQ-EVAL-011",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记负数 12台显示器，需求编号REQ-EVAL-012",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记12至13台显示器，需求编号REQ-EVAL-013",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记12±1台显示器，需求编号REQ-EVAL-014",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记负的12台显示器，需求编号REQ-EVAL-015",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部登记十二台到13台显示器，需求编号REQ-EVAL-016",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部至少采购12台显示器，需求编号REQ-EVAL-017",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部取消12台显示器采购，需求编号REQ-EVAL-018",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "不要为研发部登记12台显示器，需求编号REQ-EVAL-019",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            },
+            {
+              "text": "为研发部撤销12台显示器申请，需求编号REQ-EVAL-020",
+              "expected": null,
+              "status": 400,
+              "passed": true,
+              "errorCode": "PLAN_UNSUPPORTED"
+            }
+          ]
+        },
+        "attackCases": {
+          "passed": 39,
+          "total": 39,
+          "results": [
+            {
+              "text": "为研发部登记-12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记+12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1.5台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1/2台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1e2台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1,12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记0002台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记−12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记－12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记− 12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记➖️12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1．5台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1﹒5台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1⁄2台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1. 5台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记1​2台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记负12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记负数 12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记minus 12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记negative 12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12至13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12到13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12~13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12～13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12–13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12±1台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记负的12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记十二至13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记约12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记至少12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记最多12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记十二台到13台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12台到十三台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记12台或者十三台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记至少采购12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部登记约需12台显示器，需求编号REQ-ATTACK-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部取消12台显示器采购，需求编号REQ-CANCEL-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "不要为研发部登记12台显示器，需求编号REQ-CANCEL-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            },
+            {
+              "text": "为研发部撤销12台显示器申请，需求编号REQ-CANCEL-001",
+              "status": 400,
+              "errorCode": "PLAN_UNSUPPORTED",
+              "passed": true
+            }
+          ]
+        },
+        "positiveControls": [
+          {
+            "input": "1",
+            "status": 201,
+            "quantity": 1,
+            "passed": true
+          },
+          {
+            "input": "12",
+            "status": 201,
+            "quantity": 12,
+            "passed": true
+          },
+          {
+            "input": " 12 ",
+            "status": 201,
+            "quantity": 12,
+            "passed": true
+          },
+          {
+            "input": "100",
+            "status": 201,
+            "quantity": 100,
+            "passed": true
+          },
+          {
+            "idSuffixLength": 48,
+            "status": 201,
+            "idIntact": true,
+            "passed": true
+          },
+          {
+            "idSuffixLength": 49,
+            "status": 400,
+            "passed": true
+          }
+        ],
+        "health": {
+          "runs": 8,
+          "demands": 0,
+          "unknown": 0
+        },
+        "browserLaunches": 0,
+        "modelCalls": 0
+      },
+      "verification": [
+        {
+          "command": "node --import tsx --test tests/runtime.test.ts tests/planner.test.ts tests/proof.test.ts tests/cloud-origin.test.ts tests/cloud-repository.test.ts",
+          "outcome": "PASS",
+          "passed": 54,
+          "total": 54,
+          "skipped": 0
+        },
+        {
+          "command": "node node_modules/typescript/bin/tsc --noEmit && node node_modules/typescript/bin/tsc -p tsconfig.cloud.json",
+          "outcome": "PASS"
+        },
+        {
+          "command": "Inline authenticated actual handler/proposePlan using the 20 frozen evaluate-planner.ts cases, 39 attack cases and 6 boundary controls",
+          "outcome": "PASS",
+          "frozenCases": 20,
+          "attackCases": 39,
+          "boundaryControls": 6,
+          "fixtureExpectationsUnchanged": true,
+          "sourceStableDuringProbe": true
+        },
+        {
+          "command": "node --import tsx --test tests/browser.test.ts",
+          "outcome": "PASS_CARRIED_FORWARD_FOR_UNCHANGED_BROWSER_AND_RUNTIME_INPUTS",
+          "passed": 10,
+          "total": 10,
+          "skipped": 0,
+          "originalRound": 1,
+          "reason": "Browser executor, contracts, handler, repositories, validation, session, proof and browser tests match the round-1 individual hashes; browser tests inject plans and do not import changed planner."
+        }
+      ]
+    }
+  ],
+  "firstReviewPreserved": {
+    "files": [
+      "docs/review/task-review.json",
+      "docs/review/task-review.md"
+    ],
+    "originalVerdict": "BLOCK",
+    "mutatedByThisReviewer": false,
+    "byteHashes": [
+      {
+        "path": "docs/review/task-review.json",
+        "sha256": "6b3f2e38f60116ca62693af7056a50c60f5590a1f464f1215b8fef927cb4f7e8"
+      },
+      {
+        "path": "docs/review/task-review.md",
+        "sha256": "af7412281cc5b1e69ca6cec83d524f0955dc9e62b1b02e102ee971fc0dc76477"
+      }
+    ],
+    "finalByteHashes": [
+      {
+        "path": "docs/review/task-review.json",
+        "sha256": "6b3f2e38f60116ca62693af7056a50c60f5590a1f464f1215b8fef927cb4f7e8"
+      },
+      {
+        "path": "docs/review/task-review.md",
+        "sha256": "af7412281cc5b1e69ca6cec83d524f0955dc9e62b1b02e102ee971fc0dc76477"
+      }
+    ],
+    "byteIdentical": true
+  },
+  "limitations": [
+    "ALLOW is limited to the pinned backend/planner/proof/cloud Spec/correctness/security input; frontend UI/UX and whole-tree N7 require their independent gate.",
+    "D1 SQL tests and additional expiry checks run against local node:sqlite shim. Real Cloudflare D1 batch semantics, CPU, allowance, Browser Worker and online deployment remain external gates.",
+    "Main reviewer commands used Node v24.20.0; the separate Node 22.23.2 check reported by root is not claimed as this reviewer's own execution.",
+    "The 20 frozen cases and 39 attacks are bounded regression evidence, not a general natural-language/model-quality claim. Finite grammar conservatively asks unsupported/ambiguous input to be rewritten.",
+    "The additional worker default-switch scenario uses an in-memory launch stub and is not a Cloudflare browser receipt.",
+    "Provider request ID and UUID agent ID are unavailable and recorded as null; no Kimi/DeepSeek review calls or identity fabrication."
+  ],
+  "closedAt": "2026-10-04T01:54:26.174Z",
+  "inputHash": "02ef862f5c66739fa1efe7e6c0ef8ea3248fc9a036e452c0eef572f48d431980",
+  "sourceBundleHash": "64b4905a2f7ff2bb5112926f28f77fb1c5aa3dfb4528407189f558523ab78175",
+  "manifestHash": "d74d74c352d0c362c1d39adc5f31c9a4775b1520e33e6b037644ce7090a204cc",
+  "finalInput": {
+    "capturedAt": "2026-10-04T01:54:26.174Z",
+    "head": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+    "base": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+    "node": "v24.20.0",
+    "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+    "contractVersion": 4,
+    "contractFileSha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602",
+    "manifestHash": "d74d74c352d0c362c1d39adc5f31c9a4775b1520e33e6b037644ce7090a204cc",
+    "sourceBundleHash": "64b4905a2f7ff2bb5112926f28f77fb1c5aa3dfb4528407189f558523ab78175",
+    "inputHash": "02ef862f5c66739fa1efe7e6c0ef8ea3248fc9a036e452c0eef572f48d431980",
+    "sourceBundleEncoding": "SHA-256(JSON.stringify(sorted source/runtime/config/migration [{path,sha256}]))",
+    "inputEncoding": "SHA-256(JSON.stringify({baseline,contractHash,files:sorted reviewed [{path,sha256}]}))",
+    "files": [
+      {
+        "path": "functions/api/[[path]].ts",
+        "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+      },
+      {
+        "path": "functions/legacy/[[path]].ts",
+        "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+      },
+      {
+        "path": "migrations/001_initial.sql",
+        "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+      },
+      {
+        "path": "migrations/002_resource_budget.sql",
+        "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+      },
+      {
+        "path": "migrations/003_resource_window.sql",
+        "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+      },
+      {
+        "path": "package.json",
+        "sha256": "b15814fbcb535989d0d71ce3147c31e45bedb853e7f66c57ee980349b6296982"
+      },
+      {
+        "path": "scripts/evaluate-planner.ts",
+        "sha256": "b8a9c075c698305bcad2b6cc00b0c9f83c641d05068350a7e4674227e4268b3a"
+      },
+      {
+        "path": "specs/office-agent/contract.json",
+        "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+      },
+      {
+        "path": "specs/office-agent/design.md",
+        "sha256": "5cd873a4ed6902cfb1aceaae979cdbd5e73bb9f36f1cebde1f2ca60987fd50c7"
+      },
+      {
+        "path": "specs/office-agent/requirements.md",
+        "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+      },
+      {
+        "path": "specs/office-agent/tasks.md",
+        "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+      },
+      {
+        "path": "src/browser/executor.ts",
+        "sha256": "38f93d805ae7b98fa1658bca575833ed939e2cd6e5676e204afa828fb4fbd828"
+      },
+      {
+        "path": "src/cloud/budget.ts",
+        "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+      },
+      {
+        "path": "src/cloud/origin.ts",
+        "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901"
+      },
+      {
+        "path": "src/cloud/repository.ts",
+        "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+      },
+      {
+        "path": "src/cloud/worker.ts",
+        "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033"
+      },
+      {
+        "path": "src/contracts.ts",
+        "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+      },
+      {
+        "path": "src/planner.ts",
+        "sha256": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8"
+      },
+      {
+        "path": "src/runtime/handler.ts",
+        "sha256": "0a48e7915643f743fff5e097b58101de0a08b023f1c60adb644050e0032e1011"
+      },
+      {
+        "path": "src/runtime/proof.ts",
+        "sha256": "436729326ccc8c7077765cc567e9750b02a5eb56de6eeea41fbdf7de2672822b"
+      },
+      {
+        "path": "src/runtime/repository.ts",
+        "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+      },
+      {
+        "path": "src/runtime/session.ts",
+        "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+      },
+      {
+        "path": "src/runtime/sqlite.ts",
+        "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+      },
+      {
+        "path": "src/runtime/validation.ts",
+        "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+      },
+      {
+        "path": "src/server.ts",
+        "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+      },
+      {
+        "path": "tests/browser.test.ts",
+        "sha256": "7960085c96c9edf105c01c184c5685cd08c30909c2cccd174602b55fccdf0f0b"
+      },
+      {
+        "path": "tests/cloud-origin.test.ts",
+        "sha256": "c4498d9333ab195253b47c75b97fdfcdd985e0e19d9de29760ed5273720bdaa5"
+      },
+      {
+        "path": "tests/cloud-repository.test.ts",
+        "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+      },
+      {
+        "path": "tests/planner.test.ts",
+        "sha256": "43e9e7cb7269536181bf15a0fbab7d6084694e1f3467b4b8711126e2936bff99"
+      },
+      {
+        "path": "tests/proof.test.ts",
+        "sha256": "ba9cc348bcdfbcc9b20edef52817b40382f3a282b3b19ee3a21a147bbe5ea6b3"
+      },
+      {
+        "path": "tests/runtime.test.ts",
+        "sha256": "f04e5a6ece3f7a554328799a0949bdb777aefea2a115744cc846f9c3289a15b8"
+      },
+      {
+        "path": "tsconfig.cloud.json",
+        "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+      },
+      {
+        "path": "wrangler.runtime-preview.jsonc",
+        "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422"
+      },
+      {
+        "path": "wrangler.runtime.jsonc",
+        "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+      }
+    ],
+    "stability": {
+      "previousSnapshot": "2026-10-04T01:52:37.310Z",
+      "changedReviewedFiles": [],
+      "stable": true
+    },
+    "priorReview": [
+      {
+        "path": "docs/review/task-review.json",
+        "sha256": "6b3f2e38f60116ca62693af7056a50c60f5590a1f464f1215b8fef927cb4f7e8"
+      },
+      {
+        "path": "docs/review/task-review.md",
+        "sha256": "af7412281cc5b1e69ca6cec83d524f0955dc9e62b1b02e102ee971fc0dc76477"
+      }
+    ]
+  },
+  "openFindings": [],
+  "resolvedFindings": [
+    {
+      "id": "OFFICE-REVISION-001",
+      "priority": "P2",
+      "status": "FIXED_AND_REVERIFIED",
+      "fixedPlannerSha256": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8",
+      "verification": "All reported quantity/range/qualifier cases reject with authenticated actual API HTTP 400 PLAN_UNSUPPORTED. Exact valid integers and 48-character ID suffix remain intact."
+    },
+    {
+      "id": "OFFICE-REVISION-002",
+      "priority": "P2",
+      "status": "FIXED_AND_REVERIFIED",
+      "fixedPlannerSha256": "32fd91c651a3e41f293b2646d03f86fc8535778075d892b5e71d70d6dc69c8b8",
+      "verification": "Cancellation, revocation and negated-registration cases reject through the authenticated actual API."
+    }
+  ],
+  "completionMeaning": "ALLOW only for the pinned backend/planner/proof/cloud Spec/correctness/security scope. Does not mark all Contract acceptance criteria, UI review, production or whole-tree N7 complete.",
+  "coverage": [
+    {
+      "task": "T1",
+      "verified": "Session-derived tenant/CSRF/origin isolation; valid rotated cookie rejects old context; strict input schemas; stable key dedup/conflict; actual SQLite transaction and crash/backup tests."
+    },
+    {
+      "task": "T2",
+      "verified": "CAS claims one execution; actual Chromium DOM duplicate/adapter/action guards, redirect/popup/payload block, partial receipt and response-disconnect reconciliation; 30s bounded factory timeout; zero forbidden external effects."
+    },
+    {
+      "task": "T3",
+      "verified": "Exact single positive quantity and request ID boundaries; ranges/qualifiers/negative/unsupported operations reject; validated model fields cannot invent targets; rule fallback honestly marked. No live model was called by this reviewer."
+    },
+    {
+      "task": "T9 server",
+      "verified": "Same requestId/executionKey; revision+1 and prior-plan record; fresh target read; old approval/cap rejected; concurrent revision one CAS winner; slow revision cannot overwrite execution; executing/unknown/verified/cancelled reject edits."
+    },
+    {
+      "task": "T10 server",
+      "verified": "Browser witness, durable database effect and fresh API read remain separate; fresh read verifies all canonical fields/hash/executionKey; query failure retains applied; digest is checksum only; whitelist removes capability/credential extras; UNKNOWN is query-only."
+    },
+    {
+      "task": "cloud",
+      "verified": "Atomic guarded SQL rechecks live epoch/target/cap and actual time; origin allowlist; global browser spacing/budgets; code and config default browser/AI disabled."
+    }
+  ],
+  "supplementalAudit": {
+    "agent": "/root/office_revision_review/proof_cloud_audit",
+    "role": "read-only proof/cloud subaudit",
+    "notImplementer": true,
+    "providerRequestId": null,
+    "result": "No reproducible P1/P2 found",
+    "tests": {
+      "passed": 23,
+      "total": 23,
+      "overlapWithMainSuite": true,
+      "cloudTypecheck": "PASS"
+    },
+    "extraChecks": [
+      {
+        "description": "In-memory D1 SQL shim: actual approval expired, cap valid, stale input.now; rejected without demand or target change",
+        "outcome": "PASS",
+        "notProductionReceipt": true
+      },
+      {
+        "description": "Actual worker/handler source with only Cloudflare launch import replaced in memory by a counter stub; missing enable flags",
+        "outcome": "PASS",
+        "aiCalls": 0,
+        "launchCalls": 0,
+        "modelBrowserBudgetConsumption": 0,
+        "notProductionReceipt": true
+      }
+    ]
+  }
+}

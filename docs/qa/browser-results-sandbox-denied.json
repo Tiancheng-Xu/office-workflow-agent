@@ -1,0 +1,272 @@
+{
+  "schema": "office-independent-qa-v1",
+  "reviewer": "independent Codex Sol ultra QA; not implementation author",
+  "syntheticOnly": true,
+  "startedAt": "2026-10-03T17:03:04.007Z",
+  "completedAt": "2026-10-03T17:03:08.831Z",
+  "status": "failed",
+  "node": "v24.20.0",
+  "nodeExecutable": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node",
+  "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node node_modules/@playwright/test/cli.js test",
+  "revision": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "diffHash": "3d456435be7472ecb052f9af8db233609a5aea38f819e6e6fa568b5133750684",
+  "hashMethod": "sha256 ordered src+migrations+package+lock+index+frozen contract bytes; includes untracked implementation",
+  "finalDiffHash": "3d456435be7472ecb052f9af8db233609a5aea38f819e6e6fa568b5133750684",
+  "implementationStableDuringRun": true,
+  "denominator": 22,
+  "passed": 0,
+  "failed": 22,
+  "tests": [
+    {
+      "title": " > office-flow.spec.ts > actual workbench preview → human approval → isolated browser form → API reconciliation and report",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > front end cancels draft without launching a browser or writing",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > tenant isolation: another signed session cannot report, approve, execute, cancel or reconcile another run",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > CSRF, cross origin and body-selected tenant are rejected before proposal or effect",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > unapproved, stale plan revision and expired approval cannot write",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on dom-label",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on duplicate-input",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on duplicate-button",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on action-drift",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on same-origin-redirect",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > real browser stops without POST on cross-origin-redirect",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > 24 concurrent executes and repeated verified execution produce one real form submission",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > two separately approved runs with the same stable key never duplicate a demand; changed payload conflicts",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > target revision drift after approval is rejected before the second browser launch",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > committed form effect with lost receipt is independently reconciled and never rewritten",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > uncertain submission not found stays UNKNOWN through execute and reconcile with no new POST",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > cancel received before a delayed form effect prevents the write",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > late cancel after committed effect cannot revoke it or overwrite verified state",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > online SQLite backup restores schema, signed session, persisted result and uniqueness to a new service",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > office-flow.spec.ts > unsupported natural language receives actionable rewrite guidance instead of a server fault",
+      "status": "failed",
+      "durationMs": 5,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    },
+    {
+      "title": " > operations.spec.ts > real child process SIGKILL recovers before and after an actual form effect without reissuing a browser",
+      "status": "failed",
+      "durationMs": 308,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: child exited before ready",
+          "location": {
+            "file": "scripts/qa-crash.ts",
+            "column": 44,
+            "line": 14
+          }
+        }
+      ]
+    },
+    {
+      "title": " > operations.spec.ts > bounded load measures real HTTP API denominator and five real Chromium business registrations",
+      "status": "failed",
+      "durationMs": 8,
+      "retry": 0,
+      "errors": [
+        {
+          "message": "Error: listen EPERM: operation not permitted 127.0.0.1"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Local synthetic HTTP/SQLite/Chromium only; production business readback is a separate gate.",
+    "Node 22 not verified in this run."
+  ]
+}

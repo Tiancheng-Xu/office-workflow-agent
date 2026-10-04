@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "project": "office-workflow-agent",
+  "recordedAt": "2026-10-04T01:17:41Z",
+  "mode": "read-only-cloud-preflight",
+  "cloudflareMutationsPerformed": false,
+  "productionVerified": false,
+  "credentialContentsReadOrExported": false,
+  "accountId": "69e86338f61260d9959a8603f431304f",
+  "repository": {
+    "fullName": "Tiancheng-Xu/office-workflow-agent",
+    "id": "1403405072",
+    "ownerId": "44307608",
+    "defaultBranch": "main",
+    "sizeAtInspection": 0,
+    "localBranch": "tc/office-agent-65f44f4b",
+    "localHeadAtInspection": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+    "githubUserCanRead": true,
+    "cloudflareGithubAppCanRead": "not-verified"
+  },
+  "authentication": {
+    "tool": "wrangler 4.115.0",
+    "loggedIn": true,
+    "authType": "OAuth Token",
+    "relevantExistingScopes": ["account:read", "workers:write", "workers_scripts:write", "d1:write", "pages:write", "browser:write", "ai:write"],
+    "billingReadScopePresent": false,
+    "note": "whoami JSON was reduced to authentication state, account ID and scope names; no credential value was requested. Account type standard is not evidence of a Workers Paid or Free plan."
+  },
+  "liveInventory": {
+    "pagesProjectExists": false,
+    "pagesProjectsCount": 7,
+    "gitIntegratedPagesProjectsCount": 5,
+    "d1DatabasesCount": 2,
+    "existingD1Names": ["baby2b-performance-control", "babysteps-production"],
+    "ownProductionD1Exists": false,
+    "ownPreviewD1Exists": false,
+    "ownProductionWorkerExists": false,
+    "ownPreviewWorkerExists": false,
+    "browserActiveSessionsCount": 0,
+    "browserDailyUsage": "not-verified",
+    "workersPlan": "not-verified",
+    "dnsLookupReturnedRecords": false,
+    "dnsRecordAbsenceInCloudflareZone": "not-verified"
+  },
+  "readOnlyChecks": [
+    {"command": "wrangler whoami --json", "result": "authenticated; expected account ID; relevant scopes verified; sensitive identity fields omitted from saved evidence"},
+    {"command": "wrangler pages project list --json", "result": "target absent; seven existing projects; five have Git provider"},
+    {"command": "wrangler d1 list --json", "result": "two shared databases only; no database queried or changed"},
+    {"command": "wrangler browser list --json", "result": "[]; this does not establish plan or accumulated usage"},
+    {"command": "wrangler deployments list --name office-workflow-agent-runtime --json", "result": "Cloudflare code 10007: Worker does not exist"},
+    {"command": "wrangler deployments list --name office-workflow-agent-runtime-preview --json", "result": "Cloudflare code 10007: Worker does not exist"},
+    {"command": "gh api repos/Tiancheng-Xu/office-workflow-agent", "result": "repository and owner REST IDs verified; size zero"},
+    {"command": "gh api user/installations", "result": "HTTP 403: requires access token authorized to a GitHub App; Cloudflare installation access remains unknown"},
+    {"command": "gh api repos/Tiancheng-Xu/office-workflow-agent/installation", "result": "HTTP 401: endpoint requires corresponding App JWT; not evidence that the repository is denied to Cloudflare"},
+    {"command": "wrangler pages project create --help", "result": "no Git source option; must not create target through this Direct Upload path"},
+    {"command": "dig office-workflow-agent.baby2b.online CNAME/A/AAAA", "result": "no public answer observed; authoritative zone record absence not proven"}
+  ],
+  "officialFreeConditions": {
+    "browserRun": {"browserSecondsPerUtcDay": 600, "concurrentBrowsersPerAccount": 3, "newBrowserIntervalSeconds": 20, "overLimitBehavior": "429 until the next UTC day on Workers Free", "scope": "account-wide, shared by production, preview and other projects"},
+    "d1": {"rowsReadPerDay": 5000000, "rowsWrittenPerDay": 100000, "totalStorageGb": 5, "overLimitBehavior": "queries or writes fail on Workers Free instead of automatic paid overage"},
+    "workers": {"requestsPerDay": 100000, "cpuMillisecondsPerInvocation": 10},
+    "pages": {"freeBuildsPerMonth": 500, "concurrentBuildsPerAccount": 1, "projectsPerAccount": 100},
+    "workersAi": {"freeNeuronsPerUtcDay": 10000, "enabledForThisProject": false},
+    "actualAccountRemainingQuotaVerified": false,
+    "note": "Published free tiers do not prove this account is on Workers Free or has quota remaining. Paid plan usage above included allocation can be billed. No purchase, upgrade or plan change is authorized."
+  },
+  "legalReadOnlyPlanVerification": [
+    {"method": "Cloudflare dashboard", "location": "Expected account > Workers & Pages > Workers plans; then Compute > Browser Run usage", "requiredEvidence": "current plan name and current shared usage", "authority": "view only; do not select a plan or upgrade"},
+    {"method": "existing authorized API credential", "endpoint": "GET /accounts/69e86338f61260d9959a8603f431304f/subscriptions", "requiredPermission": "Billing Read (or existing Billing Write)", "availableViaCurrentWranglerOAuthScopes": false, "authority": "only if a suitable credential already exists; do not export credential contents, create new billing access or expand permissions"}
+  ],
+  "blockersAtInspection": [
+    {"id": "workers-plan-and-quota", "status": "not-verified", "blocks": "live Browser Run use and any claim of zero-cost cloud operation", "resolution": "read current Workers plan and shared Browser Run usage through an existing authorized read path"},
+    {"id": "github-app-repository-access", "status": "not-verified", "blocks": "Git-integrated Pages creation", "resolution": "read existing Cloudflare Workers and Pages GitHub App repository selection or Cloudflare repository chooser; if target is absent, report blocked without expanding the App authorization"},
+    {"id": "own-d1-ids", "status": "missing", "blocks": "runtime deployment", "resolution": "parent creates separate production and preview D1 databases after free conditions are verified; bind their returned IDs and apply migrations only to those databases"},
+    {"id": "preview-service-isolation", "status": "missing-in-inspected-config", "blocks": "safe preview execution", "resolution": "Pages env.preview OFFICE_RUNTIME must target a separate preview Worker with its own D1 and SESSION_SECRET"},
+    {"id": "browser-execution-gate", "status": "missing-in-inspected-code", "blocks": "public executable runtime before plan verification", "resolution": "fail closed on browser execution until current free conditions are verified; ENABLE_FREE_AI=false does not disable Browser Run"},
+    {"id": "origins-and-secrets", "status": "not-live-verified", "blocks": "functional runtime acceptance", "resolution": "install distinct secrets through Wrangler and exact production/preview origins; never save secrets in this file"}
+  ],
+  "pagesCreationCandidate": {
+    "executed": false,
+    "endpoint": "POST /accounts/69e86338f61260d9959a8603f431304f/pages/projects",
+    "body": {
+      "name": "office-workflow-agent",
+      "production_branch": "main",
+      "build_config": {"build_command": "pnpm build", "destination_dir": "dist", "root_dir": ""},
+      "source": {
+        "type": "github",
+        "config": {"owner": "Tiancheng-Xu", "owner_id": "44307608", "repo_name": "office-workflow-agent", "repo_id": "1403405072", "production_branch": "main", "production_deployments_enabled": true, "preview_deployment_setting": "none", "pr_comments_enabled": false}
+      }
+    },
+    "note": "The candidate is reviewable data, not an executed request. Git permission and Worker bindings must be ready first. Creating a project may trigger its first build. Enable selected preview branches only after isolated preview resources and origins are ready."
+  },
+  "plannedOwnResources": [
+    {"type": "D1", "name": "office-workflow-agent-production", "created": false},
+    {"type": "D1", "name": "office-workflow-agent-preview", "created": false},
+    {"type": "Worker", "name": "office-workflow-agent-runtime", "created": false, "workersDevRequired": false},
+    {"type": "Worker", "name": "office-workflow-agent-runtime-preview", "created": false, "workersDevRequired": false},
+    {"type": "Pages", "name": "office-workflow-agent", "created": false, "gitIntegrationRequired": true}
+  ],
+  "executionOwner": "parent agent only; this preflight worker performed no resource mutation",
+  "prohibitedActions": ["buy or upgrade a paid plan", "expand GitHub App repository authorization", "replace existing DNS records", "query or change shared D1 tables", "write real customer data", "claim production verified from local checks"],
+  "sources": [
+    "https://developers.cloudflare.com/browser-run/pricing/",
+    "https://developers.cloudflare.com/browser-run/limits/",
+    "https://developers.cloudflare.com/d1/platform/pricing/",
+    "https://developers.cloudflare.com/workers/platform/pricing/",
+    "https://developers.cloudflare.com/workers-ai/platform/pricing/",
+    "https://developers.cloudflare.com/pages/platform/limits/",
+    "https://developers.cloudflare.com/pages/functions/wrangler-configuration/",
+    "https://developers.cloudflare.com/pages/functions/bindings/",
+    "https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/",
+    "https://developers.cloudflare.com/api/resources/pages/subresources/projects/methods/create/",
+    "https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get/",
+    "https://developers.cloudflare.com/pages/get-started/direct-upload/",
+    "https://github.com/cloudflare/workers-sdk/blob/main/packages/wrangler/src/pages/projects.ts",
+    "https://docs.github.com/en/rest/apps/installations",
+    "https://docs.github.com/en/rest/apps/apps#get-a-repository-installation-for-the-authenticated-app"
+  ]
+}

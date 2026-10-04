@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-03T17:04:26.450Z",
+  "provider": "ollama",
+  "model": "qwen2.5-coder:7b-code",
+  "status": 200,
+  "latencyMs": 4335,
+  "sampleCount": 1,
+  "inputSynthetic": true,
+  "proposedJson": "{\n  \"requestId\": \"REQ-2026-001\",\n  \"department\": \"研发部\",\n  \"item\": \"显示器\",\n  \"quantity\": \"12\",\n  \"reason\": \"采购需求登记\"\n}",
+  "outputTokens": 52,
+  "notExecuted": true
+}

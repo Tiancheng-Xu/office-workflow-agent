@@ -1,0 +1,75 @@
+{
+  "schema": "office-public-local-verification-v1",
+  "at": "2026-10-04T02:02:21.931208+00:00",
+  "scope": "local synthetic HTTP/SQLite/Chromium; not production acceptance",
+  "contractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+  "implementationHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "qaHarnessHash": "74874572cb1d5e6ae6afc15b403e3ad5a866efabdac067f6a0c482b2177a8a6c",
+  "browserQA": {
+    "passed": 36,
+    "denominator": 36,
+    "sourceGate": "PASS_LOCAL_SOURCE",
+    "node": "v24.20.0"
+  },
+  "minimumRuntime": {
+    "node": "v22.16.0",
+    "passed": 64,
+    "denominator": 64
+  },
+  "crashRecovery": {
+    "passed": 2,
+    "denominator": 2,
+    "newBrowserAndPostsAfterRecovery": 0
+  },
+  "load": {
+    "measuredOperations": 165,
+    "warmupExcluded": 10,
+    "groups": [
+      {
+        "label": "actual POST /api/propose over loopback HTTP",
+        "denominator": 40,
+        "concurrency": 4,
+        "successes": 40,
+        "errors": 0,
+        "p95Ms": 4.308
+      },
+      {
+        "label": "actual GET /api/runs over loopback HTTP (40 stored plans)",
+        "denominator": 120,
+        "concurrency": 8,
+        "successes": 120,
+        "errors": 0,
+        "p95Ms": 3.446
+      },
+      {
+        "label": "actual execute API + fresh Chromium form + SQLite + reconciliation",
+        "denominator": 5,
+        "concurrency": 1,
+        "successes": 5,
+        "errors": 0,
+        "p95Ms": 443.615
+      }
+    ]
+  },
+  "review": {
+    "revision": "ALLOW",
+    "standards": "ALLOW"
+  },
+  "dependencyAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0
+  },
+  "plannerRegression": {
+    "denominator": 20,
+    "baselinePassed": 20,
+    "candidatePassed": 20,
+    "actualModelAccepted": 3,
+    "datasetHash": "351116f49102d11cc5aae9c8d9dfcf5f28d883986757cf34bd560c4099e67a17",
+    "qualityImprovement": "not established by this bounded regression"
+  },
+  "cloudAdapter": "TypeScript and production Worker dry-run passed; actual cloud execution separate",
+  "production": "pending; cloud browser and AI disabled; CI/Git Integration/HTTPS/business readback not yet verified"
+}

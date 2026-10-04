@@ -1,0 +1,551 @@
+{
+  "schema": "office-agent-independent-task-review-v1",
+  "reviewRound": 1,
+  "verdict": "BLOCK",
+  "phase": "first-round-complete-block",
+  "identity": {
+    "provider": "codex",
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "ultra",
+    "agentName": "/root/office_review",
+    "transport": "independent-subagent",
+    "notImplementer": true,
+    "providerRequestId": null,
+    "providerRequestIdNote": "The subagent transport does not expose a provider request ID; none is fabricated."
+  },
+  "contractHash": "c95f2b10da4e8a395b6bc45343a48439532dcf8f6458521d434cd01d519b7015",
+  "contractFileSha256": "982c37b2233b503fdd2d5a3664f3154b3466c3fa499cad9b7ad77b1483d0823f",
+  "inputSnapshot": {
+    "capturedAt": "2026-10-03T17:15:04.427Z",
+    "files": [
+      {
+        "path": "specs/office-agent/contract.json",
+        "sha256": "982c37b2233b503fdd2d5a3664f3154b3466c3fa499cad9b7ad77b1483d0823f"
+      },
+      {
+        "path": "specs/office-agent/requirements.md",
+        "sha256": "95617a7dc98dbff8e925dd3456f5c98de38c28e35f5aafda77e3f98944d5163a"
+      },
+      {
+        "path": "specs/office-agent/design.md",
+        "sha256": "19d5380ce68b16c3ac879a3ff0dadb9c530270c795f9933e01267af68ad53ecb"
+      },
+      {
+        "path": "specs/office-agent/tasks.md",
+        "sha256": "58e9863f7dce6bae3468cfe08ad98fbb65c5d0674d6e8e0d99319e9fa8c71741"
+      },
+      {
+        "path": "package.json",
+        "sha256": "cb6fe1224daed494b5bab943ce4b7c17cf213b4702a4f92b2b9b42e8417703c7"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+      },
+      {
+        "path": "src/contracts.ts",
+        "sha256": "a2bf19a4097c95e252dc7be8fcb547fcc249fd4dacf61f601b549f07288748e1"
+      },
+      {
+        "path": "src/runtime/handler.ts",
+        "sha256": "2e2c043ffb51c6a0486224c909562e9a5c5cd00bd1919a2b6c10758c7601ad97"
+      },
+      {
+        "path": "src/runtime/repository.ts",
+        "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+      },
+      {
+        "path": "src/runtime/session.ts",
+        "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+      },
+      {
+        "path": "src/runtime/sqlite.ts",
+        "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+      },
+      {
+        "path": "src/runtime/validation.ts",
+        "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+      },
+      {
+        "path": "src/browser/executor.ts",
+        "sha256": "0eef710ce6434e5027d939c3a428c8f36d51ffc7015d5b48c67a3a64056a60f3"
+      },
+      {
+        "path": "src/planner.ts",
+        "sha256": "71114afbc8163de7792779e975c8ce88d10e17ebff2148457b1121afc411a836"
+      },
+      {
+        "path": "src/ui/main.ts",
+        "sha256": "3e12c33773a3862644c5ef8482257e836c0b298eea816f1d6353315865516a1c"
+      },
+      {
+        "path": "src/ui/styles.css",
+        "sha256": "fd2277bce66dd4a3337fa05a5c1431f9563a32da63f8eee2f2c3ec6d87972cc6"
+      },
+      {
+        "path": "src/server.ts",
+        "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+      },
+      {
+        "path": "src/cloud/worker.ts",
+        "sha256": "84579b8636cd5de3ff125b82c218e9371d1efc29662c1782760f763db56320d7"
+      },
+      {
+        "path": "src/cloud/repository.ts",
+        "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+      },
+      {
+        "path": "src/cloud/budget.ts",
+        "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+      },
+      {
+        "path": "migrations/001_initial.sql",
+        "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+      },
+      {
+        "path": "migrations/002_resource_budget.sql",
+        "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+      },
+      {
+        "path": "migrations/003_resource_window.sql",
+        "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+      },
+      {
+        "path": "functions/api/[[path]].ts",
+        "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+      },
+      {
+        "path": "functions/legacy/[[path]].ts",
+        "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+      },
+      {
+        "path": "tests/runtime.test.ts",
+        "sha256": "7d509601fdc90dcdcdad737b2d250777eac7c3bff14b56cd60ed58a6f833c92d"
+      },
+      {
+        "path": "tests/browser.test.ts",
+        "sha256": "d361a81e8be6b530e9a398417c7cf51537e3de21262e8ce586a11f31cffaf9c2"
+      },
+      {
+        "path": "tests/planner.test.ts",
+        "sha256": "5d2b3b703d88ddc85203d1f1e3c1503fdb828dcc55430016e8507565fe6ec19f"
+      },
+      {
+        "path": "tests/cloud-repository.test.ts",
+        "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+      },
+      {
+        "path": "tests/e2e/office-flow.spec.ts",
+        "sha256": "2051e7164d562275c4bd9f895e4d1e0e4f00296f6e987d1a00a17d3ff54ab6e1"
+      },
+      {
+        "path": "tests/e2e/operations.spec.ts",
+        "sha256": "578d4c27aa0528c9fb0c700d070212c6b6e0858a504f99e444c3551576672c43"
+      },
+      {
+        "path": "tests/e2e/harness.ts",
+        "sha256": "3c03d55d88c569a97d0c6d55f71b0903f686f8909e263eb830aff15b5d15b54e"
+      },
+      {
+        "path": "tests/e2e/crash-server.ts",
+        "sha256": "1b4fcb0b5265a6c89a2fbf418051ae110d3ce27dc746e2a345869304969fd21e"
+      },
+      {
+        "path": "tests/e2e/qa-reporter.ts",
+        "sha256": "23df921cb9c58a71718bc97265027f843df1cacb71659026cd8cb8157ecd592c"
+      },
+      {
+        "path": "tests/e2e/qa-metadata.ts",
+        "sha256": "d8d0a92f8eb4cd9aa6de541abbcbf43bde361d948ff83a7468f8faa0b9523ffe"
+      },
+      {
+        "path": "playwright.config.ts",
+        "sha256": "6b72fa19f44e6875d707b4b74896cd0a4624f17ad9dbcc1ac8822b7e748579f1"
+      },
+      {
+        "path": "tsconfig.cloud.json",
+        "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+      },
+      {
+        "path": "wrangler.jsonc",
+        "sha256": "6c4ecd0aca84481836d46cad8ba8aeb3e9790d0c814ada99afbe2e37a17f67b8"
+      },
+      {
+        "path": "wrangler.runtime.jsonc",
+        "sha256": "781789d290f9e7f50c4a47dce61777384fb157850f1484462fde4fef632eed4a"
+      },
+      {
+        "path": ".github/workflows/verify.yml",
+        "sha256": "2d13990e981006a36356872b8b7526d09f2fd49cad2b007a580ff68ff260265e"
+      },
+      {
+        "path": "docs/architecture/gap-and-references.md",
+        "sha256": "4d560d0d1088b83fce9d9ef2295d034ae84a621c629bbb6f65d5a3752adda1ec"
+      },
+      {
+        "path": "README.md",
+        "sha256": "32ffc71bada6bc6550ae3234287b82dc098a8cb8e6acb00c7c7bba4f4418ff25"
+      }
+    ]
+  },
+  "stability": {
+    "allowIsIssued": false,
+    "note": "Implementation is changing concurrently. This is a BLOCK candidate review; any final ALLOW requires a separately requested review against a stable input manifest."
+  },
+  "scope": [
+    "T1 contracts/storage/authorization/API",
+    "T2 controlled browser executor and recovery",
+    "T3 finite natural-language planner",
+    "T4 workbench usability and approval",
+    "cloud D1 and free-budget safety"
+  ],
+  "findings": [
+    {
+      "id": "OFFICE-REVIEW-001",
+      "priority": "P1",
+      "title": "Cancel can downgrade a committed effect to none",
+      "file": "src/runtime/handler.ts",
+      "lineStart": 176,
+      "lineEnd": 181,
+      "inputSha256": "2e2c043ffb51c6a0486224c909562e9a5c5cd00bd1919a2b6c10758c7601ad97",
+      "risk": "A legal form commit between cancel-check observation and cancellation CAS is persisted, but the API returns cancelled/none. If the executor is then interrupted, the UI hides recovery because recoveryAvailable is false and misrepresents the existing demand.",
+      "reproduction": {
+        "type": "actual-handler-and-SqliteRepository-interleaving",
+        "steps": [
+          "Create a synthetic signed session, propose, approve and claim execution; hold the executor after its capability is persisted.",
+          "Wrap getDemand for cancel-check: capture its absent observation, then commit the original authorized submission through SqliteRepository.submitDemand before returning the captured absent observation.",
+          "POST cancel. Its update reads the now-applied run, but only handles status verified and computes applied as none."
+        ],
+        "observed": {
+          "cancelStatus": "cancelled",
+          "cancelEffectStatus": "none",
+          "cancelContainsResult": true,
+          "persistedDemands": 1,
+          "afterOriginalExecutorReturns": "verified"
+        },
+        "note": "No implementation source was changed. A test-only method wrapper controlled the actual repository interleaving."
+      },
+      "recommendation": "Handle live current.effectStatus==='applied' and/or its committed result inside the cancellation CAS transition; preserve applied and reconcile/mark verified. Add this exact not-found observation → legal commit → cancel CAS regression."
+    },
+    {
+      "id": "OFFICE-REVIEW-002",
+      "priority": "P2",
+      "title": "A successful refresh after another tab replaces the session keeps the prior tenant's records",
+      "file": "src/ui/main.ts",
+      "lineStart": 229,
+      "lineEnd": 239,
+      "inputSha256": "3e12c33773a3862644c5ef8482257e836c0b298eea816f1d6353315865516a1c",
+      "risk": "The UI displays old tenant plans and results as the current isolated workspace after the shared cookie changes. Session-bound writes are protected by CSRF, but the user sees a stale target and misleading tenant context.",
+      "reproduction": {
+        "type": "actual-isolated-Chromium-current-source",
+        "steps": [
+          "Load the current frontend source in a fresh Playwright context and generate tenant A's synthetic draft.",
+          "Clear the synthetic context cookie and GET /api/session through that context to simulate another tab establishing tenant B after expiry.",
+          "Verify GET /api/runs returns an empty list for tenant B, then click Refresh Records in the original page."
+        ],
+        "observed": {
+          "newSessionRunCount": 0,
+          "historyStillContainsOldTenantRun": true,
+          "planStillContainsOldTenantRun": true,
+          "oldRunWasPresent": true,
+          "approvalToast": "请求缺少有效的会话确认。",
+          "backendDemands": 0,
+          "afterExplicitReconnectOldTenantRunVisible": false
+        },
+        "note": "The existing connect() csrf-change guard works only when connect() is called. A successful GET refresh does not detect the shared cookie's identity change."
+      },
+      "recommendation": "Expose a nonsecret session-generation discriminator on read replies or validate current SessionView before merging refreshed records; clear runs/selection and suppress pending old-session responses when identity changes. Add a two-tab expiry/session-replacement E2E case."
+    },
+    {
+      "id": "OFFICE-REVIEW-003",
+      "priority": "P2",
+      "title": "Partial numeric and request-ID tokens silently alter the user's input",
+      "file": "src/planner.ts",
+      "lineStart": 11,
+      "lineEnd": 18,
+      "inputSha256": "71114afbc8163de7792779e975c8ce88d10e17ebff2148457b1121afc411a836",
+      "risk": "A finite plan can propose a positive quantity for a negative or fractional input, or change the stable demand key by truncating a request ID. Human approval remains necessary, but the plan violates the contract's explicit-field/no-guessing boundary.",
+      "reproduction": {
+        "type": "actual-boundedRulePlan-call",
+        "observed": [
+          {
+            "input": "为研发部登记-12台显示器，需求编号REQ-NEGATIVE-001",
+            "accepted": true,
+            "quantity": 12
+          },
+          {
+            "input": "为研发部登记1.5台显示器，需求编号REQ-DECIMAL-001",
+            "accepted": true,
+            "quantity": 5
+          },
+          {
+            "input": "为研发部登记12台显示器，需求编号REQ-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "accepted": true,
+            "requestId": "REQ-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        ],
+        "note": "These are actual stdout results from the original reviewed planner hash; the implementation source was not edited by the reviewer."
+      },
+      "recommendation": "Capture whole business tokens first, validate their complete lexical form, and reject negative/fractional quantities and overlong IDs without substring repair. Validate model proposals against the same exact extracted fields.",
+      "patchObservation": {
+        "status": "PARTIAL_FIX_OBSERVED_NOT_NEW_GATE",
+        "plannerSha256": "7a6942bb4881361ad3276a32ece79413510cc6992ced5e3cfea1bf5a62a140f6",
+        "sourceStableDuringProbe": true,
+        "capturedAt": "2026-10-04T01:25:35.748Z",
+        "originalCasesNowReject": true,
+        "validIdBoundary": {
+          "suffixLength48": "accepted intact",
+          "suffixLength49": "rejected"
+        },
+        "freshPlannerAndD1Tests": {
+          "passed": 11,
+          "total": 11
+        },
+        "remainingActualResults": [
+          {
+            "inputQuantity": "−12",
+            "accepted": true,
+            "quantity": 12
+          },
+          {
+            "inputQuantity": "－12",
+            "accepted": true,
+            "quantity": 12
+          }
+        ],
+        "recommendation": "Also reject or normalize common Unicode sign characters before parsing quantities; U+2212 and U+FF0D must not disappear when a negative quantity is extracted."
+      }
+    }
+  ],
+  "verification": [
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "outcome": "PASS"
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p tsconfig.cloud.json",
+      "outcome": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/runtime.test.ts tests/planner.test.ts tests/cloud-repository.test.ts",
+      "outcome": "PASS",
+      "passed": 21,
+      "total": 21,
+      "environment": "Node v24.20.0; local SQLite/D1 SQL shim; synthetic data only"
+    },
+    {
+      "command": "node --import tsx --test tests/browser.test.ts",
+      "outcome": "INFRASTRUCTURE_FAILURE",
+      "note": "Node native assertion execution_async_id aborted before product assertions; not reported as a product bug."
+    },
+    {
+      "command": "Inline isolated Chromium current-source UI scenario",
+      "outcome": "FAIL_REPRODUCED",
+      "finding": "OFFICE-REVIEW-002"
+    }
+  ],
+  "closure": {
+    "closedAt": "2026-10-04T01:25:35.748Z",
+    "originalVerdictPreserved": true,
+    "currentContractVersion": 4,
+    "currentContractHash": "10352140f56ddbaa61a6b1b911657909b1519418aced1cfac1ca4476c78cfd28",
+    "newContractReviewed": false,
+    "note": "The original BLOCK and original finding inputs are preserved. Implementation and Contract v4 are still changing; a separate fresh-context stable-input gate must cover revisions, layered witness/proof/digest and recovery. Root fixes are observations, not a final acceptance.",
+    "currentInputSnapshot": {
+      "capturedAt": "2026-10-04T01:25:35.748Z",
+      "files": [
+        {
+          "path": "specs/office-agent/contract.json",
+          "sha256": "49dfe26fc961492b3e06b53231bbc8e4e68495130635fe0f7c9388114af5a602"
+        },
+        {
+          "path": "specs/office-agent/requirements.md",
+          "sha256": "4411d1f42a66d1423c7e83de619b7dd1ebe5ba912e03db7dfbf784c57996a6d6"
+        },
+        {
+          "path": "specs/office-agent/design.md",
+          "sha256": "390e76e41debea2f646e00e74561a177c32aabcdc0442b3ab73f1d698fa8d9fd"
+        },
+        {
+          "path": "specs/office-agent/tasks.md",
+          "sha256": "d71ce455d303eb76bd9b65a731faa39bde100847a63d348d2a9ab680bb4ec224"
+        },
+        {
+          "path": "package.json",
+          "sha256": "4c64e8b38464f235c8cfe5e7082718e09202895ef33d3e8e50d161636669e42c"
+        },
+        {
+          "path": "tsconfig.json",
+          "sha256": "3e85bd55291c0e5da05af6b547fb8fd2b3a1b543b3c67f3def4caad52771f59a"
+        },
+        {
+          "path": "src/contracts.ts",
+          "sha256": "1924c077cc5a95823cc1691e68199c7119748628fdb1b143982c660320e8e052"
+        },
+        {
+          "path": "src/runtime/handler.ts",
+          "sha256": "4fc839f4cace72552da9eb781381ae4a6511e0175ee20dc6e03a52c931c20c91"
+        },
+        {
+          "path": "src/runtime/repository.ts",
+          "sha256": "0b385f4393e5244f8c9e53c9c3b728ef8d3a5bfe9d2cb495ff6f3148d77a5155"
+        },
+        {
+          "path": "src/runtime/session.ts",
+          "sha256": "7c23a5ca08fd0d85234401342b46c1dcc8aa1872a03696f99ef5d6628063e008"
+        },
+        {
+          "path": "src/runtime/sqlite.ts",
+          "sha256": "1fe0c9bb81e2a0c95d57c7a8bcbdc9d3c061271e1d9131d5e151484a4ded8e29"
+        },
+        {
+          "path": "src/runtime/validation.ts",
+          "sha256": "4559b60a93c589cc6608f40677227ab1dbfe0c99a511bb310b5f7fe0a95d59bd"
+        },
+        {
+          "path": "src/browser/executor.ts",
+          "sha256": "0eef710ce6434e5027d939c3a428c8f36d51ffc7015d5b48c67a3a64056a60f3"
+        },
+        {
+          "path": "src/planner.ts",
+          "sha256": "7a6942bb4881361ad3276a32ece79413510cc6992ced5e3cfea1bf5a62a140f6"
+        },
+        {
+          "path": "src/ui/main.ts",
+          "sha256": "f41415cc0d8153b708d78a391f0da2c4b7dc789b8a2dd71e14398d39c83fb8e3"
+        },
+        {
+          "path": "src/ui/styles.css",
+          "sha256": "72299450d841e3d3628337448bf101368b739e3e93bded5744ec5bfdae3e9835"
+        },
+        {
+          "path": "src/server.ts",
+          "sha256": "396368e7edef1fab6f88565144912b56ec93a59e0dbcd0454eac85580328b18b"
+        },
+        {
+          "path": "src/cloud/worker.ts",
+          "sha256": "18877d7592bf3d6ff69e1856335c7290483b35c3e87cb119e20913a56ae280b1"
+        },
+        {
+          "path": "src/cloud/repository.ts",
+          "sha256": "c797dfba6a73394a05aae90d821c596836b2ca15223498d8560e1de1a51a53f5"
+        },
+        {
+          "path": "src/cloud/budget.ts",
+          "sha256": "f668e1a80c766c6ac9fde55d42316a507c6283c590bfadd772574b9af3f340bc"
+        },
+        {
+          "path": "migrations/001_initial.sql",
+          "sha256": "14eaf1cc507d89d3a041e061b2c2af47801042ce506f393f0b6eefa740bc1fc1"
+        },
+        {
+          "path": "migrations/002_resource_budget.sql",
+          "sha256": "ad28f7c66e31fd71cbc6d88caa299f588016a6a7500911a0a88ff9b84977fd71"
+        },
+        {
+          "path": "migrations/003_resource_window.sql",
+          "sha256": "bce176ae251797e4d4e7164ff835af4ba66b46a67f22b3e359b7dce06aeb7acc"
+        },
+        {
+          "path": "functions/api/[[path]].ts",
+          "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+        },
+        {
+          "path": "functions/legacy/[[path]].ts",
+          "sha256": "d8cb95656c6927a17a040089c5a2f12116987fe755641951d54920e642e92d88"
+        },
+        {
+          "path": "tests/runtime.test.ts",
+          "sha256": "7786f15e1476a7cd0bf46731a3eec0402514ce60b77998b02443ffc1f26e17cd"
+        },
+        {
+          "path": "tests/browser.test.ts",
+          "sha256": "d361a81e8be6b530e9a398417c7cf51537e3de21262e8ce586a11f31cffaf9c2"
+        },
+        {
+          "path": "tests/planner.test.ts",
+          "sha256": "7dc06728f19fdb7232975adbb56407c490351a625c55d191562b7ee0ba482e95"
+        },
+        {
+          "path": "tests/cloud-repository.test.ts",
+          "sha256": "3a88b66a04848bfa308d12a845a357e8269c2aed9fbbe5e754acd795d80a6824"
+        },
+        {
+          "path": "tests/e2e/office-flow.spec.ts",
+          "sha256": "4ae6b53ca534402241a5801eec928876b5215370b7c4b9724cb37bc5ad93f616"
+        },
+        {
+          "path": "tests/e2e/operations.spec.ts",
+          "sha256": "578d4c27aa0528c9fb0c700d070212c6b6e0858a504f99e444c3551576672c43"
+        },
+        {
+          "path": "tests/e2e/harness.ts",
+          "sha256": "3c03d55d88c569a97d0c6d55f71b0903f686f8909e263eb830aff15b5d15b54e"
+        },
+        {
+          "path": "tests/e2e/crash-server.ts",
+          "sha256": "1b4fcb0b5265a6c89a2fbf418051ae110d3ce27dc746e2a345869304969fd21e"
+        },
+        {
+          "path": "tests/e2e/qa-reporter.ts",
+          "sha256": "23df921cb9c58a71718bc97265027f843df1cacb71659026cd8cb8157ecd592c"
+        },
+        {
+          "path": "tests/e2e/qa-metadata.ts",
+          "sha256": "d8d0a92f8eb4cd9aa6de541abbcbf43bde361d948ff83a7468f8faa0b9523ffe"
+        },
+        {
+          "path": "playwright.config.ts",
+          "sha256": "6b72fa19f44e6875d707b4b74896cd0a4624f17ad9dbcc1ac8822b7e748579f1"
+        },
+        {
+          "path": "tsconfig.cloud.json",
+          "sha256": "64137479ee130241ffad412489b522135abf42a1ec5dad97368fa6a535ba7b1b"
+        },
+        {
+          "path": "wrangler.jsonc",
+          "sha256": "2bbfa16a77d5e89c33b9f98bea52d806311103f0e4064b07960d2cb43be613eb"
+        },
+        {
+          "path": "wrangler.runtime.jsonc",
+          "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53"
+        },
+        {
+          "path": ".github/workflows/verify.yml",
+          "sha256": "8bdc465f1c13061a9bb810cf4b92e700bf7afd8480e034e840a8a329f9669b0d"
+        },
+        {
+          "path": "docs/architecture/gap-and-references.md",
+          "sha256": "4d560d0d1088b83fce9d9ef2295d034ae84a621c629bbb6f65d5a3752adda1ec"
+        },
+        {
+          "path": "README.md",
+          "sha256": "32ffc71bada6bc6550ae3234287b82dc098a8cb8e6acb00c7c7bba4f4418ff25"
+        }
+      ]
+    },
+    "fixNotes": [
+      {
+        "finding": "OFFICE-REVIEW-001",
+        "status": "ROOT_PATCH_OBSERVED_PENDING_NEW_GATE",
+        "note": "Current source has a live applied-effect cancellation branch and a regression. Original reproducible BLOCK remains unchanged."
+      },
+      {
+        "finding": "OFFICE-REVIEW-002",
+        "status": "ROOT_PATCH_REPORTED_PENDING_NEW_GATE",
+        "note": "Implementers added a context marker and generation invalidation. The original scenario was reproduced before that patch; the new patch is not accepted by this first-round artifact."
+      },
+      {
+        "finding": "OFFICE-REVIEW-003",
+        "status": "ASCII_PATCH_PARTIALLY_VERIFIED_UNICODE_NEGATIVE_REMAINS",
+        "note": "Original ASCII cases now reject; two Unicode negative forms still produce positive quantity 12 at the pinned patch hash."
+      }
+    ]
+  },
+  "limitations": [
+    "Actual Cloudflare quota, CPU, D1 runtime and Browser Worker execution are not configured or verified.",
+    "D1 tests execute the SQL against a local node:sqlite shim; they are not production receipts.",
+    "User-reported two years of FDE/customer work is prior history; this new project does not inherit those claims.",
+    "No Kimi/DeepSeek calls were made and no reviewer identity or request ID was fabricated."
+  ]
+}

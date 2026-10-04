@@ -1,0 +1,55 @@
+{
+  "schema": "office-independent-crash-qa-v1",
+  "syntheticOnly": true,
+  "startedAt": "2026-10-04T01:59:34.092Z",
+  "completedAt": "2026-10-04T01:59:36.283Z",
+  "node": "v24.20.0",
+  "nodeExecutable": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node",
+  "command": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node node_modules/.pnpm/playwright@1.63.0/node_modules/playwright/lib/worker/workerProcessEntry.js",
+  "invokedBy": "Playwright operations.spec.ts",
+  "diffHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "finalDiffHash": "39f218b7c594b5d15eed08005aaf84ea5d16c294379d4e5e37550276522a7835",
+  "denominator": 2,
+  "passed": 2,
+  "faultMethod": "SIGKILL of real child HTTP service during real Chromium POST, before/after actual SQLite transaction",
+  "results": [
+    {
+      "phase": "gate-before-effect",
+      "processSignal": "SIGKILL",
+      "pendingOutcome": "connection-lost",
+      "persistedFormPostsBeforeKill": 1,
+      "demandsBeforeKill": 0,
+      "recoveredStatus": "unknown",
+      "recoveredEffectStatus": "unknown",
+      "replayStatus": "unknown",
+      "noReissuedBrowser": true,
+      "observed": {
+        "type": "stats",
+        "browserLaunches": 0,
+        "formPosts": 0,
+        "formGets": 0,
+        "demandCount": 0
+      },
+      "node": "v24.20.0"
+    },
+    {
+      "phase": "gate-after-effect",
+      "processSignal": "SIGKILL",
+      "pendingOutcome": "connection-lost",
+      "persistedFormPostsBeforeKill": 1,
+      "demandsBeforeKill": 1,
+      "recoveredStatus": "unknown",
+      "recoveredEffectStatus": "applied",
+      "replayStatus": "verified",
+      "noReissuedBrowser": true,
+      "observed": {
+        "type": "stats",
+        "browserLaunches": 0,
+        "formPosts": 0,
+        "formGets": 0,
+        "demandCount": 1
+      },
+      "node": "v24.20.0"
+    }
+  ]
+}

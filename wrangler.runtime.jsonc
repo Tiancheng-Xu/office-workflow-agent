@@ -1,0 +1,12 @@
+{
+  "name":"office-workflow-agent-runtime",
+  "main":"src/cloud/worker.ts",
+  "compatibility_date":"2026-10-03",
+  "compatibility_flags":["nodejs_compat"],
+  "workers_dev":false,
+  "browser":{"binding":"BROWSER"},
+  "ai":{"binding":"AI"},
+  "d1_databases":[{"binding":"DB","database_name":"office-workflow-agent-production","database_id":"19f42ab2-2086-41ef-b99c-ca5781ad6655","migrations_dir":"migrations"}],
+  "vars":{"PUBLIC_ORIGINS":"https://office-workflow-agent.baby2b.online,https://office-workflow-agent.pages.dev","ENABLE_FREE_AI":"false","ENABLE_BROWSER_RUN":"false","RELEASE_VERSION":"unverified"},
+  "observability":{"enabled":true}
+}

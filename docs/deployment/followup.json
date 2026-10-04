@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "project": "office-workflow-agent",
+  "recordedAt": "2026-10-04T01:36:58Z",
+  "remoteInspectionWindow": {"from": "2026-10-04T01:36:17Z", "to": "2026-10-04T01:36:58Z"},
+  "mode": "read-only-followup",
+  "historicalPreflight": {"path": "docs/deployment/preflight.json", "recordedAt": "2026-10-04T01:17:41Z", "sha256": "500d5b679696db3a388fc564bf04245e5cf45013af867a903e162560b8d63dbf", "preservedWithoutModification": true},
+  "accountId": "69e86338f61260d9959a8603f431304f",
+  "actionsPerformedByThisWorker": {"cloudflareResourceMutations": false, "remoteDatabaseQueries": false, "remoteMigrations": false, "credentialValuesReadOrExported": false, "cuaCalls": 0, "localFilesOwned": ["docs/deployment/followup.json", "docs/deployment/README.md"]},
+  "localHeadAtInspection": "f3f7ed2fb824e07bed51cfedd77089583a639f18",
+  "finalReleaseCommitVerified": false,
+  "remoteMetadata": {
+    "d1": {
+      "command": "wrangler d1 list --json", "exitCode": 0, "databasesInAccount": 6,
+      "ownedDatabases": [
+        {"logicalEnvironment": "production", "name": "office-workflow-agent-production", "uuid": "19f42ab2-2086-41ef-b99c-ca5781ad6655", "createdAt": "2026-10-04T01:20:05.492Z", "apiVersion": "production", "reportedNumTables": 0, "reportedFileSizeBytes": 12288},
+        {"logicalEnvironment": "preview", "name": "office-workflow-agent-preview", "uuid": "4ea992c7-482b-4d7d-8cfb-14195ebf7b49", "createdAt": "2026-10-04T01:20:11.064Z", "apiVersion": "production", "reportedNumTables": 0, "reportedFileSizeBytes": 12288}
+      ],
+      "parentReportedCreation": true, "identityIndependentlyMatched": true, "migrationStatus": "not-inspected", "schemaContentVerified": false,
+      "note": "List metadata proves identity, not schema or migration completion. D1 API version production on the preview database is not the logical application environment. No shared databases were queried or changed."
+    },
+    "workers": [
+      {"name": "office-workflow-agent-runtime", "command": "wrangler deployments list --name office-workflow-agent-runtime --json", "exitCode": 1, "cloudflareErrorCode": 10007, "existsAtInspection": false, "receipt": "This Worker does not exist on your account."},
+      {"name": "office-workflow-agent-runtime-preview", "command": "wrangler deployments list --name office-workflow-agent-runtime-preview --json", "exitCode": 1, "cloudflareErrorCode": 10007, "existsAtInspection": false, "receipt": "This Worker does not exist on your account."}
+    ],
+    "pages": {"command": "wrangler pages project list --json", "exitCode": 0, "project": "office-workflow-agent", "existsAtInspection": false, "projectsInAccount": 7, "gitIntegratedProjectsInAccount": 5}
+  },
+  "localConfiguration": {
+    "productionRuntime": {"file": "wrangler.runtime.jsonc", "sha256": "22443b71048c84b68fa44cf5c9442804dfd2934ea3de358ff27e4d29be8e5b53", "name": "office-workflow-agent-runtime", "workersDev": false, "databaseName": "office-workflow-agent-production", "databaseId": "19f42ab2-2086-41ef-b99c-ca5781ad6655", "enableBrowserRun": "false", "enableFreeAi": "false", "releaseVersion": "unverified"},
+    "previewRuntime": {"file": "wrangler.runtime-preview.jsonc", "sha256": "9131fa4e558e9d524cd9a43bd88af0f78bd9d14a99a808d787faab7f252b4422", "name": "office-workflow-agent-runtime-preview", "workersDev": false, "databaseName": "office-workflow-agent-preview", "databaseId": "4ea992c7-482b-4d7d-8cfb-14195ebf7b49", "enableBrowserRun": "false", "enableFreeAi": "false", "trustedPreviewProject": "office-workflow-agent", "releaseVersion": "unverified-preview"},
+    "pages": {"file": "wrangler.jsonc", "sha256": "2bbfa16a77d5e89c33b9f98bea52d806311103f0e4064b07960d2cb43be613eb", "binding": "OFFICE_RUNTIME", "productionService": "office-workflow-agent-runtime", "previewService": "office-workflow-agent-runtime-preview"},
+    "browserGate": {"file": "src/cloud/worker.ts", "sha256": "4cc7f355af5c95bf8de1b31c76f307c6902dbd18da10efe7189923e9047af033", "staticallyInspected": true, "requiresEnableBrowserRunExactlyTrueBeforeLaunch": true, "disabledErrorCode": "BROWSER_PLAN_NOT_CONFIRMED", "productionBehaviorVerified": false},
+    "previewOriginPolicy": {"file": "src/cloud/origin.ts", "sha256": "e2eec367e611de7d6aa79a4466ef43a96124e11b2bda18c67bf8d867bfbe6901", "staticallyInspected": true, "httpsRequired": true, "userinfoRejected": true, "nondefaultPortRejected": true, "projectSuffix": ".office-workflow-agent.pages.dev", "singleDeploymentOrBranchLabelRequired": true, "productionRuntimeHasPreviewProjectTrust": false},
+    "configDatabaseIdsMatchLiveMetadata": true, "productionAndPreviewDatabaseIdsDistinct": true, "productionAndPreviewServiceNamesDistinct": true, "configurationIsDeploymentEvidence": false
+  },
+  "remainingGates": {
+    "workersPlanAndAccountSharedUsage": "not-verified; Browser Run and AI remain disabled",
+    "cloudflareGithubAppExistingRepositoryAccess": "not-verified; blocks Git-integrated Pages creation",
+    "ownedDatabaseMigrations": "not-inspected; root responsible",
+    "distinctRuntimeSecretsInstalled": "not-verified; root responsible",
+    "runtimeDeployments": "absent-at-inspection; root responsible",
+    "gitCiPrMerge": "not-verified-by-this-followup; root responsible",
+    "renderedPagesAndApiAcceptance": "not-verified",
+    "authoritativeCustomDomainDns": "not-verified; never replace existing records"
+  },
+  "mutationOwner": "root only",
+  "nextResourceAction": "root applies migrations only to the two matched own D1 IDs and deploys both runtimes with Browser Run and AI disabled; existing GitHub App access must be proven before Pages Git creation",
+  "productionVerified": false,
+  "sourceReferences": ["https://developers.cloudflare.com/browser-run/pricing/", "https://developers.cloudflare.com/browser-run/limits/", "https://developers.cloudflare.com/pages/functions/wrangler-configuration/", "https://developers.cloudflare.com/pages/functions/bindings/", "https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/", "https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get/", "https://developers.cloudflare.com/api/resources/pages/subresources/projects/methods/create/"]
+}

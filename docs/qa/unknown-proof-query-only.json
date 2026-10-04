@@ -1,0 +1,162 @@
+{
+  "syntheticOnly": true,
+  "actualReport": {
+    "schema": "office-agent-execution-proof-v1",
+    "syntheticOnly": true,
+    "generatedAt": "2026-10-04T01:59:51.334Z",
+    "run": {
+      "id": "efbaef55-6904-4c78-b4b1-b174ed8a58f0",
+      "revision": 1,
+      "targetRevision": 0,
+      "adapterVersion": "synthetic-procurement-v1",
+      "status": "unknown",
+      "effectStatus": "unknown",
+      "plan": {
+        "requestId": "REQ-REVISION-UNKNOWN",
+        "department": "研发部",
+        "item": "显示器",
+        "quantity": 12,
+        "reason": "合成采购需求登记",
+        "source": "bounded-rule"
+      },
+      "planHash": "276fb1db833d0fb9682f1abec5d5cd3728657cb0b7a567fcecc4a106060ad702",
+      "executionKey": "a69330f193c704fffeeaa7085e6eb178a2a9cc7a6a8c23f9c48ed19a8fb413e2"
+    },
+    "approval": {
+      "status": "matched",
+      "approvedHash": "276fb1db833d0fb9682f1abec5d5cd3728657cb0b7a567fcecc4a106060ad702",
+      "expiresAt": "2026-10-04T02:04:41.305Z",
+      "hashMatches": true,
+      "validAtObservation": true
+    },
+    "browser": {
+      "status": "observed",
+      "sameAttempt": true,
+      "evidence": {
+        "startedAt": "2026-10-04T01:59:41.306Z",
+        "completedAt": "2026-10-04T01:59:51.311Z",
+        "elapsedMs": 10005,
+        "origin": "http://127.0.0.1:54786",
+        "adapterVersion": "synthetic-procurement-v1",
+        "planHash": "276fb1db833d0fb9682f1abec5d5cd3728657cb0b7a567fcecc4a106060ad702",
+        "domMatched": true,
+        "payloadMatched": true,
+        "postObserved": true,
+        "registeredMarker": false,
+        "stopCode": "BROWSER_TIMEOUT"
+      },
+      "statement": "browser-observations-only-not-business-effect"
+    },
+    "database": {
+      "effectStatus": "unknown",
+      "hasPersistedResult": false,
+      "persistedResultMatchesPlan": null,
+      "result": null
+    },
+    "api": {
+      "checkedAt": "2026-10-04T01:59:51.334Z",
+      "queryStatus": "not-found",
+      "status": "not-found",
+      "checks": {
+        "requestId": null,
+        "department": null,
+        "item": null,
+        "quantity": null,
+        "reason": null,
+        "payloadHash": null,
+        "canonicalHash": null,
+        "executionKey": null,
+        "planHash": null
+      },
+      "demand": null,
+      "issues": []
+    },
+    "allowedNextAction": "query-only",
+    "digest": {
+      "algorithm": "SHA-256",
+      "value": "a9660ef0dce9d9f8936dd887166bfdde2a5f827061535334804702418ac31539"
+    }
+  },
+  "afterReadOnlyReplay": {
+    "schema": "office-agent-execution-proof-v1",
+    "syntheticOnly": true,
+    "generatedAt": "2026-10-04T01:59:51.500Z",
+    "run": {
+      "id": "efbaef55-6904-4c78-b4b1-b174ed8a58f0",
+      "revision": 1,
+      "targetRevision": 0,
+      "adapterVersion": "synthetic-procurement-v1",
+      "status": "unknown",
+      "effectStatus": "unknown",
+      "plan": {
+        "requestId": "REQ-REVISION-UNKNOWN",
+        "department": "研发部",
+        "item": "显示器",
+        "quantity": 12,
+        "reason": "合成采购需求登记",
+        "source": "bounded-rule"
+      },
+      "planHash": "276fb1db833d0fb9682f1abec5d5cd3728657cb0b7a567fcecc4a106060ad702",
+      "executionKey": "a69330f193c704fffeeaa7085e6eb178a2a9cc7a6a8c23f9c48ed19a8fb413e2"
+    },
+    "approval": {
+      "status": "matched",
+      "approvedHash": "276fb1db833d0fb9682f1abec5d5cd3728657cb0b7a567fcecc4a106060ad702",
+      "expiresAt": "2026-10-04T02:04:41.305Z",
+      "hashMatches": true,
+      "validAtObservation": true
+    },
+    "browser": {
+      "status": "observed",
+      "sameAttempt": true,
+      "evidence": {
+        "startedAt": "2026-10-04T01:59:41.306Z",
+        "completedAt": "2026-10-04T01:59:51.311Z",
+        "elapsedMs": 10005,
+        "origin": "http://127.0.0.1:54786",
+        "adapterVersion": "synthetic-procurement-v1",
+        "planHash": "276fb1db833d0fb9682f1abec5d5cd3728657cb0b7a567fcecc4a106060ad702",
+        "domMatched": true,
+        "payloadMatched": true,
+        "postObserved": true,
+        "registeredMarker": false,
+        "stopCode": "BROWSER_TIMEOUT"
+      },
+      "statement": "browser-observations-only-not-business-effect"
+    },
+    "database": {
+      "effectStatus": "unknown",
+      "hasPersistedResult": false,
+      "persistedResultMatchesPlan": null,
+      "result": null
+    },
+    "api": {
+      "checkedAt": "2026-10-04T01:59:51.500Z",
+      "queryStatus": "not-found",
+      "status": "not-found",
+      "checks": {
+        "requestId": null,
+        "department": null,
+        "item": null,
+        "quantity": null,
+        "reason": null,
+        "payloadHash": null,
+        "canonicalHash": null,
+        "executionKey": null,
+        "planHash": null
+      },
+      "demand": null,
+      "issues": []
+    },
+    "allowedNextAction": "query-only",
+    "digest": {
+      "algorithm": "SHA-256",
+      "value": "e19b6c9979b8db039299c9b4234a46bb13e4677364125c8ff3851ed3908cd2e9"
+    }
+  },
+  "revisionRejected": true,
+  "browserLaunches": 1,
+  "actualFormPosts": 1,
+  "demandCount": 0,
+  "node": "v24.20.0"
+}

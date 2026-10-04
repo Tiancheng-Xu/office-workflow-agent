@@ -1,0 +1,1 @@
+{"extends":"./tsconfig.json","compilerOptions":{"types":["node","@cloudflare/workers-types"],"skipLibCheck":true},"include":["src/cloud/**/*.ts","src/runtime/handler.ts","src/runtime/repository.ts","src/runtime/session.ts","src/runtime/validation.ts","src/browser/executor.ts","src/planner.ts","src/contracts.ts","functions/**/*.ts"],"exclude":[]}

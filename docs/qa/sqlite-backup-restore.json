@@ -1,0 +1,17 @@
+{
+  "syntheticOnly": true,
+  "integrity": "ok",
+  "migrationVersions": [
+    1,
+    2,
+    3
+  ],
+  "allMigrationTablesRestored": true,
+  "resourceBudgetRestored": 3,
+  "resourceWindowRestored": 42,
+  "restoredDemandCount": 1,
+  "restoredSessionReadback": true,
+  "replayBrowserLaunches": 0,
+  "replayFormPosts": 0,
+  "node": "v24.20.0"
+}

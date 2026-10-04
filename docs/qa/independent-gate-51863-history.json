@@ -1,0 +1,93 @@
+{
+  "schema": "office-independent-qa-gate-v1",
+  "reviewRole": "independent QA; implementation src unchanged by this worker",
+  "syntheticOnly": true,
+  "verdict": "local deterministic QA passed",
+  "generatedAt": "2026-10-03T17:15:36.965Z",
+  "diffHash": "51863abf8d7ad623a9b4417c489fa239e3d8956950fd7817bf6de422221cfe9d",
+  "hashMethod": "sha256 ordered src+migrations+package+lock+index+frozen contract bytes; includes untracked implementation",
+  "node": "v24.20.0",
+  "nodeExecutable": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node",
+  "browser": "153.0.8010.12",
+  "actualCommand": "/opt/homebrew/Cellar/node@24/24.20.0/bin/node node_modules/@playwright/test/cli.js test",
+  "topLevelTests": {
+    "denominator": 24,
+    "passed": 24,
+    "failed": 0
+  },
+  "crashCases": {
+    "denominator": 2,
+    "passed": 2
+  },
+  "load": {
+    "measuredRequestDenominator": 165,
+    "warmupExcluded": 10,
+    "groups": [
+      {
+        "label": "actual POST /api/propose over loopback HTTP",
+        "denominator": 40,
+        "concurrency": 4,
+        "successes": 40,
+        "errors": 0,
+        "p95Ms": 3.753
+      },
+      {
+        "label": "actual GET /api/runs over loopback HTTP (40 stored plans)",
+        "denominator": 120,
+        "concurrency": 8,
+        "successes": 120,
+        "errors": 0,
+        "p95Ms": 6.551
+      },
+      {
+        "label": "actual execute API + fresh Chromium form + SQLite + reconciliation",
+        "denominator": 5,
+        "concurrency": 1,
+        "successes": 5,
+        "errors": 0,
+        "p95Ms": 595.101
+      }
+    ]
+  },
+  "sqlite": {
+    "syntheticOnly": true,
+    "integrity": "ok",
+    "migrationVersions": [
+      1,
+      2,
+      3
+    ],
+    "allMigrationTablesRestored": true,
+    "resourceBudgetRestored": 3,
+    "resourceWindowRestored": 42,
+    "restoredDemandCount": 1,
+    "restoredSessionReadback": true,
+    "replayBrowserLaunches": 0,
+    "replayFormPosts": 0,
+    "node": "v24.20.0"
+  },
+  "requirements": [
+    {
+      "id": "AC1",
+      "status": "local browser/UI + API effect + replay verified; online gate separate"
+    },
+    {
+      "id": "AC2",
+      "status": "local deterministic fault assertions passed"
+    },
+    {
+      "id": "AC3",
+      "status": "SQLite migrations/backup/restore and measured API load passed; CI/dependency/production observability gates separate"
+    },
+    {
+      "id": "AC4",
+      "status": "not evaluated here; production/browser business readback owned by parent"
+    }
+  ],
+  "remaining": [
+    "Node22 local not verified",
+    "Cloudflare production/TLS/quota/business readback separate",
+    "actual LLM sample separate",
+    "TC independent review separate"
+  ]
+}

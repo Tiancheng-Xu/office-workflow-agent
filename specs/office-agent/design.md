@@ -1,6 +1,6 @@
 # 设计裁决 v2
 
-唯一浏览器底座Playwright（Apache-2.0）；浏览器Agent高星参考只借受限动作/观测闭环，不堆browser-use、Skyvern、编排框架。TS/Node22、node:sqlite本地；Cloudflare D1云端。纯函数有限状态转移+带版本CAS存储，权限由服务端确定。
+唯一浏览器底座Playwright（Apache-2.0）；浏览器Agent高星参考只借受限动作/观测闭环，不堆browser-use、Skyvern、编排框架。TS/Node>=22.16（SQLite backup API最低版本）、node:sqlite本地；Cloudflare D1云端。纯函数有限状态转移+带版本CAS存储，权限由服务端确定。
 
 本地Node server+Playwright Chromium；生产Browser Worker+@cloudflare/playwright，前端Pages GitIntegration+Functions service binding。浏览器page.goto使用公开HTTPS旧后台（绑定短期capability），不是service binding地址。生产Free额度及CPU须现场门禁；绝不自动升级。
 
@@ -13,3 +13,5 @@ Plan{requestId,item,department,quantity,reason,source}; Run{id,revision,plan,pla
 人工approve是单独operator endpoint；planner/browser capability不能调用approve。计划改版清批准，取消先检查持久effect，已写仍可核对。UNKNOWN/崩溃后resume仅查结果，不盲目submit。
 
 测试只写合成后台。公开应用不宣称已经集成真实企业客户；具备可运行的受控配置/登记/核对闭环。
+
+裁决v4：POST revise{revision,planHash,text}在draft/approved/blocked且无已知效果时CAS更新，same requestId、revision+1、刷新target、清批准/旧执行proof，保存previousPlan/previousRevision；过期输入或执行态拒绝。BrowserEvidence存固定origin、adapter、payloadHash、实际DOM/POST/receipt分层观察，无cap/query/原始表单。API report独立读取结果、计算字段一致性及digest，明确未验证/读去重情形。
