@@ -1,0 +1,95 @@
+{
+  "schema": "office-agent-execution-proof-v1",
+  "syntheticOnly": true,
+  "generatedAt": "2026-10-04T09:46:14.371Z",
+  "run": {
+    "id": "04cd05d3-eaf1-433d-a822-a428ffb5068c",
+    "revision": 1,
+    "targetRevision": 0,
+    "adapterVersion": "synthetic-procurement-v1",
+    "status": "verified",
+    "effectStatus": "applied",
+    "plan": {
+      "requestId": "REQ-CLOUD-ROUTING-FIXED-05",
+      "department": "行政部",
+      "item": "办公椅",
+      "quantity": 2,
+      "reason": "合成采购需求登记",
+      "source": "bounded-rule"
+    },
+    "planHash": "8a42f3b4e729ddcc44ba80208c91d205a2ad0546e5ed339701c8c94683e7fbf2",
+    "executionKey": "af84c22c69b62fd83d9aac5163046866c379e51209258126cb90b23b250198c6"
+  },
+  "approval": {
+    "status": "matched",
+    "approvedHash": "8a42f3b4e729ddcc44ba80208c91d205a2ad0546e5ed339701c8c94683e7fbf2",
+    "expiresAt": "2026-10-04T09:51:06.166Z",
+    "hashMatches": true,
+    "validAtObservation": true
+  },
+  "browser": {
+    "status": "observed",
+    "sameAttempt": true,
+    "evidence": {
+      "startedAt": "2026-10-04T09:46:08.402Z",
+      "completedAt": "2026-10-04T09:46:11.834Z",
+      "elapsedMs": 3432,
+      "origin": "https://office-workflow-agent.baby2b.online",
+      "adapterVersion": "synthetic-procurement-v1",
+      "planHash": "8a42f3b4e729ddcc44ba80208c91d205a2ad0546e5ed339701c8c94683e7fbf2",
+      "domMatched": true,
+      "payloadMatched": true,
+      "postObserved": true,
+      "registeredMarker": true,
+      "stopCode": null
+    },
+    "statement": "browser-observations-only-not-business-effect"
+  },
+  "database": {
+    "effectStatus": "applied",
+    "hasPersistedResult": true,
+    "persistedResultMatchesPlan": true,
+    "result": {
+      "requestId": "REQ-CLOUD-ROUTING-FIXED-05",
+      "department": "行政部",
+      "item": "办公椅",
+      "quantity": 2,
+      "reason": "合成采购需求登记",
+      "payloadHash": "8a42f3b4e729ddcc44ba80208c91d205a2ad0546e5ed339701c8c94683e7fbf2",
+      "executionKey": "af84c22c69b62fd83d9aac5163046866c379e51209258126cb90b23b250198c6",
+      "createdAt": "2026-10-04T09:46:10.973Z"
+    }
+  },
+  "api": {
+    "checkedAt": "2026-10-04T09:46:14.371Z",
+    "queryStatus": "found",
+    "status": "verified",
+    "checks": {
+      "requestId": true,
+      "department": true,
+      "item": true,
+      "quantity": true,
+      "reason": true,
+      "payloadHash": true,
+      "canonicalHash": true,
+      "executionKey": true,
+      "planHash": true
+    },
+    "demand": {
+      "requestId": "REQ-CLOUD-ROUTING-FIXED-05",
+      "department": "行政部",
+      "item": "办公椅",
+      "quantity": 2,
+      "reason": "合成采购需求登记",
+      "payloadHash": "8a42f3b4e729ddcc44ba80208c91d205a2ad0546e5ed339701c8c94683e7fbf2",
+      "executionKey": "af84c22c69b62fd83d9aac5163046866c379e51209258126cb90b23b250198c6",
+      "createdAt": "2026-10-04T09:46:10.973Z"
+    },
+    "issues": []
+  },
+  "allowedNextAction": "query-only",
+  "digest": {
+    "algorithm": "SHA-256",
+    "value": "cd82995189df051c35b825d3545b87ca2994bb6e187465fe6f4b776abc1504c2"
+  }
+}

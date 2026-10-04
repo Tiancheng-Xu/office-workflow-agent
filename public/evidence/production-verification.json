@@ -1,0 +1,30 @@
+{
+  "schema": "officeflow-production-observation-v1",
+  "syntheticOnly": true,
+  "observedAt": "2026-10-04T09:46:14.371Z",
+  "site": "https://office-workflow-agent.baby2b.online/",
+  "firstGitDeployment": {
+    "id": "8ccd354a-3f09-42de-b8ea-c14211427b9b",
+    "sourceCommit": "f0aa431b5f4da8f2f2851b7365684f39b9e4c5dd",
+    "branch": "main",
+    "uploadedFiles": 6,
+    "status": "success"
+  },
+  "testedWorkerVersion": "ba38aac4-31cf-4fdd-a129-64471686f4cb",
+  "testedRuntimeRelease": "unreleased-f0aa431-routing-fix",
+  "applicationCodeBase": "f0aa431b5f4da8f2f2851b7365684f39b9e4c5dd",
+  "routingFix": "global_fetch_strictly_public",
+  "runtimeConfigSHA256": "d2fa46ee512e1ddfe77a99cb9108fec3ebd9b48cc111f5f068d183940ad81e02",
+  "browserElapsedMs": 3432,
+  "proofURL": "/evidence/cloud-execution-proof.json",
+  "proofSHA256": "6c29aa7188ec0351c5e22b6e6f9917a0f11bd9b42dc91481e649191466a6c2cb",
+  "persistentEffect": "applied",
+  "freshAPI": "verified",
+  "modelCalls": 0,
+  "freePlanConfirmed": true,
+  "browserRunDailyLimitPerEnvironment": 6,
+  "browserExecutionDeadlineMs": 25000,
+  "exactSharedRemainingSeconds": "not displayed",
+  "currentReleaseLookup": "/api/health response X-Office-Release; GitHub main and Cloudflare Git deployment remain separate checks",
+  "scope": "A real cloud Browser Run writes a synthetic demand to production D1 and a later API read matches all fields. This receipt preserves that observed attempt; it does not claim future releases automatically pass."
+}

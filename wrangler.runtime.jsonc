@@ -2,7 +2,7 @@
   "name":"office-workflow-agent-runtime",
   "main":"src/cloud/worker.ts",
   "compatibility_date":"2026-10-03",
-  "compatibility_flags":["nodejs_compat"],
+  "compatibility_flags":["nodejs_compat","global_fetch_strictly_public"],
   "workers_dev":false,
   "browser":{"binding":"BROWSER"},
   "ai":{"binding":"AI"},
