@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "profile": "compact",
+  "status": "planned",
+  "summary": "OfficeFlow已有独立本地HTTP/浏览器业务负载测量和Worker日志配置。真实生产浏览器RUM采集、指标汇聚及性能可观测入口尚未实施，不能把本地负载样本当作生产Web Vitals。",
+  "evidenceUrl": "https://office-workflow-agent.baby2b.online/evidence/",
+  "evidenceUrlStatus": "planned, not deployed or TLS/business verified",
+  "limitations": [
+    "LCP/CLS/INP/FCP/TTFB及p50/p75/p95生产分位数尚未采集；没有生产SLO结论。",
+    "docs/qa/load-results.json为有限本地合成数据测量：165个操作、5次浏览器业务；与RUM口径不同。",
+    "Workers observability仅代码配置enabled，Worker/Pages部署、实时日志和关联release尚未验收。",
+    "云browser及AI保持false；账户计划/共享配额、既有GitHubApp可见性与PagesGit尚未验证。",
+    "不将计划中的SQS/ECS管线或共享性能站点冒充本产品已部署能力。"
+  ],
+  "nextStep": "先通过实际CI、在既有授权范围建立PagesGit和独立Worker/D1入口并验TLS/业务；随后另行实施有schema验证、PII脱敏、采样/限流与release/route/time_window维度的真实RUM链路。上线前必须有具体额度和独立可查询收据。",
+  "existingLocalEvidence": [
+    {
+      "path": "docs/qa/load-results.json",
+      "status": "verified-local",
+      "proves": "165本地测量操作零错误；proposal40并发4/read120并发8/browser5并发1；不证明WebVitals/云吞吐/SLO"
+    },
+    {
+      "path": "docs/qa/independent-gate.json",
+      "status": "verified-local",
+      "proves": "unit64/E2E36与实现/QA冻结hash"
+    },
+    {
+      "path": "wrangler.runtime.jsonc",
+      "status": "configuration-only",
+      "proves": "observability.enabled true，AI/browser false；不证明部署/日志采集"
+    },
+    {
+      "path": "wrangler.runtime-preview.jsonc",
+      "status": "configuration-only",
+      "proves": "预览独立资源及关闭标记；不证明云运行"
+    }
+  ],
+  "at": "2026-10-04T02:38:27.639560+00:00",
+  "reason": "Actual pre-push repository policy requires project performance evidence contract; add truthful planned contract, preserve prior push block."
+}
