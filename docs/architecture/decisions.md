@@ -1,6 +1,8 @@
 # OfficeFlow 架构与验收
 
-状态：本地实现和运行证据已有；独立 Review 修复进行中；云资源、CI、生产业务回读待验。工作台采用 CSR，不宣称 SSR。
+状态更新（2026-10-06）：提交 `08cb4f0` 已有 2026-10-04 的独立审查、远端 CI、预览与生产合成业务验收；本轮只读 HTTP 回查通过，没有重新执行业务验收。详见 [部署交接](../deployment/README.md)及[日期与验证边界](../deployment/release-observation-2026-10-06.json)。工作台采用 CSR，不宣称 SSR。
+
+初始设计阶段的原状态（历史）：本地实现和运行证据已有；独立 Review 修复进行中；云资源、CI、生产业务回读待验。
 
 有限自然语言提案只提取需求编号、部门、物品和数量。请求只允许一个明确数字数量；范围、限定词、汉字第二数量及取消/撤销/否定登记要求改写。模型没有 URL、选择器、执行权限。提案来源是实际的 `bounded-rule`、`ollama` 或 `workers-ai`。本地可选已安装的 Ollama，云端模型默认关闭；不可用、超时、字段不匹配时返回规则提案。二十个固定合成用例只是回归样本。
 
@@ -37,3 +39,11 @@ Playwright TS 是唯一浏览器底座。使用全新上下文，只允许固定
 - [Cloudflare Playwright](https://developers.cloudflare.com/browser-run/playwright/)、[免费限制](https://developers.cloudflare.com/browser-run/limits/)、[Pages bindings](https://developers.cloudflare.com/pages/functions/bindings/)、[Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)。
 
 验收分为本地确定性测试、独立源码审查、真实 CI、预览和生产回读。静态 Evidence 页面和本地截图不能替代生产浏览器登记、数据库效果与 API 核对。公开收据只含合成数据、版本、统计与结果，不含 cookie、capability、密钥或原始客户资料。
+
+## 2026-10-07：线上执行记录中的本地历史
+
+新浏览器会话的 `/api/runs` 只返回当前隔离租户的数据；曾在本机执行的十条测试不会属于这个租户。首页的执行记录现在同时展示当前会话和只读本地全流程历史，直接复用已脱敏的 `public/evidence/retained-flows.json` 与十份报告，不复制会话、批准、capability、数据库或后台需求到云端业务表。
+
+本地历史保留原始执行时间、实际结束节点、运行状态、持久效果以及当时 API 核对结果。case-01 提案失败，没有运行编号；case-09 为持久 applied、当时 API unknown，不能改写为成功。历史只可查看，不提供确认、执行或核对动作，不计入当前会话登记成功数。详情必须通过已发布 SHA-256 内容校验与索引字段一致性校验；读取失败可重试，不影响实时工作区。
+
+验收边界：新会话可看十条历史与完整步骤，十个实际结束节点不同；390px 手机端无横向溢出；损坏报告不展示为有效证据；仅查看历史不创建 Run、不启动云端浏览器、不 POST 合成表单。

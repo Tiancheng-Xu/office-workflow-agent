@@ -1,0 +1,73 @@
+{
+  "schema": "officeflow-readonly-release-observation-v1",
+  "observedAt": "2026-10-06T12:17:35.240523+00:00",
+  "localTaskDate": "2026-10-06",
+  "scope": "read-only GitHub main/open PR metadata and three public HTTP GET requests; no cloud browser, business write, build or deployment",
+  "sourceCommit": "08cb4f0749981b9fff0b3e2b88ac7950db619c2b",
+  "remoteMainCommit": "08cb4f0749981b9fff0b3e2b88ac7950db619c2b",
+  "openPullRequests": 0,
+  "historicalProductionAcceptance": {
+    "observedAt": "2026-10-04T10:40:18.717277+00:00",
+    "sourceReceiptFileName": "最终生产发布验收-2026-10-04.json",
+    "sourceReceiptFileSHA256": "1b9abe19a9c37416ed75e39c51d89304e6ccc0c7b1609665989abcbcb92727b2",
+    "deploymentId": "79d9a24b-7aed-42c2-9f10-7e46f6606a55",
+    "productionRuntimeVersionId": "0e70955f-586e-4195-8701-b80b12d1a963",
+    "runId": "eaa50f2f-4e40-428c-85b6-d5f781d637af",
+    "browserElapsedMs": 3586,
+    "effectStatus": "applied",
+    "freshAPIStatus": "verified",
+    "apiChecksPassed": 9,
+    "proofFileName": "最终生产云端全流程证明-2026-10-04.json",
+    "proofFileSHA256": "cba356b69599582deb039f307e1fc4eff5a9aefeafc6e6b6f73e8308d01e14e2"
+  },
+  "currentReadOnlyObservation": {
+    "http": [
+      {
+        "url": "https://office-workflow-agent.baby2b.online/api/health",
+        "httpStatus": 200,
+        "tls": "curl default certificate verification",
+        "releaseHeader": "08cb4f0749981b9fff0b3e2b88ac7950db619c2b",
+        "bytes": 111,
+        "sha256": "d6f0e78c827efd95bb42e74be84290d147567a37b853295e15ad457437edd798"
+      },
+      {
+        "url": "https://office-workflow-agent.baby2b.online/evidence/",
+        "httpStatus": 200,
+        "tls": "curl default certificate verification",
+        "releaseHeader": null,
+        "bytes": 8487,
+        "sha256": "4e25766800f7bcf44e2431dcfa4f4d1a30d24f776c033f2e800038c74f165f12"
+      },
+      {
+        "url": "https://office-workflow-agent.baby2b.online/",
+        "httpStatus": 200,
+        "tls": "curl default certificate verification",
+        "releaseHeader": null,
+        "bytes": 373,
+        "sha256": "39a87d3d832ad118c5f02ba049a88687bc8dd2a3875c078164fd7af2e1351ea3"
+      }
+    ],
+    "health": {
+      "status": "ok",
+      "adapterVersion": "synthetic-procurement-v1",
+      "runs": 6,
+      "demands": 2,
+      "unknown": 0
+    },
+    "doesNotRepeatProductionBusinessAcceptance": true
+  },
+  "runtimeConfigDefaults": "ENABLE_BROWSER_RUN=false and RELEASE_VERSION=unverified in source are fail-closed deployment defaults, not current live flags; release CLI overrides were verified in the historical receipt",
+  "historicalScope": {
+    "syntheticOnly": true,
+    "modelEnabled": false,
+    "tenRecords": "local HTTP, SQLite and real headless Chromium; ten attempts, nine runIds, ten actual end nodes, 230 assertions; not ten cloud successes",
+    "approvalExpiry": "virtual clock",
+    "browserTimeout": "actual ten-second wait"
+  },
+  "unverifiedToday": [
+    "current remote model/browser variable values and Cloudflare shared quota",
+    "automatic Git push-trigger behavior after the Oct4 global switch repair",
+    "new cloud browser/D1/fresh API business attempt on Oct6"
+  ],
+  "nextAction": "Do not recreate resources, rerun migrations, rotate secrets or repeat the accepted release. Only a newly authorized functional change or observed failure creates a release task; verify quotas before a future cloud browser launch."
+}

@@ -1,6 +1,7 @@
 import type { ApiReply, Plan, Run, RunStatus, SessionView } from '../contracts.js';
 import type { ExecutionProof } from '../runtime/proof.js';
 import './styles.css';
+import { mountRetainedHistory } from './retained-history.js';
 
 type Action = 'approve' | 'execute' | 'reconcile' | 'cancel' | 'report' | 'revise';
 interface PlanEditor { text: string; revision: number; planHash: string; }
@@ -40,6 +41,7 @@ const executionErrors: Record<string, string> = {
 };
 const state = {
   session: null as SessionView | null,
+  archiveCount: 0,
   sessionVersion: 0,
   runs: new Map<string, Run>(),
   selectedId: null as string | null,
@@ -191,7 +193,7 @@ app.innerHTML = `
         </section>
         <section class="card plan-card" id="plan-panel" aria-label="动作预览与执行结果"></section>
       </div>
-      <section class="card history-card" id="history" aria-labelledby="history-heading"><div class="history-header"><div><h2 id="history-heading">执行记录 <span id="history-total">0</span></h2><p>记录来自当前会话的隔离工作区；选择一条查看完整过程。</p></div><button type="button" class="button ghost small" data-refresh>${icon('refresh')}<span>刷新记录</span></button></div><div id="history-list"></div></section>
+      <section class="card history-card" id="history" aria-labelledby="history-heading"><div class="history-header"><div><h2 id="history-heading">执行记录 <span id="history-total">0</span></h2><p>当前会话与本地测试历史分别展示；历史记录可展开查看完整过程。</p></div><button type="button" class="button ghost small" data-refresh>${icon('refresh')}<span>刷新记录</span></button></div><h3 class="live-history-heading">当前会话</h3><div id="history-list"></div><section id="retained-history" aria-label="本地全流程历史"></section></section>
       <div class="trust-strip"><div>${icon('shield')}<span><strong>人工确认</strong>后才允许写入</span></div><div>${icon('monitor')}<span>隔离浏览器执行固定表单</span></div><div>${icon('check')}<span>API 独立核对登记结果</span></div></div>
       <footer><div><strong>OfficeFlow</strong><span>语言提案 · 受控执行 · 结果核对</span></div><nav aria-label="页脚导航"><a href="https://baby2b.online/">作品集首页</a><a href="/">项目主页</a><a href="/evidence/">工作证明 ${icon('arrow')}</a></nav></footer>
     </main>
@@ -336,10 +338,10 @@ function renderPlan() {
 
 function renderHistory() {
   const runs = orderedRuns();
-  patch('nav-count', String(runs.length));
-  patch('history-total', String(runs.length));
+  patch('nav-count', String(runs.length + state.archiveCount));
+  patch('history-total', `${runs.length} 会话 · ${state.archiveCount} 历史`);
   if (state.loading) { patch('history-list', '<div class="history-empty"><span class="spinner" aria-hidden="true"></span><p>正在读取执行记录…</p></div>'); return; }
-  if (!runs.length) { patch('history-list', `<div class="history-empty">${icon('clock')}<div><strong>还没有执行记录</strong><p>生成第一条需求计划后，它会出现在这里。</p></div></div>`); return; }
+  if (!runs.length) { patch('history-list', `<div class="history-empty">${icon('clock')}<div><strong>当前会话还没有执行记录</strong><p>下方可查看已保留的本地全流程历史；新需求会记录在当前会话。</p></div></div>`); return; }
   patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(run.plan.quantity)} 件 · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
 }
 
@@ -600,4 +602,5 @@ const poll = setInterval(() => {
 }, 2500);
 window.addEventListener('pagehide', () => { stopped = true; clearInterval(poll); clearTimeout(toastTimer); });
 render();
+void mountRetainedHistory(document.querySelector<HTMLElement>('#retained-history')!, count => { state.archiveCount = count; renderHistory(); });
 void connect();
