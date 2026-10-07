@@ -1,5 +1,7 @@
 # Independent task review — round 1
 
+Record boundary (2026-10-06): the BLOCK findings, candidate source hashes and incomplete checks below are historical first-round evidence. They remain unchanged; they are not a current release verdict. The separate stable-input review allowed `89e72ed`, and the identical merge tree at `08cb4f0` received Oct4 CI and real synthetic production acceptance. See [release handoff](../deployment/README.md) and the [dated observation receipt](../deployment/release-observation-2026-10-06.json). The Oct6 observation only rechecks public HTTP and version metadata; it does not claim a new browser/business acceptance.
+
 Verdict: **BLOCK**. Identity: Codex **gpt-6.1-sol / ultra**, independent subagent `/root/office_review`; reviewer is not an implementer. The transport exposes no provider request ID, so the JSON records null.
 
 Contract hash: `c95f2b10da4e8a395b6bc45343a48439532dcf8f6458521d434cd01d519b7015`. Contract file SHA256: `982c37b2233b503fdd2d5a3664f3154b3466c3fa499cad9b7ad77b1483d0823f`. Every review input is pinned in `task-review.json`. This is a candidate review while implementation changes; final ALLOW must be a separately requested stable-input review.
