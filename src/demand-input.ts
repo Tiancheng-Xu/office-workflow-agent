@@ -43,7 +43,7 @@ export function extractDemand(input:string):DemandExtraction {
    const numericTail=new RegExp(`^[\\p{N}一二三四五六七八九十百两]+\\s*(?:${units.join('|')})`,'u').test(tail);
    const verbBeforeQuantity=/^(?:采购|购置|添置|订购|登记|申请|购买)\s*([^，,；;。\n]+)/u.exec(tail);
    const ambiguousItemFirst=verbBeforeQuantity!==null&&!new RegExp(`^[\\p{N}零〇一二三四五六七八九十百千万两亿]+\\s*(?:${units.join('|')})`,'u').test(verbBeforeQuantity[1]!);
-   if(atDepartmentBoundary&&!ambiguousItemFirst&&(!tail||numericTail||/^(?:[\s，,；;。\n、:：=!?！？()（）]|买|购|采购|登记|申请|需要|要|添置|订购|补充|的|数量|物品|品类)/u.test(tail))){
+   if(atDepartmentBoundary&&(!ambiguousItemFirst||/(?:为|给|帮|送到|送至|送给)\s*$/u.test(before))&&(!tail||numericTail||/^(?:[\s，,；;。\n、:：=!?！？()（）]|买|购|采购|登记|申请|需要|要|添置|订购|补充|的|数量|物品|品类)/u.test(tail))){
     foundDepartments.add(department);business=business.slice(0,at)+business.slice(at+alias.length);from=at;
    }else from=at+alias.length;
   }

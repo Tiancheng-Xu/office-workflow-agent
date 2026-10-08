@@ -71,3 +71,8 @@ test('a department-like prefix in an item-first noun is kept, and an explicit re
  const noun=extractDemand('行政采购手册两本');assert.equal(noun.fields.department,undefined);assert.equal(noun.fields.item,'行政采购手册');assert(noun.issues.some(i=>i.field==='department'));
  const recipient=extractDemand('行政采购手册两本给研发');assert.deepEqual(recipient.issues,[]);assert.equal(recipient.fields.department,'研发部');assert.equal(recipient.fields.item,'行政采购手册');
 });
+test('explicit recipients retain ownership for item-before-quantity grammar',()=>{
+ for(const [raw,department,item,unit] of [['给行政采购A4纸两包','行政部','A4纸','包'],['给研发购买显示器一台','研发部','显示器','台']] as const){
+  const parsed=extractDemand(raw);assert.deepEqual(parsed.issues,[]);assert.equal(parsed.fields.department,department);assert.equal(parsed.fields.item,item);assert.equal(parsed.fields.unit,unit);
+ }
+});
