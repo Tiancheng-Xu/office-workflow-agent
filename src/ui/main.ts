@@ -224,8 +224,12 @@ function currentProof(run: Run): ExecutionProof | undefined {
   return snapshot && snapshot.epoch === run.epoch && snapshot.revision === run.revision && snapshot.planHash === run.planHash ? snapshot.proof : undefined;
 }
 
+function queueObservation(run: Run) {
+  return {proof: currentProof(run), reportUnavailable: state.proofErrors.has(run.id) || state.proofLoading.has(run.id)};
+}
+
 function canRevise(run: Run) {
-  return ['draft', 'approved', 'blocked'].includes(run.status) && run.effectStatus === 'none' && !run.result && !isPending(run.id, 'execute') && currentProof(run)?.allowedNextAction !== 'query-only';
+  return ['draft', 'approved', 'blocked'].includes(run.status) && run.effectStatus === 'none' && !run.result && !isPending(run.id, 'execute') && !state.proofErrors.has(run.id) && currentProof(run)?.allowedNextAction !== 'query-only';
 }
 
 function describePlan(plan: Plan) {
@@ -249,7 +253,7 @@ function revisionView(run: Run): string {
 }
 
 function proofView(run: Run): string {
-  const proof = currentProof(run);
+  const proof = state.proofErrors.has(run.id) ? undefined : currentProof(run);
   const loading = state.proofLoading.has(run.id);
   const error = state.proofErrors.get(run.id);
   type LayerState = 'verified' | 'pending' | 'warning';
@@ -279,7 +283,7 @@ function proofView(run: Run): string {
 
 function recoveryView(run: Run): string {
   const proof = currentProof(run);
-  const queryOnly = run.effectStatus !== 'none' || ['executing', 'unknown', 'verified'].includes(run.status) || proof?.allowedNextAction === 'query-only';
+  const queryOnly = state.proofErrors.has(run.id) || run.effectStatus !== 'none' || ['executing', 'unknown', 'verified'].includes(run.status) || proof?.allowedNextAction === 'query-only';
   if (!queryOnly && !['blocked', 'cancelled'].includes(run.status)) return '';
   const confirmed = [...run.events].reverse().find(event => ['execution-query', 'reconciled', 'reconcile', 'deduplicated', 'cancel-after-effect'].includes(event.type) && event.message.includes('确认登记'));
   const confirmedAt = proof?.api.status === 'verified' ? proof.api.checkedAt : confirmed?.at;
@@ -299,7 +303,7 @@ function renderPlan() {
   if (proofTechnical && proofTechnical.dataset.run === run.id) state.proofTechnical.set(run.id, proofTechnical.open);
   const proof = currentProof(run);
   const editing = state.editors.has(run.id);
-  const queryOnly = run.effectStatus !== 'none' || proof?.allowedNextAction === 'query-only';
+  const queryOnly = state.proofErrors.has(run.id) || run.effectStatus !== 'none' || proof?.allowedNextAction === 'query-only';
   const pendingExecute = isPending(run.id, 'execute');
   const pendingCancel = isPending(run.id, 'cancel');
   const otherPending = [...(state.actions.get(run.id) ?? [])].some(action => action !== 'report');
@@ -322,6 +326,9 @@ function renderPlan() {
   }
   if (proof && run.status === 'verified' && proof.api.status !== 'verified') {
     tone = 'warning'; title = '保留已登记效果，当前查询待确认'; description = '历史登记与持久效果仍保留。本次 API 查询尚未完成字段验收，只能继续核对原需求。';
+  }
+  if (state.proofErrors.has(run.id)) {
+    tone = 'warning'; title = '当前报告未读取，先核对原需求'; description = '保留历史运行状态和已发生效果；本次报告读取未完成，不能把旧报告作为当前验收。请重新读取核对报告。';
   }
   const source = sourceLabels[run.plan.source] ?? run.plan.source;
   const result = run.result;
@@ -350,15 +357,15 @@ function renderPlan() {
 
 function renderHistory() {
   const all = orderedRuns();
-  const runs = all.filter(run => matchesQueue(run, state.queueFilter, currentProof(run)));
-  patch('queue-overview', Object.entries(queueLabels).map(([stage, label]) => `<span>${label} <strong>${all.filter(run => queueStage(run, currentProof(run)) === stage).length}</strong></span>`).join('') + `<span class="queue-matches">显示 ${runs.length} / ${all.length} 条</span>`);
+  const runs = all.filter(run => matchesQueue(run, state.queueFilter, queueObservation(run)));
+  patch('queue-overview', Object.entries(queueLabels).map(([stage, label]) => `<span>${label} <strong>${all.filter(run => queueStage(run, queueObservation(run)) === stage).length}</strong></span>`).join('') + `<span class="queue-matches">显示 ${runs.length} / ${all.length} 条</span>`);
   document.querySelector<HTMLButtonElement>('#handoff-export')!.disabled = state.handoffBusy || !state.session || !!state.loadError || runs.length < 1 || runs.length > 10;
   patch('nav-count', String(all.length + state.archiveCount));
   patch('history-total', `${all.length} 会话 · ${state.archiveCount} 历史`);
   if (state.loading) { patch('history-list', '<div class="history-empty"><span class="spinner" aria-hidden="true"></span><p>正在读取执行记录…</p></div>'); return; }
   if (all.length && !runs.length) { patch('history-list', '<div class="history-empty"><p>没有匹配的当前会话记录。请调整搜索或筛选条件。</p></div>'); return; }
   if (!runs.length) { patch('history-list', `<div class="history-empty">${icon('clock')}<div><strong>当前会话还没有执行记录</strong><p>下方可查看已保留的本地全流程历史；新需求会记录在当前会话。</p></div></div>`); return; }
-  patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(run.plan.quantity)} 件 · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small><small class="queue-advice">${esc(queueAdvice(run, currentProof(run)))}${run.error ? ` · ${esc(run.error)}` : ''}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
+  patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(run.plan.quantity)} 件 · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small><small class="queue-advice">${esc(queueAdvice(run, queueObservation(run)))}${run.error ? ` · ${esc(run.error)}` : ''}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
 }
 
 function render() {
@@ -381,7 +388,7 @@ async function refreshProof(id: string, force = false) {
   if (!run || !state.session || state.loadError || stopped || state.proofLoading.has(id)) return;
   if (!force && (currentProof(run) || state.proofErrors.has(id) || run.status === 'executing')) return;
   const sessionVersion = state.sessionVersion;
-  state.proofLoading.add(id); state.proofErrors.delete(id); renderPlan();
+  state.proofLoading.add(id); state.proofErrors.delete(id); renderPlan(); renderHistory();
   try {
     const proof = await api<ExecutionProof>(`/api/runs/${encodeURIComponent(id)}/report`);
     if (sessionVersion !== state.sessionVersion) return;
@@ -492,7 +499,7 @@ function sanitize(value: unknown): unknown {
 
 async function exportHandoff() {
   if (state.handoffBusy || !state.session || state.loadError) return;
-  const runs = orderedRuns().filter(run => matchesQueue(run, state.queueFilter, currentProof(run)));
+  const runs = orderedRuns().filter(run => matchesQueue(run, state.queueFilter, queueObservation(run)));
   if (!runs.length || runs.length > 10) return;
   const version = state.sessionVersion;
   const filter = {...state.queueFilter};
@@ -502,6 +509,17 @@ async function exportHandoff() {
   try {
     const pack = await collectHandoff(runs, filter, id => api<unknown>(`/api/runs/${encodeURIComponent(id)}/report`, {timeout:10000}), () => !!state.session && !state.loadError && version === state.sessionVersion);
     if (!state.session || state.loadError || version !== state.sessionVersion) return;
+    for (const entry of pack.entries) {
+      const before = runs.find(run => run.id === entry.runId);
+      const current = state.runs.get(entry.runId);
+      if (!before || !current || before.epoch !== current.epoch || before.revision !== current.revision || before.planHash !== current.planHash) continue;
+      if (entry.readStatus === 'failed') state.proofErrors.set(entry.runId, '核对包未能读取或校验这份报告；请重新查询原需求。');
+      else if (entry.report.run.status === current.status && entry.report.run.effectStatus === current.effectStatus) {
+        state.proofErrors.delete(entry.runId);
+        state.proofs.set(entry.runId, {proof:entry.report,epoch:current.epoch,revision:current.revision,planHash:current.planHash});
+      }
+    }
+    renderPlan();
     const blob = new Blob([JSON.stringify(pack, null, 2)], {type:'application/json;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'officeflow-handoff.json'; anchor.click();
@@ -517,8 +535,8 @@ async function runAction(action: Action) {
   if (!run || isPending(run.id, action)) return;
   const sessionVersion = state.sessionVersion;
   // These client guards make the UI explicit; the API independently enforces every authorization.
-  if (action === 'approve' && (run.status !== 'draft' || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only')) return;
-  if (action === 'execute' && (run.status !== 'approved' || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only' || (run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now()))) return;
+  if (action === 'approve' && (run.status !== 'draft' || state.proofErrors.has(run.id) || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only')) return;
+  if (action === 'execute' && (run.status !== 'approved' || state.proofErrors.has(run.id) || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only' || (run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now()))) return;
   if (action !== 'cancel' && action !== 'report' && isPending(run.id)) return;
   const pending = state.actions.get(run.id) ?? new Set<Action>();
   pending.add(action); state.actions.set(run.id, pending); render();
@@ -658,7 +676,8 @@ app.addEventListener('click', event => {
 const poll = setInterval(() => {
   if (orderedRuns().some(run => run.status === 'executing') || [...state.actions.values()].some(actions => actions.has('execute'))) void refreshRuns(true);
   const run = selectedRun();
-  if (run?.status === 'approved' && run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now() && !state.editors.has(run.id)) { renderPlan(); renderHistory(); }
+  if (run?.status === 'approved' && run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now() && !state.editors.has(run.id)) renderPlan();
+  if (orderedRuns().some(candidate => candidate.status === 'approved' && candidate.approvalExpiresAt && Date.parse(candidate.approvalExpiresAt) <= Date.now())) renderHistory();
 }, 2500);
 window.addEventListener('pagehide', () => { stopped = true; clearInterval(poll); clearTimeout(toastTimer); });
 const intake = mountIntake(document.querySelector<HTMLElement>('#intake')!, {

@@ -7,6 +7,57 @@ let app: TestApp;
 test.beforeEach(async () => { app = new TestApp(); await app.start(); });
 test.afterEach(async () => { await app.stop(); });
 
+test('a failed fresh report moves a verified run to reconciliation without erasing its applied effect', async ({page}) => {
+  await page.goto(app.origin);
+  await page.getByLabel('采购需求描述',{exact:false}).fill('为研发部登记12台显示器，需求编号REQ-QUEUE-FRESH');
+  await page.getByRole('button',{name:'生成动作预览',exact:true}).click();
+  await page.getByRole('button',{name:'确认本次登记',exact:true}).click();
+  await page.getByRole('button',{name:'执行已确认计划',exact:true}).click();
+  await expect(page.locator('#plan-panel')).toContainText('全部字段已验收');
+  await page.getByLabel('处理阶段').selectOption('complete');
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(1);
+  await page.route('**/api/runs/*/report',route=>route.fulfill({status:503,contentType:'application/json',body:'{"ok":false,"error":{"code":"QUERY_UNAVAILABLE","message":"synthetic unavailable"}}'}));
+  await page.getByRole('button',{name:'刷新核对报告',exact:true}).click();
+  await expect(page.locator('#plan-panel')).toContainText('synthetic unavailable');
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(0);
+  await page.getByLabel('处理阶段').selectOption('reconcile');
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(1);
+  const run:Run=(await (await page.request.get(app.origin+'/api/runs')).json()).data[0];
+  expect(run.status).toBe('verified');expect(run.effectStatus).toBe('applied');
+  await page.unroute('**/api/runs/*/report');
+  await page.getByRole('button',{name:'刷新核对报告',exact:true}).click();
+  await expect(page.locator('#plan-panel')).toContainText('全部字段已验收');
+  await page.getByLabel('处理阶段').selectOption('complete');
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(1);
+  await page.route('**/api/runs/*/report',route=>route.fulfill({status:503,contentType:'application/json',body:'{"ok":false,"error":{"code":"QUERY_UNAVAILABLE","message":"synthetic unavailable"}}'}));
+  const downloaded=page.waitForEvent('download');
+  await page.getByRole('button',{name:'导出筛选结果核对包'}).click();
+  const pack=JSON.parse(await readFile((await (await downloaded).path())!,'utf8'));
+  expect(pack.complete).toBe(false);expect(pack.summary.apiVerified).toBe(0);
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(0);
+  expect(app.formPosts).toBe(1);
+});
+
+test('an unselected approval expires out of the execution queue without user refresh', async ({page}) => {
+  await page.goto(app.origin);
+  await page.getByLabel('多条采购需求').fill('为研发部登记12台显示器，需求编号REQ-EXPIRE-FIRST\n为行政部登记6把办公椅，需求编号REQ-EXPIRE-SECOND');
+  await page.getByRole('button',{name:'校验清单'}).click();
+  await page.getByRole('button',{name:'生成通过校验的草稿'}).click();
+  await expect(page.locator('#intake-notice')).toContainText('2 条已生成草稿');
+  await page.locator('[data-intake-row="1"]').getByRole('button',{name:/查看原记录/}).click();
+  await page.getByRole('button',{name:'确认本次登记',exact:true}).click();
+  await page.getByRole('button',{name:'执行已确认计划',exact:true}).waitFor({state:'visible'});
+  await expect(page.locator('#plan-panel')).toContainText('v1 已确认');
+  await page.locator('[data-intake-row="2"]').getByRole('button',{name:/查看原记录/}).click();
+  await expect(page.locator('#plan-panel')).toContainText('尚无登记结果');
+  await page.getByLabel('处理阶段').selectOption('execute');
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(1);
+  await page.clock.install({time:Date.now()});
+  await page.clock.fastForward(301000);
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(0);
+  expect(app.browserLaunches).toBe(0);expect(app.formPosts).toBe(0);
+});
+
 test('the current-session queue filters real drafts by department and request without changing totals or archived journeys', async ({page}) => {
   await page.goto(app.origin);
   await page.getByLabel('多条采购需求').fill('为研发部登记12台显示器，需求编号REQ-QUEUE-001\n为行政部登记6把办公椅，需求编号REQ-QUEUE-002');

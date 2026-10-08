@@ -18,7 +18,8 @@ const evidence = z.object({
   adapterVersion:code,planHash:digest.nullable(),domMatched:z.boolean().nullable(),payloadMatched:z.boolean().nullable(),
   postObserved:z.boolean().nullable(),registeredMarker:z.boolean().nullable(),stopCode:code,
 }).nullable();
-const fieldChecks = z.object(Object.fromEntries(['requestId','department','item','quantity','reason','payloadHash','canonicalHash','executionKey','planHash'].map(key => [key,z.boolean().nullable()])));
+const checked = z.boolean().nullable();
+const fieldChecks = z.object({requestId:checked,department:checked,item:checked,quantity:checked,reason:checked,payloadHash:checked,canonicalHash:checked,executionKey:checked,planHash:checked});
 // Explicit objects strip all unexpected keys, including inside nested report layers.
 const reportSchema = z.object({
   schema:z.literal('office-agent-execution-proof-v1'),syntheticOnly:z.literal(true),generatedAt:stamp,
