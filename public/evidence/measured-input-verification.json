@@ -3,10 +3,10 @@
   "verifiedAt": "2026-10-08",
   "syntheticOnly": true,
   "scope": "Author-run local tests; independent reviews and cloud business execution are separate gates.",
-  "testedSourceCommit": "ec842e6710555675643ca323c6eafdf1826b65aa",
+  "testedSourceCommit": "de1254098724874f229953a43374588a6895f46e",
   "unitIntegration": {
-    "passed": 80,
-    "total": 80
+    "passed": 82,
+    "total": 82
   },
   "browserE2E": {
     "passed": 63,
@@ -44,5 +44,11 @@
     "给行政买一台A4打印机 keeps A4 printing model",
     "A4纸500张装/24件套工具 kept as item specifications",
     "101包 quantity completion preselects original 包"
-  ]
+  ],
+  "independentReviews": {
+    "sourceCommit": "de1254098724874f229953a43374588a6895f46e",
+    "spec": "ALLOW",
+    "standards": "ALLOW",
+    "scope": "read-only code review and targeted verification, not cloud verification"
+  }
 }
