@@ -34,11 +34,11 @@ class SqliteD1 {
     catch(error){this.sql.exec('ROLLBACK');throw error;}
   }
 }
-async function fixture(now=Date.now()) {
+async function fixture(now=Date.now(),overrides:Partial<Run['plan']>={}) {
   const db=new SqliteD1(),repo=new D1Repository(db as unknown as D1Database);
   const tenant='synthetic-test';
   await repo.createSession({id:'session',tenantId:tenant,csrf:'synthetic-csrf',expiresAt:now+100000});
-  const plan={requestId:'REQ-D1-001',department:'研发部' as const,item:'显示器' as const,quantity:2,reason:'合成采购需求登记',source:'bounded-rule' as const};
+  const plan={requestId:'REQ-D1-001',department:'研发部' as const,item:'显示器' as const,quantity:2,reason:'合成采购需求登记',source:'bounded-rule' as const,...overrides};
   const planHash=await hash(canonicalPayload(plan));
   const run:Run={id:'run-d1',revision:1,plan,planHash,targetRevision:0,adapterVersion:ADAPTER_VERSION,status:'executing',effectStatus:'unknown',approvedHash:planHash,approvalExpiresAt:new Date(now+300000).toISOString(),executionKey:'synthetic-test:REQ-D1-001',events:[],epoch:2};
   await repo.createRun(tenant,run);
@@ -97,4 +97,14 @@ test('global free browser budget and launch spacing hold under concurrent isolat
     assert.equal(db.sql.prepare("SELECT used FROM resource_budgets WHERE name='browser-launch'").get()!.used,6);
     assert.equal((await Promise.all(Array.from({length:20},()=>consumeBudget(d1,'model-test',12,now)))).filter(Boolean).length,12);
   }finally{db.sql.close();}
+});
+
+test('D1 rejects a unit change against approval and persists the original product specification and unit',async()=>{
+ const f=await fixture(Date.now(),{item:'A4纸500张装',unit:'包'});try {
+  await assert.rejects(f.repo.submitDemand({...f.input,plan:{...f.input.plan,unit:'张'}}),(error:any)=>error.code==='PAYLOAD_CONFLICT');
+  assert.equal(await f.repo.getDemand(f.tenant,f.run.plan.requestId),undefined);
+  const result=await f.repo.submitDemand(f.input);assert.equal(result.item,'A4纸500张装');assert.equal(result.unit,'包');assert.equal(result.quantity,2);
+  assert.equal((await f.repo.getDemand(f.tenant,f.run.plan.requestId))!.unit,'包');assert.equal((await f.repo.getRun(f.tenant,f.run.id))!.result!.unit,'包');
+  await f.repo.submitDemand(f.input);assert.equal(await f.repo.getTargetRevision(f.tenant),1);
+ }finally{f.db.sql.close();}
 });

@@ -1,4 +1,5 @@
-import {departments,items} from '../catalog.js';
+import {units} from '../procurement-fields.js';
+import {departments} from '../catalog.js';
 import type { Browser, BrowserContext, Page, Route } from 'playwright';
 import type { BrowserEvidence, Run } from '../contracts.js';
 
@@ -48,7 +49,7 @@ export function createBrowserExecutor({browserFactory,timeoutMs=25_000}:{browser
         if(req.method()==='POST') {
           evidence.postObserved=true;
           const body=new URLSearchParams(req.postData()??'');
-          const expected={run:input.run.id,cap:input.capability,revision:String(input.run.revision),planHash:input.run.planHash,targetRevision:String(input.run.targetRevision),adapterVersion:input.run.adapterVersion,requestId:input.run.plan.requestId,department:input.run.plan.department,item:input.run.plan.item,quantity:String(input.run.plan.quantity),reason:input.run.plan.reason};
+          const expected={run:input.run.id,cap:input.capability,revision:String(input.run.revision),planHash:input.run.planHash,targetRevision:String(input.run.targetRevision),adapterVersion:input.run.adapterVersion,requestId:input.run.plan.requestId,department:input.run.plan.department,item:input.run.plan.item,quantity:String(input.run.plan.quantity),...(input.run.plan.unit?{unit:input.run.plan.unit}:{}),reason:input.run.plan.reason};
           if(body.size!==Object.keys(expected).length||Object.entries(expected).some(([key,value])=>body.getAll(key).length!==1||body.get(key)!==value)) {
             setGuard('FORM_PAYLOAD_DRIFT');await route.abort('blockedbyclient');return;
           }
@@ -80,15 +81,15 @@ export function createBrowserExecutor({browserFactory,timeoutMs=25_000}:{browser
         const field=form.locator(`input[name="${name}"][type="hidden"]`);
         if(await field.count()!==1||await field.inputValue()!==value)throw new BrowserExecutionError('DOM_DRIFT',false);
       }
-      const visible=[['需求编号','requestId',input.run.plan.requestId],['部门','department',input.run.plan.department],['物品','item',input.run.plan.item],['数量','quantity',String(input.run.plan.quantity)],['用途','reason',input.run.plan.reason]] as const;
-      if(await form.locator('input,select,textarea').count()!==11)throw new BrowserExecutionError('DOM_DRIFT',false);
+      const visible:ReadonlyArray<readonly [string,string,string]>=[['需求编号','requestId',input.run.plan.requestId],['部门','department',input.run.plan.department],['物品','item',input.run.plan.item],['数量','quantity',String(input.run.plan.quantity)],...(input.run.plan.unit?[['计量单位','unit',input.run.plan.unit] as const]:[]),['用途','reason',input.run.plan.reason]];
+      if(await form.locator('input,select,textarea').count()!==(input.run.plan.unit?12:11))throw new BrowserExecutionError('DOM_DRIFT',false);
       for(const [label,name,value] of visible) {
         check();
         const field=page.getByLabel(label,{exact:true});
         if(await field.count()!==1||await field.getAttribute('name')!==name)throw new BrowserExecutionError('DOM_DRIFT',false);
-        if(name==='department'||name==='item') {
+        if(name==='department'||name==='unit') {
           const options=await field.locator('option').allTextContents();
-          const expected=name==='department'?departments:items;
+          const expected=name==='department'?departments:units;
           if(JSON.stringify(options)!==JSON.stringify(expected))throw new BrowserExecutionError('DOM_DRIFT',false);
           await field.selectOption(value);
         } else {

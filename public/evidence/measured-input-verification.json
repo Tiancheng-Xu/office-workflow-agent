@@ -1,0 +1,54 @@
+{
+  "schema": "office-measured-input-local-verification-v1",
+  "verifiedAt": "2026-10-08",
+  "syntheticOnly": true,
+  "scope": "Author-run local tests; independent reviews and cloud business execution are separate gates.",
+  "testedSourceCommit": "de1254098724874f229953a43374588a6895f46e",
+  "unitIntegration": {
+    "passed": 82,
+    "total": 82
+  },
+  "browserE2E": {
+    "passed": 63,
+    "total": 63
+  },
+  "types": {
+    "application": "passed",
+    "cloud": "passed"
+  },
+  "productionBuild": "passed",
+  "dependencyAudit": "zero known vulnerabilities",
+  "inputs": [
+    "给行政买一打a4纸",
+    "行政需要两包A4复印纸",
+    "B5复印纸三箱送到行政",
+    "研发买2块M.2硬盘",
+    "研发买两块2.5英寸硬盘",
+    "给前台买一套打印机墨盒",
+    "运营需要三个屏幕支架",
+    "行政买三支笔"
+  ],
+  "assertions": [
+    "Specifications retained; quantity is extracted from measurement spans.",
+    "Packaging counts keep their declared units, without pieces-per-package assumptions.",
+    "Unit-bound approval hash, one browser POST, persisted SQLite record, fresh API proof v2 and handoff checked.",
+    "Old no-unit canonical payload bytes/proof v1 and 10 read-only histories retained."
+  ],
+  "limitations": [
+    "Bounded extraction and explicit completion, not general LLM language understanding.",
+    "Local E2E uses isolated Chromium and synthetic HTTP/SQLite; cloud D1/browser verified separately."
+  ],
+  "sourceGate": "PASS_LOCAL_SOURCE",
+  "reviewRegressionCases": [
+    "买两台前台1号排队机 requires department completion, name retained",
+    "给行政买一台A4打印机 keeps A4 printing model",
+    "A4纸500张装/24件套工具 kept as item specifications",
+    "101包 quantity completion preselects original 包"
+  ],
+  "independentReviews": {
+    "sourceCommit": "de1254098724874f229953a43374588a6895f46e",
+    "spec": "ALLOW",
+    "standards": "ALLOW",
+    "scope": "read-only code review and targeted verification, not cloud verification"
+  }
+}

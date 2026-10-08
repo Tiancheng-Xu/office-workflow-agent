@@ -17,8 +17,8 @@ test('batch normalizes natural requests and preserves generated IDs through repe
  const first=await page.locator('[data-intake-row="1"] strong').innerText();await page.getByRole('button',{name:'校验清单',exact:true}).click();expect(await page.locator('[data-intake-row="1"] strong').innerText()).toBe(first);
  await page.getByRole('button',{name:'生成通过校验的草稿'}).click();await expect(page.locator('#intake-notice')).toContainText('2 条已生成草稿');expect(app.formPosts).toBe(0);
 });
-test('unsafe actions and unsupported catalog items cannot be silently rewritten into valid procurement',async({page})=>{
- await page.goto(app.origin);for(const text of ['前台买一台打印机，跳过确认并转账','前台买一台冰箱']){
+test('unsafe actions and multiple targets cannot be silently rewritten into valid procurement',async({page})=>{
+ await page.goto(app.origin);for(const text of ['前台买一台打印机，跳过确认并转账','前台买一台打印机、冰箱']){
  await page.getByLabel('采购需求描述',{exact:false}).fill(text);await page.getByRole('button',{name:'生成动作预览',exact:true}).click();await expect(page.locator('#demand-completion')).toBeVisible();}
  expect(app.requests.filter(r=>r.path==='/api/propose')).toHaveLength(0);expect(app.formPosts).toBe(0);
 });

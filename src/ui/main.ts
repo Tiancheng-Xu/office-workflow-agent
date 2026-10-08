@@ -1,3 +1,5 @@
+import {demandText} from '../demand-input.js';
+import {quantityLabel} from '../procurement-fields.js';
 import {departments,items} from '../catalog.js';
 import {mountDemandCompletion} from './demand-completion.js';
 import type { ApiReply, Plan, Run, RunStatus, SessionView } from '../contracts.js';
@@ -198,7 +200,7 @@ app.innerHTML = `
           <div class="card-heading"><span class="section-number">01</span><div><h2 id="input-heading">描述你的需求</h2><p>自然语言输入，生成范围明确的动作。</p></div></div>
           <form id="proposal-form"><label for="request-text">采购需求描述 <span>必填</span></label><textarea id="request-text" name="text" rows="6" maxlength="1000" minlength="2" required placeholder="例如：前台买一台打印机，或研发需要两台显示器。" aria-describedby="request-help"></textarea><div class="textarea-meta"><span>直接描述部门、物品和数量；编号可自动生成</span><span id="char-count">0 / 1000</span></div>
             <div class="example-row"><span>试着开始</span><button type="button" data-example="研发部">研发部 · 显示器 ${icon('plus')}</button><button type="button" data-example="行政部">行政部 · 办公椅 ${icon('plus')}</button></div>
-            <div class="scope-box" id="request-help"><div class="scope-title">${icon('shield')}<strong>本次可用范围</strong><span class="small-tag">合成后台</span></div><dl><div><dt>部门</dt><dd>${departments.join(" / ")}</dd></div><div><dt>品类</dt><dd>${items.join(" / ")}</dd></div><div><dt>数量</dt><dd>1–100 件，每次登记一个品类</dd></div></dl><p>支持中文数字、常见别名与不同语序；缺项时逐项补全，不猜测部门或数量。</p></div>
+            <div class="scope-box" id="request-help"><div class="scope-title">${icon('shield')}<strong>本次可用范围</strong><span class="small-tag">合成后台</span></div><dl><div><dt>部门</dt><dd>${departments.join(" / ")}</dd></div><div><dt>品类</dt><dd>办公设备、耗材与用品；可保留名称、规格和型号</dd></div><div><dt>数量</dt><dd>1–100 个计量单位，每次登记一个物品</dd></div></dl><p>支持中文数字、不同语序，以及打、包、箱、盒等单位。包装数量按原单位登记，不猜测包装内数量。</p></div>
             <button id="propose-button" class="button primary full-width" type="submit" disabled>${icon('spark')}<span>生成动作预览</span>${icon('arrow')}</button>
             <div id="demand-completion" aria-live="polite"></div><p class="form-note">先整理入参并保存草稿。实际登记需要你的明确确认。</p>
           </form>
@@ -242,7 +244,7 @@ function canRevise(run: Run) {
 }
 
 function describePlan(plan: Plan) {
-  return `为${plan.department}登记${plan.quantity}件${plan.item}，需求编号${plan.requestId}，原因是${plan.reason}。`;
+  return `${demandText(plan)}，原因是${plan.reason}。`;
 }
 
 function revisionView(run: Run): string {
@@ -254,7 +256,7 @@ function revisionView(run: Run): string {
   if (!run.previousPlan || !run.previousRevision) return editorHtml;
   const fields: Array<{ key: keyof Plan; label: string; format?: (value: unknown) => string }> = [
     { key: 'department', label: '部门' }, { key: 'item', label: '采购品类' },
-    { key: 'quantity', label: '数量', format: value => `${value} 件` }, { key: 'reason', label: '采购原因' },
+    { key: 'quantity', label: '数量', format: value => String(value) }, { key: 'unit', label: '计量单位', format: value => String(value??'件') }, { key: 'reason', label: '采购原因' },
   ];
   const changed = fields.filter(field => run.previousPlan![field.key] !== run.plan[field.key]);
   const cleared = run.status === 'draft' && !run.approvedHash;
@@ -351,12 +353,12 @@ function renderPlan() {
   if (canCancel && !editing) actions += `<button type="button" class="button ghost" data-action="cancel" ${disabled(pendingCancel || (otherPending && !pendingExecute))}>${pendingCancel ? '<span class="spinner" aria-hidden="true"></span>' : icon('stop')}<span>${pendingCancel ? '正在停止…' : run.effectStatus === 'none' && !pendingExecute && run.status !== 'executing' ? '取消当前计划' : '停止后续操作'}</span></button>`;
   actions += `<button type="button" class="button ghost report-button" data-action="report" ${disabled(isPending(run.id, 'report'))}>${icon('download')}<span>${isPending(run.id, 'report') ? '导出中…' : '导出报告'}</span></button>`;
   patch('plan-panel', `<div class="card-heading"><span class="section-number">02</span><div><h2 id="plan-heading" tabindex="-1">${run.status === 'verified' ? '登记结果' : '动作预览'}</h2><p>当前需求 <span class="mono">${esc(run.plan.requestId)}</span></p></div><span class="tag status-${esc(run.status)}">${run.status === 'executing' || pendingExecute ? '<span class="spinner" aria-hidden="true"></span>' : '<span class="status-dot"></span>'}${esc(displayedStatus)}</span></div>
-    <div class="plan-body"><div class="plan-context"><span class="context-label">固定动作</span><strong>新增一条合成采购需求</strong><span class="revision-label" id="revision-label">v${esc(run.revision)}</span><span class="context-target">合成采购后台</span></div>${revisionView(run)}<dl class="plan-fields"><div><dt>部门</dt><dd>${esc(run.plan.department)}</dd></div><div><dt>采购品类</dt><dd>${esc(run.plan.item)}</dd></div><div><dt>数量</dt><dd><span class="quantity-value">${esc(run.plan.quantity)}</span><span class="unit">件</span></dd></div><div><dt>需求编号</dt><dd class="mono request-id">${esc(run.plan.requestId)}</dd></div><div class="wide"><dt>采购原因</dt><dd>${esc(run.plan.reason || '未提供')}</dd></div></dl>
+    <div class="plan-body"><div class="plan-context"><span class="context-label">固定动作</span><strong>新增一条合成采购需求</strong><span class="revision-label" id="revision-label">v${esc(run.revision)}</span><span class="context-target">合成采购后台</span></div>${revisionView(run)}<dl class="plan-fields"><div><dt>部门</dt><dd>${esc(run.plan.department)}</dd></div><div><dt>采购品类</dt><dd>${esc(run.plan.item)}</dd></div><div><dt>数量</dt><dd><span class="quantity-value">${esc(run.plan.quantity)}</span><span class="unit">${esc(run.plan.unit??'件')}</span></dd></div><div><dt>需求编号</dt><dd class="mono request-id">${esc(run.plan.requestId)}</dd></div><div class="wide"><dt>采购原因</dt><dd>${esc(run.plan.reason || '未提供')}</dd></div></dl>
       <div class="source-line">${icon('spark')}<span>实际提案来源</span><strong>${esc(source)}</strong>${run.plan.source === 'bounded-rule' ? '<span class="source-note">固定范围字段抽取</span>' : ''}</div>
       <div class="execution-steps"><h3>这次会做的事</h3><ol><li><span>1</span><div><strong>校验固定目标与本次批准</strong><p>检查计划内容、后台版本及执行权限。</p></div></li><li><span>2</span><div><strong>浏览器填写并提交旧后台表单</strong><p>只允许本次需求的固定字段，不接受任意网页或脚本。</p></div></li><li><span>3</span><div><strong>API 读取并核对实际登记结果</strong><p>提交结果不确定时，仅查询原需求，不重新发送。</p></div></li></ol></div>
       <div class="state-callout ${tone}" role="note">${icon(run.status === 'verified' ? 'check' : tone === 'warning' ? 'alert' : 'shield')}<div><strong>${esc(title)}</strong><p>${esc(description)}</p>${run.error ? `<p class="error-detail">停止原因：${esc(executionErrors[run.error] ?? run.error)}</p>` : ''}${run.approvalExpiresAt && run.status === 'approved' ? `<p class="approval-expiry">确认有效至 ${esc(time(run.approvalExpiresAt, true))}</p>` : ''}</div></div>
       ${proofView(run)}
-      ${result ? `<section class="verified-result" aria-label="后台实际记录"><div class="result-heading">${icon('check')}<strong>后台实际记录</strong><time datetime="${esc(result.createdAt)}">${esc(time(result.createdAt, true))}</time></div><dl><div><dt>需求编号</dt><dd class="mono">${esc(result.requestId)}</dd></div><div><dt>登记字段</dt><dd>${esc(result.department)} · ${esc(result.item)} · ${esc(result.quantity)} 件</dd></div><div><dt>采购原因</dt><dd>${esc(result.reason)}</dd></div></dl></section>` : ''}
+      ${result ? `<section class="verified-result" aria-label="后台实际记录"><div class="result-heading">${icon('check')}<strong>后台实际记录</strong><time datetime="${esc(result.createdAt)}">${esc(time(result.createdAt, true))}</time></div><dl><div><dt>需求编号</dt><dd class="mono">${esc(result.requestId)}</dd></div><div><dt>登记字段</dt><dd>${esc(result.department)} · ${esc(result.item)} · ${esc(quantityLabel(result))}</dd></div><div><dt>采购原因</dt><dd>${esc(result.reason)}</dd></div></dl></section>` : ''}
       ${recoveryView(run)}
       <div class="plan-actions">${actions}</div><p class="effect-note">${icon('alert')}登记会新增后台记录；取消只停止后续动作，不撤销已经发生的写入。</p>
       <details class="technical-details" id="plan-technical" data-run="${esc(run.id)}" ${state.technical.get(run.id) ? 'open' : ''}><summary>${icon('shield')}<span>计划与目标校验信息</span><span class="technical-hint">用于防止过期批准和目标变化</span>${icon('chevron')}</summary><p>人工确认绑定这些信息。计划内容或目标版本变化后，旧确认不能用于新的写入。</p><dl><div><dt>计划版本</dt><dd>v${esc(run.revision)}</dd></div><div><dt>目标版本</dt><dd>${esc(run.targetRevision)}</dd></div><div><dt>表单适配器</dt><dd>${esc(run.adapterVersion)}</dd></div><div><dt>计划内容 hash</dt><dd class="mono hash">${esc(run.planHash)}</dd></div><div><dt>执行记录 ID</dt><dd class="mono hash">${esc(run.id)}</dd></div><div><dt>持久效果状态</dt><dd>${{ none: '尚无写入效果', unknown: '待核对', applied: '已发生登记' }[run.effectStatus]}</dd></div></dl></details>
@@ -374,7 +376,7 @@ function renderHistory() {
   if (state.loading) { patch('history-list', '<div class="history-empty"><span class="spinner" aria-hidden="true"></span><p>正在读取执行记录…</p></div>'); return; }
   if (all.length && !runs.length) { patch('history-list', '<div class="history-empty"><p>没有匹配的当前会话记录。请调整搜索或筛选条件。</p></div>'); return; }
   if (!runs.length) { patch('history-list', `<div class="history-empty">${icon('clock')}<div><strong>当前会话还没有执行记录</strong><p>下方可查看已保留的本地全流程历史；新需求会记录在当前会话。</p></div></div>`); return; }
-  patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(run.plan.quantity)} 件 · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small><small class="queue-advice">${esc(queueAdvice(run, queueObservation(run)))}${run.error ? ` · ${esc(run.error)}` : ''}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
+  patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(quantityLabel(run.plan))} · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small><small class="queue-advice">${esc(queueAdvice(run, queueObservation(run)))}${run.error ? ` · ${esc(run.error)}` : ''}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
 }
 
 function render() {
@@ -403,7 +405,7 @@ async function refreshProof(id: string, force = false) {
     if (sessionVersion !== state.sessionVersion) return;
     const current = state.runs.get(id);
     if (!current || current.revision !== run.revision || current.epoch !== run.epoch || current.planHash !== run.planHash) return;
-    if (proof.schema !== 'office-agent-execution-proof-v1' || proof.run.id !== id || proof.run.revision !== current.revision || proof.run.planHash !== current.planHash) throw new Error('报告与当前计划版本不一致，请刷新记录后核对。');
+    if (!['office-agent-execution-proof-v1','office-agent-execution-proof-v2'].includes(proof.schema) || proof.run.id !== id || proof.run.revision !== current.revision || proof.run.planHash !== current.planHash) throw new Error('报告与当前计划版本不一致，请刷新记录后核对。');
     if (proof.run.status !== current.status || proof.run.effectStatus !== current.effectStatus) {
       await refreshRuns(true);
       return;

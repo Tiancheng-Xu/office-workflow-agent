@@ -1,11 +1,12 @@
-import {departments,items} from '../catalog.js';
+import {itemSchema,unitSchema} from '../procurement-fields.js';
+import {departments} from '../catalog.js';
 import { z } from 'zod';
 import type { Plan, Run } from '../contracts.js';
 import { DomainError } from './repository.js';
 
 export const planSchema=z.object({
   requestId:z.string().regex(/^REQ-[A-Z0-9][A-Z0-9-]{2,63}$/),
-  department:z.enum(departments),item:z.enum(items),
+  department:z.enum(departments),item:itemSchema,unit:unitSchema.optional(),
   quantity:z.number().int().min(1).max(100),reason:z.string().trim().min(1).max(200),
   source:z.enum(['bounded-rule','ollama','workers-ai'])
 }).strict();
@@ -15,7 +16,7 @@ export function validatePlan(value:unknown):Plan {
   return result.data;
 }
 export function canonicalPayload(plan:Plan):string {
-  return JSON.stringify({requestId:plan.requestId,department:plan.department,item:plan.item,quantity:plan.quantity,reason:plan.reason});
+  return JSON.stringify({requestId:plan.requestId,department:plan.department,item:plan.item,quantity:plan.quantity,reason:plan.reason,...(plan.unit!==undefined?{unit:plan.unit}:{})});
 }
 export async function hash(value:string):Promise<string> {
   const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));

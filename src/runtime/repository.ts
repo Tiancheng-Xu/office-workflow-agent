@@ -1,6 +1,6 @@
 import type { Demand, Plan, Run } from '../contracts.js';
 
-export const ADAPTER_VERSION = 'synthetic-procurement-v1';
+export const ADAPTER_VERSION = 'synthetic-procurement-v2';
 export interface SessionRecord { id:string; tenantId:string; csrf:string; expiresAt:number; }
 export interface CapabilityRecord { tokenHash:string; tenantId:string; runId:string; revision:number; planHash:string; targetRevision:number; adapterVersion:string; expiresAt:number; }
 export interface Submission { tokenHash:string; runId:string; revision:number; planHash:string; targetRevision:number; adapterVersion:string; plan:Plan; now:number; }

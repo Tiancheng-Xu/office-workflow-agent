@@ -1,10 +1,11 @@
-import {departments,items} from "./catalog.js";
+import type {Unit} from "./procurement-fields.js";
+import {departments} from "./catalog.js";
 export type Department = typeof departments[number];
-export type Item = typeof items[number];
-export interface Plan { requestId:string; department:Department; item:Item; quantity:number; reason:string; source:"bounded-rule"|"ollama"|"workers-ai"; }
+export type Item = string;
+export interface Plan { requestId:string; department:Department; item:Item; quantity:number; unit?:Unit; reason:string; source:"bounded-rule"|"ollama"|"workers-ai"; }
 export type RunStatus = "draft"|"approved"|"executing"|"unknown"|"verified"|"blocked"|"cancelled";
 export interface RunEvent { at:string; type:string; message:string; }
-export interface Demand { requestId:string; department:Department; item:Item; quantity:number; reason:string; payloadHash:string; createdAt:string; executionKey:string; }
+export interface Demand { requestId:string; department:Department; item:Item; quantity:number; unit?:Unit; reason:string; payloadHash:string; createdAt:string; executionKey:string; }
 export interface BrowserEvidence {startedAt:string;completedAt?:string;elapsedMs:number;origin:string;adapterVersion:string;planHash:string;domMatched:boolean;payloadMatched:boolean;postObserved:boolean;registeredMarker:boolean;stopCode?:string;}
 export interface Run { id:string; revision:number; plan:Plan; planHash:string; targetRevision:number; adapterVersion:string; status:RunStatus; effectStatus:"none"|"unknown"|"applied"; approvedHash?:string; approvalExpiresAt?:string; executionKey:string; events:RunEvent[]; result?:Demand; error?:string; epoch:number; previousPlan?:Plan;previousRevision?:number;browserEvidence?:BrowserEvidence; }
 export interface SessionView { csrf:string; tenantLabel:string; adapterVersion:string; planner:string; }

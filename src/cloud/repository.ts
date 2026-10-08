@@ -24,7 +24,7 @@ export class D1Repository implements Repository {
     if(payloadHash!==run.planHash||canonicalPayload(input.plan)!==canonicalPayload(run.plan))throw new DomainError('PAYLOAD_CONFLICT','表单参数与已批准计划不一致。');
     const prior=await this.getDemand(cap.tenantId,run.plan.requestId);if(prior){if(prior.payloadHash!==run.planHash)throw new DomainError('PAYLOAD_CONFLICT','需求编号被不同参数使用。');return prior;}
     if(run.status!=='executing')throw new DomainError('EXECUTION_NOT_CLAIMED','执行未认领或已取消。');
-    const demand:Demand={requestId:run.plan.requestId,department:run.plan.department,item:run.plan.item,quantity:run.plan.quantity,reason:run.plan.reason,payloadHash:run.planHash,createdAt:new Date(input.now).toISOString(),executionKey:run.executionKey};
+    const demand:Demand={requestId:run.plan.requestId,department:run.plan.department,item:run.plan.item,quantity:run.plan.quantity,...(run.plan.unit?{unit:run.plan.unit}:{}),reason:run.plan.reason,payloadHash:run.planHash,createdAt:new Date(input.now).toISOString(),executionKey:run.executionKey};
     const applied=event({...run,effectStatus:'applied',result:demand},input.now,'effect-applied','旧后台已登记合成采购需求；等待独立查询核对。');
     // D1 batch is an atomic transaction. Recheck live run/capability/target at INSERT, so cancellation or another run cannot race this read snapshot.
     // changes() couples target increment and effect update only to THIS successful insert; no repeated target increment on deduplication.

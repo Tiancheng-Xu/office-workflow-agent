@@ -13,7 +13,7 @@ test('batch preparation shows every field and rejects ambiguous and repeated row
   await expect(rows).toHaveCount(4);
   await expect(rows.nth(0)).toContainText('清单内编号重复');
   await expect(rows.nth(3)).toContainText('清单内编号重复');
-  await expect(rows.nth(1)).toContainText('行政部 · 办公椅 · 6 件');
+  await expect(rows.nth(1)).toContainText('行政部 · 办公椅 · 6 把');
   await expect(rows.nth(2)).toContainText('数量');
   expect((await (await page.request.get(app.origin + '/api/runs')).json()).data).toEqual([]);
   expect(app.formPosts).toBe(0);
@@ -123,7 +123,7 @@ test('field templates append a bounded row and eleven rows are rejected in full 
   await page.getByText('用字段模板追加一条', {exact:true}).click();
   const form = page.locator('#intake-template');
   await form.getByLabel('部门').selectOption('运营部');
-  await form.getByLabel('品类').selectOption('键盘');
+  await form.getByLabel('品类').fill('键盘');
   await form.getByLabel('数量').fill('3');
   await form.getByLabel('需求编号').fill('REQ-TEMPLATE-001');
   await form.getByRole('button', {name:'追加到清单'}).click();

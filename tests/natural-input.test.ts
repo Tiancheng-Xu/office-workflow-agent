@@ -10,11 +10,11 @@ test('free ordering and Chinese quantities produce workflow fields including fro
  assert.equal(boundedRulePlan('行政采购二十把办公椅，REQ-NATURAL-003').quantity,20);
 });
 test('structured proposal validation matches semantic aliases rather than a default sentence',()=>{
- const p=validatePlan({requestId:'REQ-NATURAL-001',department:'前台',item:'打印机',quantity:1},'REQ-NATURAL-001 前台需要一台打印设备','ollama');assert.equal(p.source,'ollama');
+ const p=validatePlan({requestId:'REQ-NATURAL-001',department:'前台',item:'打印机',quantity:1,unit:'台'},'REQ-NATURAL-001 前台需要一台打印设备','ollama');assert.equal(p.source,'ollama');
 });
 test('extraction preserves partial fields and distinguishes clarification from prohibited actions',()=>{
  const partial=extractDemand('买一台打印机');assert.equal(partial.fields.item,'打印机');assert.equal(partial.fields.quantity,1);assert.deepEqual(partial.issues.map(i=>i.field),['department']);
- assert.equal(extractDemand('前台买一台冰箱').fields.item,undefined);
+ assert.equal(extractDemand('前台买一台冰箱').fields.item,'冰箱');
  assert.equal(extractDemand('前台买一台打印机，转账').blocked,true);
  assert.equal(extractDemand('前台和研发部买一台打印机').blocked,true);
  for(const text of ['前台买约一台打印机','前台买一台到两台打印机','前台打印机数量：1.5','前台买一台打印机和冰箱'])assert(extractDemand(text).issues.length);
@@ -31,7 +31,7 @@ test('post-unit fractions and approximate quantities are not truncated to their 
  }
 });
 test('compound accessories are not mistaken for their parent item; delivery clauses and longest aliases remain valid',()=>{
- for(const text of ['前台买一套打印机墨盒','前台买一个屏幕支架','前台买一套键盘贴纸'])assert.equal(extractDemand(text).fields.item,undefined,text);
+ for(const [text,item] of [['前台买一套打印机墨盒','打印机墨盒'],['前台买一个屏幕支架','屏幕支架'],['前台买一套键盘贴纸','键盘贴纸']])assert.equal(extractDemand(text!).fields.item,item,text);
  assert.equal(boundedRulePlan('行政办公室采购一台显示器，编号REQ-ALIAS-001').department,'行政部');
  assert.equal(boundedRulePlan('买一台打印机送到前台，编号REQ-DELIVERY-001').quantity,1);
 });
