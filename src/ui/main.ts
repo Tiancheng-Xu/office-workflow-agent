@@ -1,3 +1,4 @@
+import {demandText} from '../demand-input.js';
 import {quantityLabel} from '../procurement-fields.js';
 import {departments,items} from '../catalog.js';
 import {mountDemandCompletion} from './demand-completion.js';
@@ -243,7 +244,7 @@ function canRevise(run: Run) {
 }
 
 function describePlan(plan: Plan) {
-  return `为${plan.department}登记${plan.quantity}${plan.unit??'件'}${plan.item}，需求编号${plan.requestId}，原因是${plan.reason}。`;
+  return `${demandText(plan)}，原因是${plan.reason}。`;
 }
 
 function revisionView(run: Run): string {
@@ -255,7 +256,7 @@ function revisionView(run: Run): string {
   if (!run.previousPlan || !run.previousRevision) return editorHtml;
   const fields: Array<{ key: keyof Plan; label: string; format?: (value: unknown) => string }> = [
     { key: 'department', label: '部门' }, { key: 'item', label: '采购品类' },
-    { key: 'quantity', label: '数量', format: value => `${value} 件` }, { key: 'unit', label: '计量单位', format: value => String(value??'件') }, { key: 'reason', label: '采购原因' },
+    { key: 'quantity', label: '数量', format: value => String(value) }, { key: 'unit', label: '计量单位', format: value => String(value??'件') }, { key: 'reason', label: '采购原因' },
   ];
   const changed = fields.filter(field => run.previousPlan![field.key] !== run.plan[field.key]);
   const cleared = run.status === 'draft' && !run.approvedHash;

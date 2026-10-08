@@ -31,12 +31,17 @@ export function extractDemand(input:string):DemandExtraction {
  // against the whole original text first. Unlabelled extra targets stay visible.
  let business=ids.reduce((v,id)=>v.replace(id,''),text)
   .replace(/(?:^|[，,；;。\n])\s*(?:原因|用途|备注)\s*(?:[:：]|是)[^，,；;。\n]*/gu,'');
+ const declaredItems=Array.from(business.matchAll(/(?:^|[，,；;。\n])\s*(?:物品|品类)\s*[:：=]\s*([^，,；;。\n]+)/gu));
+ business=business.replace(/(?:^|[，,；;。\n])\s*(?:物品|品类)\s*[:：=]\s*([^，,；;。\n]+)/gu,'');
  const departmentNames=Object.entries(departmentAliases).flatMap(([department,aliases])=>aliases.map(alias=>({department:department as Department,alias}))).sort((a,b)=>b.alias.length-a.alias.length);
  const foundDepartments=new Set<Department>();
  for(const {department,alias} of departmentNames){
   let from=0;
   while(true){const at=business.indexOf(alias,from);if(at<0)break;const tail=business.slice(at+alias.length);
-   if(!tail||/^(?:[\s，,；;。\n、:：=!?！？()（）]|买|购|采购|登记|申请|需要|要|添置|订购|补充|的|数量|物品|品类|[\p{N}一二三四五六七八九十百两])/u.test(tail)){
+   const before=business.slice(0,at);
+   const atDepartmentBoundary=!before.trim()||/(?:^|[\s，,；;。\n、:：=!?！？()（）]|为|给|帮|送到|送至|送给)\s*$/u.test(before);
+   const numericTail=new RegExp(`^[\\p{N}一二三四五六七八九十百两]+\\s*(?:${units.join('|')})`,'u').test(tail);
+   if(atDepartmentBoundary&&(!tail||numericTail||/^(?:[\s，,；;。\n、:：=!?！？()（）]|买|购|采购|登记|申请|需要|要|添置|订购|补充|的|数量|物品|品类)/u.test(tail))){
     foundDepartments.add(department);business=business.slice(0,at)+business.slice(at+alias.length);from=at;
    }else from=at+alias.length;
   }
@@ -45,11 +50,11 @@ export function extractDemand(input:string):DemandExtraction {
  else issues.push({field:'department',message:foundDepartments.size>1?'识别到多个部门，请拆分或确认归属。':'请补充归属部门。'});
  business=business.replace(/需求编号|编号|归属|部门/g,'');
  const number='[\\p{N}零〇一二三四五六七八九十百千万两亿]+';
- const measured=new RegExp(`(${number})\\s*(${units.join('|')})`,'gu');
+ const measured=new RegExp(`(?<![A-Za-z\\p{N}.])(${number})\\s*(${units.join('|')})`,'gu');
  const labeled=new RegExp(`数量\\s*[:：=]?\\s*(${number})(?:\\s*(${units.join('|')}))?`,'gu');
  const quantities=Array.from(business.matchAll(labeled));
  let stripped=business.replace(labeled,'');
- const measures=Array.from(stripped.matchAll(measured));
+ const measures=Array.from(stripped.matchAll(measured)).filter(match=>!/^\s*(?:装|套)/u.test(stripped.slice(match.index!+match[0].length))); 
  quantities.push(...measures);
  const qualifier=/负|minus|negative|至少|至多|最多|最少|不超过|不少于|不低于|不多于|超过|小于|大于|多于|少于|不足|不满|大约|大概|约|近|左右|上下|以上|以下|或者|范围|区间/iu;
  const rangePrefix=new RegExp(`${number}\\s*(?:到|至|[.,．﹒٫٬+−＋﹣﹢➕➖±~～/⁄∕\\p{Pd}])\\s*$`,'u');
@@ -60,19 +65,22 @@ export function extractDemand(input:string):DemandExtraction {
    ||/^\s*(?:半|多|余|来|起|到|至|[.,．﹒٫٬+−＋﹣﹢➕➖±~～/⁄∕-]\s*\p{N})/u.test(after);
  });
  const quantity=quantities.length===1&&!ambiguous?readQuantity(quantities[0]![1]!):undefined;
- if(quantity!==undefined){fields.quantity=quantity;const unit=quantities[0]![2] as Unit|undefined;if(unit&&unit!=='件')fields.unit=unit;}
+ const declaredUnits=new Set(quantities.map(match=>match[2]).filter(Boolean));
+ if(declaredUnits.size===1){const unit=[...declaredUnits][0] as Unit;if(unit!=='件')fields.unit=unit;}
+ if(quantity!==undefined)fields.quantity=quantity;
  else issues.push({field:'quantity',message:'请明确一个1–100的整数数量和单位（如一打、两包、2块）；范围、约数、分数或多个计量需要澄清。'});
- stripped=stripped.replace(measured,'');
+ stripped=stripped.replace(measured,(whole,_number,_unit,offset:number)=>measures.some(match=>match.index===offset)?'':whole);
  // Strip sentence grammar at clause boundaries, never substrings inside nouns.
- const candidates=stripped.split(/[，,；;。\n、:：=!?！？()（）]/u).map(part=>part.trim()
+ const candidates=[...declaredItems.map(match=>match[1]!.trim()),...stripped.split(/[，,；;。\n、:：=!?！？()（）]/u).map(part=>part.trim()
   .replace(/^(?:(?:为|给|帮|请|想|希望|麻烦|安排|尽快|的)\s*)+/u,'')
   .replace(/^(?:(?:采购|购买|购置|添置|订购|登记|申请|需要|想要|急需|急用|买|要|物品|品类)\s*)+/u,'')
-  .replace(/(?:送到|送至|送给|放在|给)\s*$/u,'').trim()).filter(Boolean);
+  .replace(/(?:送到|送至|送给|放在|给)\s*$/u,'').trim()).filter(Boolean)];
+ if(quantity===undefined&&ambiguous){for(let i=0;i<candidates.length;i++)candidates[i]=candidates[i]!.replace(/^(?:负数?|负的|大约|大概|约|近|至少|至多|最多|最少|左右|上下|以上|以下)\s*/u,'');}
  if(candidates.length===1){
   const candidate=candidates[0]!.replace(/[a-z]+/g,value=>value.toUpperCase());
   const alias=Object.entries(itemAliases).find(([,aliases])=>aliases.some(value=>value===candidate));
   const item=alias?.[0]??candidate;
-  if(itemSchema.safeParse(item).success&&!(quantity===undefined&&ambiguous))fields.item=item;
+  if(itemSchema.safeParse(item).success)fields.item=item;
   else issues.push({field:'item',message:'请确认一个明确的物品名称和规格，数量与单位请单独填写。'});
  }else issues.push({field:'item',message:candidates.length>1?'识别到多个内容片段，请拆分成一条一个物品。':'请补充物品名称，可保留规格或型号。'});
  if(foundDepartments.size>1||candidates.length>1||/再买|另外|顺便|以及|还有|并且|[和及与或]/u.test(business))issues.push({field:'input',message:'存在并列或备选内容，请拆分需求；本条需要一个部门、物品和明确计量。'});
@@ -80,7 +88,7 @@ export function extractDemand(input:string):DemandExtraction {
  return {fields,issues,blocked:issues.some(issue=>issue.field==='input')};
 }
 export function demandText(fields:Required<Omit<DemandFields,'unit'>>&Pick<DemandFields,'unit'>):string {
- return `为${fields.department}登记${fields.quantity}${fields.unit??'件'}${fields.item}，需求编号${fields.requestId}`;
+ return `部门：${fields.department}；物品：${fields.item}；数量：${fields.quantity}${fields.unit??'件'}；需求编号：${fields.requestId}`;
 }
 export function newRequestId():string{return 'REQ-'+crypto.randomUUID().replaceAll('-','').toUpperCase().match(/.{8}/g)!.map(part=>'N'+part).join('-');}
 export function demandKey(fields:DemandFields):string{return JSON.stringify([fields.department??null,fields.item??null,fields.quantity??null,fields.unit??'件']);}

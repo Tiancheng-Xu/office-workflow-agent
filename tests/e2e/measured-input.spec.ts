@@ -20,3 +20,9 @@ test('batch semantic recovery keys distinguish the same item measured in package
  await page.goto(app.origin);await page.getByLabel('多条采购需求').fill('行政买2包A4纸\n行政买2张A4纸\n研发买2块M.2硬盘');await page.getByRole('button',{name:'校验清单',exact:true}).click();await expect(page.getByRole('button',{name:'生成通过校验的草稿'})).toBeEnabled();
  await page.getByRole('button',{name:'生成通过校验的草稿'}).click();await expect(page.locator('#intake-notice')).toContainText('3 条已生成草稿');const client=await clientFromPage(page),runs=await app.api<any>(client,'/api/runs');if(!runs.body.ok)throw new Error('missing drafts');expect(runs.body.data).toHaveLength(3);expect(new Set(runs.body.data.map((r:any)=>r.plan.requestId)).size).toBe(3);expect(runs.body.data.every((r:any)=>r.status==='draft'&&r.effectStatus==='none')).toBe(true);expect(app.formPosts).toBe(0);
 });
+
+test('fixing only an out-of-range quantity keeps the declared packaging unit and product specification',async({page})=>{
+ await page.goto(app.origin);await page.getByLabel('采购需求描述',{exact:false}).fill('行政买A4纸500张装，数量：一百零一包');await page.getByRole('button',{name:'生成动作预览',exact:true}).click();
+ await expect(page.getByLabel('计量单位',{exact:true})).toHaveValue('包');await expect(page.locator('#demand-completion')).toContainText('A4纸500张装');
+ await page.getByLabel('确认明确数量').fill('100');await page.getByRole('button',{name:'使用补全字段生成预览'}).click();await expect(page.locator('#plan-panel')).toContainText('A4纸500张装');await expect(page.locator('#plan-panel .unit')).toHaveText('包');expect(app.formPosts).toBe(0);
+});

@@ -50,3 +50,20 @@ test('department names embedded in product nouns are not consumed as the demand 
  const a=extractDemand('买两包行政文件夹');assert.equal(a.fields.department,undefined);assert.equal(a.fields.item,'行政文件夹');
  const b=extractDemand('给行政买2块技术部件');assert.equal(b.fields.department,'行政部');assert.equal(b.fields.item,'技术部件');
 });
+test('product-internal department words and measurement-like model digits retain their noun spans',()=>{
+ const internal=extractDemand('买两台前台1号排队机');assert.equal(internal.fields.department,undefined);assert.equal(internal.fields.item,'前台1号排队机');
+ const model=extractDemand('给行政买一台A4打印机');assert.deepEqual(model.issues,[]);assert.equal(model.fields.item,'A4打印机');assert.equal(model.fields.quantity,1);assert.equal(model.fields.unit,'台');
+ assert.equal(boundedRulePlan('为行政部登记1台A4打印机，REQ-MODEL-001').item,'A4打印机');
+});
+test('an invalid or approximate quantity preserves its explicit unit and the unambiguous item for completion',()=>{
+ for(const raw of ['行政买A4纸，数量：一百零一包','给行政买约两包A4纸']){
+  const extracted=extractDemand(raw);assert.equal(extracted.fields.quantity,undefined);assert.equal(extracted.fields.unit,'包');assert.equal(extracted.fields.item,'A4纸');assert(extracted.issues.some(i=>i.field==='quantity'));
+ }
+});
+test('declared product fields and pack-size specifications are not reinterpreted as purchase counts',()=>{
+ for(const item of ['A4纸500张装','24件套工具','行政采购手册']){
+  const text=demandText({department:'行政部',item,quantity:2,unit:'包',requestId:'REQ-SPEC-001'});const parsed=extractDemand(text);assert.deepEqual(parsed.issues,[],item);assert.equal(parsed.fields.item,item);assert.equal(parsed.fields.quantity,2);assert.equal(parsed.fields.unit,'包');
+ }
+ const raw=extractDemand('给行政买2包A4纸500张装');assert.deepEqual(raw.issues,[]);assert.equal(raw.fields.item,'A4纸500张装');assert.equal(raw.fields.quantity,2);
+ const manual=extractDemand('买两本行政采购手册');assert.equal(manual.fields.department,undefined);assert.equal(manual.fields.item,'行政采购手册');
+});
