@@ -278,7 +278,7 @@ function proofView(run: Run): string {
   const deduplicated = run.events.some(event => event.type === 'deduplicated');
   const noBrowser = proof?.browser.evidence === null;
   const browserNote = noBrowser && (proof?.api.status === 'verified' || deduplicated) ? `<p class="proof-observation-note">${icon('monitor')}${deduplicated ? '已读取已有结果完成去重；' : ''}本次运行没有浏览器动作证据。后台记录与 API 结果分别核对。</p>` : '';
-  return `<section id="execution-proof" class="execution-proof" aria-label="分层执行核对"><div class="proof-heading"><div><h3>分层执行核对</h3><p>每一层都有独立记录；观察到 POST 不等于业务已完成。</p></div><button type="button" class="button ghost small" data-proof-refresh ${loading ? 'disabled' : ''}>${loading ? '<span class="spinner" aria-hidden="true"></span>' : icon('refresh')}<span>刷新核对报告</span></button></div><div class="proof-grid">${approval}${browser}${database}${apiLayer}</div>${browserNote}${error ? `<p class="proof-error" role="status">${icon('alert')}核对报告读取未完成：${esc(error)}</p>` : ''}<div class="proof-checked">${loading ? '<span class="spinner" aria-hidden="true"></span>正在读取实际核对报告' : proof ? `最近 API 查询：<time datetime="${esc(proof.api.checkedAt)}">${esc(time(proof.api.checkedAt, true))}</time>` : '尚无本版本的独立核对报告'}</div>${proof ? `<details class="proof-technical" id="proof-technical" data-run="${esc(run.id)}" ${state.proofTechnical.get(run.id) ? 'open' : ''}><summary>查看报告内容校验值 ${icon('chevron')}</summary><p>SHA-256 摘要用于发现导出内容是否改变。这是内容校验值，不代表签名或外部认证。</p><code>${esc(proof.digest.value)}</code>${proof.browser.evidence ? `<dl><div><dt>固定执行来源</dt><dd>${esc(proof.browser.evidence.origin ?? '未提供')}</dd></div><div><dt>浏览器观察耗时</dt><dd>${proof.browser.evidence.elapsedMs === null ? '未提供' : `${esc(proof.browser.evidence.elapsedMs)} ms`}</dd></div><div><dt>提交后页面标记</dt><dd>${proof.browser.evidence.registeredMarker === true ? '已观察到登记标记；仍需 API 验收' : '未观察到登记标记'}</dd></div></dl>` : ''}</details>` : ''}</section>`;
+  return `<section id="execution-proof" class="execution-proof" aria-label="分层执行核对"><div class="proof-heading"><div><h3>分层执行核对</h3><p>每一层都有独立记录；观察到 POST 不等于业务已完成。</p></div><button type="button" class="button ghost small" data-proof-refresh ${loading || state.handoffBusy ? 'disabled' : ''}>${loading ? '<span class="spinner" aria-hidden="true"></span>' : icon('refresh')}<span>刷新核对报告</span></button></div><div class="proof-grid">${approval}${browser}${database}${apiLayer}</div>${browserNote}${error ? `<p class="proof-error" role="status">${icon('alert')}核对报告读取未完成：${esc(error)}</p>` : ''}<div class="proof-checked">${loading ? '<span class="spinner" aria-hidden="true"></span>正在读取实际核对报告' : proof ? `最近 API 查询：<time datetime="${esc(proof.api.checkedAt)}">${esc(time(proof.api.checkedAt, true))}</time>` : '尚无本版本的独立核对报告'}</div>${proof ? `<details class="proof-technical" id="proof-technical" data-run="${esc(run.id)}" ${state.proofTechnical.get(run.id) ? 'open' : ''}><summary>查看报告内容校验值 ${icon('chevron')}</summary><p>SHA-256 摘要用于发现导出内容是否改变。这是内容校验值，不代表签名或外部认证。</p><code>${esc(proof.digest.value)}</code>${proof.browser.evidence ? `<dl><div><dt>固定执行来源</dt><dd>${esc(proof.browser.evidence.origin ?? '未提供')}</dd></div><div><dt>浏览器观察耗时</dt><dd>${proof.browser.evidence.elapsedMs === null ? '未提供' : `${esc(proof.browser.evidence.elapsedMs)} ms`}</dd></div><div><dt>提交后页面标记</dt><dd>${proof.browser.evidence.registeredMarker === true ? '已观察到登记标记；仍需 API 验收' : '未观察到登记标记'}</dd></div></dl>` : ''}</details>` : ''}</section>`;
 }
 
 function recoveryView(run: Run): string {
@@ -359,7 +359,7 @@ function renderHistory() {
   const all = orderedRuns();
   const runs = all.filter(run => matchesQueue(run, state.queueFilter, queueObservation(run)));
   patch('queue-overview', Object.entries(queueLabels).map(([stage, label]) => `<span>${label} <strong>${all.filter(run => queueStage(run, queueObservation(run)) === stage).length}</strong></span>`).join('') + `<span class="queue-matches">显示 ${runs.length} / ${all.length} 条</span>`);
-  document.querySelector<HTMLButtonElement>('#handoff-export')!.disabled = state.handoffBusy || !state.session || !!state.loadError || runs.length < 1 || runs.length > 10;
+  document.querySelector<HTMLButtonElement>('#handoff-export')!.disabled = state.handoffBusy || state.proofLoading.size > 0 || !state.session || !!state.loadError || runs.length < 1 || runs.length > 10;
   patch('nav-count', String(all.length + state.archiveCount));
   patch('history-total', `${all.length} 会话 · ${state.archiveCount} 历史`);
   if (state.loading) { patch('history-list', '<div class="history-empty"><span class="spinner" aria-hidden="true"></span><p>正在读取执行记录…</p></div>'); return; }
@@ -385,7 +385,7 @@ function render() {
 
 async function refreshProof(id: string, force = false) {
   const run = state.runs.get(id);
-  if (!run || !state.session || state.loadError || stopped || state.proofLoading.has(id)) return;
+  if (!run || !state.session || state.loadError || stopped || state.handoffBusy || state.proofLoading.has(id)) return;
   if (!force && (currentProof(run) || state.proofErrors.has(id) || run.status === 'executing')) return;
   const sessionVersion = state.sessionVersion;
   state.proofLoading.add(id); state.proofErrors.delete(id); renderPlan(); renderHistory();
@@ -498,16 +498,16 @@ function sanitize(value: unknown): unknown {
 }
 
 async function exportHandoff() {
-  if (state.handoffBusy || !state.session || state.loadError) return;
+  if (state.handoffBusy || state.proofLoading.size > 0 || !state.session || state.loadError || stopped) return;
   const runs = orderedRuns().filter(run => matchesQueue(run, state.queueFilter, queueObservation(run)));
   if (!runs.length || runs.length > 10) return;
   const version = state.sessionVersion;
   const filter = {...state.queueFilter};
-  state.handoffBusy = true; renderHistory();
+  state.handoffBusy = true; renderHistory(); renderPlan();
   const notice = document.getElementById('handoff-notice')!;
   notice.textContent = `正在逐条读取 ${runs.length} 份报告…`;
   try {
-    const pack = await collectHandoff(runs, filter, id => api<unknown>(`/api/runs/${encodeURIComponent(id)}/report`, {timeout:10000}), () => !!state.session && !state.loadError && version === state.sessionVersion);
+    const pack = await collectHandoff(runs, filter, id => api<unknown>(`/api/runs/${encodeURIComponent(id)}/report`, {timeout:10000}), () => !stopped && !!state.session && !state.loadError && version === state.sessionVersion);
     if (!state.session || state.loadError || version !== state.sessionVersion) return;
     for (const entry of pack.entries) {
       const before = runs.find(run => run.id === entry.runId);
@@ -526,7 +526,7 @@ async function exportHandoff() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     notice.textContent = `${pack.complete ? '报告读取完整' : '核对包不完整'} · ${pack.summary.reportsRead} 份已读取，${pack.summary.readFailures} 份失败，${pack.summary.apiVerified} 份本次 API 字段验收通过。`;
   } catch (error) { if (version === state.sessionVersion) notice.textContent = error instanceof Error ? error.message : '核对包读取失败。'; }
-  finally { if (version === state.sessionVersion) {state.handoffBusy = false; renderHistory();} }
+  finally { if (version === state.sessionVersion) {state.handoffBusy = false; renderHistory(); renderPlan(); if (state.selectedId) void refreshProof(state.selectedId);} }
 }
 
 async function runAction(action: Action) {

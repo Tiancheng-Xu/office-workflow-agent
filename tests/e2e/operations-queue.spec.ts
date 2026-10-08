@@ -7,6 +7,38 @@ let app: TestApp;
 test.beforeEach(async () => { app = new TestApp(); await app.start(); });
 test.afterEach(async () => { await app.stop(); });
 
+test('handoff collection and individual report refresh are mutually exclusive so older observations cannot overwrite newer reads', async ({page}) => {
+  await page.goto(app.origin);
+  await page.getByLabel('多条采购需求').fill('为研发部登记12台显示器，需求编号REQ-READ-LOCK-A\n为行政部登记6把办公椅，需求编号REQ-READ-LOCK-B');
+  await page.getByRole('button',{name:'校验清单'}).click();
+  await page.getByRole('button',{name:'生成通过校验的草稿'}).click();
+  await expect(page.locator('#intake-notice')).toContainText('2 条已生成草稿');
+  await page.locator('[data-intake-row="2"]').getByRole('button',{name:/查看原记录/}).click();
+  await page.getByRole('button',{name:'确认本次登记',exact:true}).click();
+  await page.getByRole('button',{name:'执行已确认计划',exact:true}).click();
+  await expect(page.locator('#plan-panel')).toContainText('全部字段已验收');
+  const runs:Run[]=(await (await page.request.get(app.origin+'/api/runs')).json()).data;
+  const firstId=runs.find(run=>run.plan.requestId==='REQ-READ-LOCK-A')!.id;
+  let release!:()=>void;let reached!:()=>void;
+  const gate=new Promise<void>(resolve=>{release=resolve;});
+  const arrived=new Promise<void>(resolve=>{reached=resolve;});
+  await page.route(`**/api/runs/${firstId}/report`,async route=>{const response=await route.fetch();reached();await gate;await route.fulfill({response});});
+  const downloaded=page.waitForEvent('download');
+  await page.getByRole('button',{name:'导出筛选结果核对包'}).click();
+  await arrived;
+  try {await expect(page.getByRole('button',{name:'刷新核对报告',exact:true})).toBeDisabled();}
+  finally {release();}
+  const pack=JSON.parse(await readFile((await (await downloaded).path())!,'utf8'));
+  expect(pack.complete).toBe(true);expect(pack.summary.apiVerified).toBe(1);
+  await expect(page.getByRole('button',{name:'刷新核对报告',exact:true})).toBeEnabled();
+  await page.route('**/api/runs/*/report',route=>route.fulfill({status:503,contentType:'application/json',body:'{"ok":false,"error":{"code":"QUERY_UNAVAILABLE","message":"synthetic unavailable"}}'}));
+  await page.getByRole('button',{name:'刷新核对报告',exact:true}).click();
+  await expect(page.locator('#plan-panel')).toContainText('synthetic unavailable');
+  await page.getByLabel('处理阶段').selectOption('complete');
+  await expect(page.locator('#history-list [data-select]')).toHaveCount(0);
+  expect(app.formPosts).toBe(1);
+});
+
 test('a failed fresh report moves a verified run to reconciliation without erasing its applied effect', async ({page}) => {
   await page.goto(app.origin);
   await page.getByLabel('采购需求描述',{exact:false}).fill('为研发部登记12台显示器，需求编号REQ-QUEUE-FRESH');

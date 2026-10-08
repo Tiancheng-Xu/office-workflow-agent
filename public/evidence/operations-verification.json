@@ -64,5 +64,23 @@
       "review-fix-build.log": "357d96877a542514af426ea98109c7d3cb9c87a3bd59ea19d9854b36eeb9e319",
       "review-fix-e2e.log": "68c333b683bc9b3e1a58868978ad32471f84f3fbda6ad4c076a9009cd1bfec32"
     }
+  },
+  "reportReadRepair": {
+    "observedAt": "2026-10-08T05:33:06.150991+00:00",
+    "applicationTypecheck": "passed",
+    "build": "passed",
+    "affectedBrowserTests": {
+      "passed": 26,
+      "failed": 0,
+      "newReadRaceRegression": 1,
+      "totalDefinedBrowserCases": 54
+    },
+    "repair": "Single-report refresh and handoff collection share a UI read lock; execution state/CAS checks and durable effect preservation remain unchanged.",
+    "logHashes": {
+      "review-read-lock-red.log": "3dfce85491397f9d67daaa81b4ee812259b6e4f795e90a193444cff99f70cda6",
+      "review-read-lock-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "review-read-lock-build.log": "bb96e5716e872b8a827d5fec3ff90fa184df71248b3be633a16b902fd5d297bf",
+      "review-read-lock-green.log": "5184437d0ca60f3fd40984673f97f08a4313959590c5e6a035cde44cfe012b75"
+    }
   }
 }
