@@ -1,5 +1,5 @@
 import {departments,items} from '../catalog.js';
-import {extractDemand,demandText,newRequestId} from '../demand-input.js';
+import {extractDemand,demandText,newRequestId,demandKey} from '../demand-input.js';
 import type { Plan, Run } from '../contracts.js';
 import { boundedRulePlan } from '../planner.js';
 import { escapeText as esc } from './html.js';
@@ -50,7 +50,7 @@ export function mountIntake(container: HTMLElement, ports: IntakePorts) {
     const mentions: string[][] = rows.map(row => (row.normalized??row.text).match(/(?<![A-Za-z0-9_-])REQ-[^\s，。；、,:：;!?！？()（）]+/g) ?? []);
     for (const row of rows) {
       if (!row.plan || row.outcome) continue;
-      if (mentions.filter(ids => ids.includes(row.plan!.requestId)).length > 1) row.issue = '清单内编号重复；请为每条需求使用不同编号。';
+      if (mentions.filter(ids => ids.includes(row.plan!.requestId)).length > 1) row.issue = /REQ-/.test(row.text)?'清单内编号重复；请为每条需求使用不同编号。':'清单内有相同的无编号需求；若是独立采购，请填写不同的需求编号。';
       else if (uncertainIds.has(row.plan.requestId)) { row.outcome = 'uncertain'; row.issue = '提案结果待确认；先查询已有草稿，不会自动重发。'; }
       else {
         const existing = runs.find(run => run.plan.requestId === row.plan!.requestId);
@@ -67,7 +67,7 @@ export function mountIntake(container: HTMLElement, ports: IntakePorts) {
       try {
         const extraction=extractDemand(row.text);if(extraction.issues.length)throw new Error(extraction.issues.map(i=>i.message).join(' '));
         const {department,item,quantity}=extraction.fields;if(!department||!item||quantity===undefined)throw new Error('请补全部门、品类和数量。');
-        const key=String(row.line)+':'+row.text;const requestId=extraction.fields.requestId||generatedIds.get(key)||newRequestId();generatedIds.set(key,requestId);
+        const key=demandKey(extraction.fields);const requestId=extraction.fields.requestId||generatedIds.get(key)||newRequestId();if(!extraction.fields.requestId)generatedIds.set(key,requestId);
         const normalized=demandText({department,item,quantity,requestId});return {...row,normalized,plan:boundedRulePlan(normalized)};
       }
       catch (error) { return {...row, issue: error instanceof Error ? error.message : '字段无法识别。'}; }

@@ -1,18 +1,18 @@
 {
   "schema": "office-natural-input-local-verification-v1",
-  "observedAt": "2026-10-08T08:37:36.831486+00:00",
+  "observedAt": "2026-10-08T09:06:47.830Z",
   "syntheticOnly": true,
   "scope": "Local Node/SQLite/Chromium; cloud business results require separate fresh readback",
-  "verifiedSourceHash": "d1fdd248ee4dd41834f6b9cf3a2a7d959bf42cf227c5d5baf155912e85366b2a",
+  "verifiedSourceHash": "abd87b869538a52e3e3d76dd8366e37c9929edc8dad31e3ec211127fa2afe11a",
   "sourceHashMethod": "sha256 ordered source manifest path+bytes; recursive src (including origin/cloud worker/proof), migrations, package/lock/index, frozen contract and runtime config; includes untracked implementation",
   "sourceStable": true,
   "unitIntegration": {
-    "passed": 68,
-    "total": 68
+    "passed": 71,
+    "total": 71
   },
   "browser": {
-    "passed": 58,
-    "total": 58
+    "passed": 59,
+    "total": 59
   },
   "reviewer": "Implementation author ran these tests; independent code review is a separate gate",
   "cases": [
@@ -22,5 +22,13 @@
     "危险指令和不支持物品不产生提案",
     "自由语序/别名/中文数量/字段数量形式",
     "旧的金额、链接、权限、数字边界、恢复、租户隔离、十条历史回归"
+  ],
+  "reviewFixRegressions": [
+    "否定采购和不能登记不转为正向登记",
+    "混合未知目标完整句消费",
+    "半台/多台/起订不截断整数",
+    "复合耗材和支架不误归整机",
+    "行政办公室长别名和送到前台语序",
+    "响应丢失后移动行/等价别名保持编号只查询"
   ]
 }
