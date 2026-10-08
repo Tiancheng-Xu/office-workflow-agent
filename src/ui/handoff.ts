@@ -1,3 +1,4 @@
+import {departments,items} from '../catalog.js';
 import { z } from 'zod';
 import { verifyExecutionProof } from '../runtime/proof.js';
 import type { Run } from '../contracts.js';
@@ -8,7 +9,7 @@ const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const code = z.string().regex(/^[A-Za-z0-9._-]{1,128}$/).nullable();
 const payload = {
   requestId: z.string().regex(/^REQ-[A-Z0-9-]{3,48}$/).nullable(),
-  department: z.enum(['研发部','运营部','行政部']).nullable(), item: z.enum(['显示器','键盘','办公椅']).nullable(),
+  department: z.enum(departments).nullable(), item: z.enum(items).nullable(),
   quantity: z.number().int().min(1).max(100).nullable(), reason: z.literal('合成采购需求登记').nullable(),
 };
 const demand = z.object({...payload, payloadHash:digest.nullable(),executionKey:digest.nullable(),createdAt:stamp.nullable()}).nullable();

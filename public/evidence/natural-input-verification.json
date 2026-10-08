@@ -1,0 +1,26 @@
+{
+  "schema": "office-natural-input-local-verification-v1",
+  "observedAt": "2026-10-08T08:37:36.831486+00:00",
+  "syntheticOnly": true,
+  "scope": "Local Node/SQLite/Chromium; cloud business results require separate fresh readback",
+  "verifiedSourceHash": "d1fdd248ee4dd41834f6b9cf3a2a7d959bf42cf227c5d5baf155912e85366b2a",
+  "sourceHashMethod": "sha256 ordered source manifest path+bytes; recursive src (including origin/cloud worker/proof), migrations, package/lock/index, frozen contract and runtime config; includes untracked implementation",
+  "sourceStable": true,
+  "unitIntegration": {
+    "passed": 68,
+    "total": 68
+  },
+  "browser": {
+    "passed": 58,
+    "total": 58
+  },
+  "reviewer": "Implementation author ran these tests; independent code review is a separate gate",
+  "cases": [
+    "原句前台买一台打印机自动生成编号、人工批准后真实本地浏览器登记",
+    "缺部门保留物品和数量，通过补全控件确认",
+    "批量无编号自然需求重复预检编号保持稳定",
+    "危险指令和不支持物品不产生提案",
+    "自由语序/别名/中文数量/字段数量形式",
+    "旧的金额、链接、权限、数字边界、恢复、租户隔离、十条历史回归"
+  ]
+}

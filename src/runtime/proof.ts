@@ -1,3 +1,4 @@
+import {departments,items} from '../catalog.js';
 import type { Demand, Plan, Run, RunStatus } from '../contracts.js';
 import { canonicalPayload, hash } from './validation.js';
 
@@ -69,7 +70,7 @@ function publicDemand(value:Demand):PublicDemand {
 }
 function validPayload(value:PublicPayload):boolean {
   return value.requestId!==null&&/^REQ-[A-Z0-9][A-Z0-9-]{2,63}$/.test(value.requestId)
-    &&['研发部','运营部','行政部'].includes(value.department??'')&&['显示器','键盘','办公椅'].includes(value.item??'')
+    &&departments.some(x=>x===value.department)&&items.some(x=>x===value.item)
     &&value.quantity!==null&&value.quantity<=100&&value.reason!==null&&value.reason.trim().length>0;
 }
 async function payloadDigest(value:PublicPayload):Promise<string|null> {

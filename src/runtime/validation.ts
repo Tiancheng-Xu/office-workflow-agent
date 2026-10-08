@@ -1,10 +1,11 @@
+import {departments,items} from '../catalog.js';
 import { z } from 'zod';
 import type { Plan, Run } from '../contracts.js';
 import { DomainError } from './repository.js';
 
 export const planSchema=z.object({
   requestId:z.string().regex(/^REQ-[A-Z0-9][A-Z0-9-]{2,63}$/),
-  department:z.enum(['研发部','运营部','行政部']),item:z.enum(['显示器','键盘','办公椅']),
+  department:z.enum(departments),item:z.enum(items),
   quantity:z.number().int().min(1).max(100),reason:z.string().trim().min(1).max(200),
   source:z.enum(['bounded-rule','ollama','workers-ai'])
 }).strict();

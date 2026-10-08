@@ -1,5 +1,6 @@
-export type Department = "研发部" | "运营部" | "行政部";
-export type Item = "显示器" | "键盘" | "办公椅";
+import {departments,items} from "./catalog.js";
+export type Department = typeof departments[number];
+export type Item = typeof items[number];
 export interface Plan { requestId:string; department:Department; item:Item; quantity:number; reason:string; source:"bounded-rule"|"ollama"|"workers-ai"; }
 export type RunStatus = "draft"|"approved"|"executing"|"unknown"|"verified"|"blocked"|"cancelled";
 export interface RunEvent { at:string; type:string; message:string; }

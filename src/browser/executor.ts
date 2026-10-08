@@ -1,3 +1,4 @@
+import {departments,items} from '../catalog.js';
 import type { Browser, BrowserContext, Page, Route } from 'playwright';
 import type { BrowserEvidence, Run } from '../contracts.js';
 
@@ -87,7 +88,7 @@ export function createBrowserExecutor({browserFactory,timeoutMs=25_000}:{browser
         if(await field.count()!==1||await field.getAttribute('name')!==name)throw new BrowserExecutionError('DOM_DRIFT',false);
         if(name==='department'||name==='item') {
           const options=await field.locator('option').allTextContents();
-          const expected=name==='department'?['研发部','运营部','行政部']:['显示器','键盘','办公椅'];
+          const expected=name==='department'?departments:items;
           if(JSON.stringify(options)!==JSON.stringify(expected))throw new BrowserExecutionError('DOM_DRIFT',false);
           await field.selectOption(value);
         } else {

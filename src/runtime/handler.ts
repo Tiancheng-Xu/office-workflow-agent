@@ -1,3 +1,4 @@
+import {departments,items} from '../catalog.js';
 import { z } from 'zod';
 import type { BrowserEvidence, Demand, Plan, Run, SessionView } from '../contracts.js';
 import type { BrowserExecutor } from '../browser/executor.js';
@@ -97,7 +98,7 @@ export function createHandler(options:HandlerOptions):(request:Request)=>Promise
       if(run.status!=='executing')throw new DomainError('EXECUTION_NOT_CLAIMED','运行未认领或已结束。');
       const hidden:Record<string,string|number>={run:run.id,cap:token,revision:run.revision,planHash:run.planHash,targetRevision:run.targetRevision,adapterVersion:run.adapterVersion};
       const fields=Object.entries(hidden).map(([key,value])=>`<input type="hidden" name="${key}" value="${escapeHtml(value)}">`).join('');
-      return html(`<h1>独立体验租户 · 合成采购需求</h1><p>此页只登记模拟办公需求，无付款操作。</p><form method="post" action="/legacy/submit" data-adapter="${escapeHtml(run.adapterVersion)}" data-run="${escapeHtml(run.id)}" data-target-revision="${run.targetRevision}">${fields}<label for="requestId">需求编号</label><input id="requestId" name="requestId" type="text" required maxlength="68"><label for="department">部门</label><select id="department" name="department">${['研发部','运营部','行政部'].map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="item">物品</label><select id="item" name="item">${['显示器','键盘','办公椅'].map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="quantity">数量</label><input id="quantity" name="quantity" type="number" min="1" max="100" required><label for="reason">用途</label><textarea id="reason" name="reason" maxlength="200" required></textarea><button type="submit">登记合成需求</button></form>`);
+      return html(`<h1>独立体验租户 · 合成采购需求</h1><p>此页只登记模拟办公需求，无付款操作。</p><form method="post" action="/legacy/submit" data-adapter="${escapeHtml(run.adapterVersion)}" data-run="${escapeHtml(run.id)}" data-target-revision="${run.targetRevision}">${fields}<label for="requestId">需求编号</label><input id="requestId" name="requestId" type="text" required maxlength="68"><label for="department">部门</label><select id="department" name="department">${departments.map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="item">物品</label><select id="item" name="item">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="quantity">数量</label><input id="quantity" name="quantity" type="number" min="1" max="100" required><label for="reason">用途</label><textarea id="reason" name="reason" maxlength="200" required></textarea><button type="submit">登记合成需求</button></form>`);
     }
     if(path==='/legacy/submit'&&request.method==='POST') {
       if(request.headers.get('origin')!==origin)throw new DomainError('ORIGIN_DENIED','表单来源不受信任。',403);
