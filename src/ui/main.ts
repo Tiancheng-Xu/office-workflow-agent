@@ -1,3 +1,5 @@
+import {departments,items} from '../catalog.js';
+import {mountDemandCompletion} from './demand-completion.js';
 import type { ApiReply, Plan, Run, RunStatus, SessionView } from '../contracts.js';
 import type { ExecutionProof } from '../runtime/proof.js';
 import './styles.css';
@@ -145,6 +147,7 @@ function invalidateSession(message: string) {
   state.sessionVersion++;
   state.session = null;
   intake.reset();
+  demandCompletion.reset();
   state.handoffBusy = false;
   document.getElementById('handoff-notice')!.textContent = '';
   state.runs.clear();
@@ -193,22 +196,28 @@ app.innerHTML = `
       <div class="workbench-grid">
         <section class="card input-card" aria-labelledby="input-heading">
           <div class="card-heading"><span class="section-number">01</span><div><h2 id="input-heading">描述你的需求</h2><p>自然语言输入，生成范围明确的动作。</p></div></div>
-          <form id="proposal-form"><label for="request-text">采购需求描述 <span>必填</span></label><textarea id="request-text" name="text" rows="6" maxlength="1000" minlength="8" required placeholder="例如：为研发部登记12台显示器，需求编号REQ-2026-001，原因是新员工入职。" aria-describedby="request-help"></textarea><div class="textarea-meta"><span>请包含部门、品类、数量和需求编号</span><span id="char-count">0 / 1000</span></div>
+          <form id="proposal-form"><label for="request-text">采购需求描述 <span>必填</span></label><textarea id="request-text" name="text" rows="6" maxlength="1000" minlength="2" required placeholder="例如：前台买一台打印机，或研发需要两台显示器。" aria-describedby="request-help"></textarea><div class="textarea-meta"><span>直接描述部门、物品和数量；编号可自动生成</span><span id="char-count">0 / 1000</span></div>
             <div class="example-row"><span>试着开始</span><button type="button" data-example="研发部">研发部 · 显示器 ${icon('plus')}</button><button type="button" data-example="行政部">行政部 · 办公椅 ${icon('plus')}</button></div>
-            <div class="scope-box" id="request-help"><div class="scope-title">${icon('shield')}<strong>本次可用范围</strong><span class="small-tag">合成后台</span></div><dl><div><dt>部门</dt><dd>研发部 / 运营部 / 行政部</dd></div><div><dt>品类</dt><dd>显示器 / 键盘 / 办公椅</dd></div><div><dt>数量</dt><dd>1–100 件，每次登记一个品类</dd></div></dl><p>缺少字段或超出范围时，请补充描述；系统不会猜测或扩大操作。</p></div>
+            <div class="scope-box" id="request-help"><div class="scope-title">${icon('shield')}<strong>本次可用范围</strong><span class="small-tag">合成后台</span></div><dl><div><dt>部门</dt><dd>${departments.join(" / ")}</dd></div><div><dt>品类</dt><dd>${items.join(" / ")}</dd></div><div><dt>数量</dt><dd>1–100 件，每次登记一个品类</dd></div></dl><p>支持中文数字、常见别名与不同语序；缺项时逐项补全，不猜测部门或数量。</p></div>
             <button id="propose-button" class="button primary full-width" type="submit" disabled>${icon('spark')}<span>生成动作预览</span>${icon('arrow')}</button>
-            <p class="form-note">生成预览不会写入后台。登记前需要你的明确确认。</p>
+            <div id="demand-completion" aria-live="polite"></div><p class="form-note">先整理入参并保存草稿。实际登记需要你的明确确认。</p>
           </form>
           <div class="planner-info" id="planner-info"></div>
         </section>
         <section class="card plan-card" id="plan-panel" aria-label="动作预览与执行结果"></section>
       </div>
       <section class="card intake-card" id="intake" aria-label="批量准备需求"></section>
-      <section class="card history-card" id="history" aria-labelledby="history-heading"><div class="history-header"><div><h2 id="history-heading">执行记录 <span id="history-total">0</span></h2><p>当前会话与本地测试历史分别展示；历史记录可展开查看完整过程。</p></div><button type="button" class="button ghost small" data-refresh>${icon('refresh')}<span>刷新记录</span></button></div><h3 class="live-history-heading">当前会话</h3><div class="queue-tools"><label>搜索当前会话记录<input id="queue-search" type="search" maxlength="100" placeholder="编号、部门、品类或错误码"></label><label>筛选部门<select id="queue-department"><option value="">全部部门</option><option>研发部</option><option>运营部</option><option>行政部</option></select></label><label>处理阶段<select id="queue-stage"><option value="">全部阶段</option><option value="review">待审核</option><option value="execute">待执行</option><option value="reconcile">需核对</option><option value="stopped">已停止</option><option value="complete">已完成</option></select></label></div><div id="queue-overview" class="queue-overview" aria-live="polite"></div><div class="handoff-bar"><button type="button" id="handoff-export" class="button secondary small" data-handoff>导出筛选结果核对包</button><span id="handoff-notice" aria-live="polite">每次最多 10 条，逐条重新查询。</span></div><p class="queue-scope">仅筛选当前会话已读取的服务端记录（单次读取最多 100 条）；下方本地历史保持只读。阶段来自运行状态及已读取报告，交接时仍需重新核对。</p><div id="history-list"></div><section id="retained-history" aria-label="本地全流程历史"></section></section>
+      <section class="card history-card" id="history" aria-labelledby="history-heading"><div class="history-header"><div><h2 id="history-heading">执行记录 <span id="history-total">0</span></h2><p>当前会话与本地测试历史分别展示；历史记录可展开查看完整过程。</p></div><button type="button" class="button ghost small" data-refresh>${icon('refresh')}<span>刷新记录</span></button></div><h3 class="live-history-heading">当前会话</h3><div class="queue-tools"><label>搜索当前会话记录<input id="queue-search" type="search" maxlength="100" placeholder="编号、部门、品类或错误码"></label><label>筛选部门<select id="queue-department"><option value="">全部部门</option>${departments.map(v=>`<option>${v}</option>`).join('')}</select></label><label>处理阶段<select id="queue-stage"><option value="">全部阶段</option><option value="review">待审核</option><option value="execute">待执行</option><option value="reconcile">需核对</option><option value="stopped">已停止</option><option value="complete">已完成</option></select></label></div><div id="queue-overview" class="queue-overview" aria-live="polite"></div><div class="handoff-bar"><button type="button" id="handoff-export" class="button secondary small" data-handoff>导出筛选结果核对包</button><span id="handoff-notice" aria-live="polite">每次最多 10 条，逐条重新查询。</span></div><p class="queue-scope">仅筛选当前会话已读取的服务端记录（单次读取最多 100 条）；下方本地历史保持只读。阶段来自运行状态及已读取报告，交接时仍需重新核对。</p><div id="history-list"></div><section id="retained-history" aria-label="本地全流程历史"></section></section>
       <div class="trust-strip"><div>${icon('shield')}<span><strong>人工确认</strong>后才允许写入</span></div><div>${icon('monitor')}<span>隔离浏览器执行固定表单</span></div><div>${icon('check')}<span>API 独立核对登记结果</span></div></div>
       <footer><div><strong>OfficeFlow</strong><span>语言提案 · 受控执行 · 结果核对</span></div><nav aria-label="页脚导航"><a href="https://baby2b.online/">作品集首页</a><a href="/">项目主页</a><a href="/evidence/">工作证明 ${icon('arrow')}</a></nav></footer>
     </main>
   </div><div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>`;
+
+const demandCompletion=mountDemandCompletion(document.getElementById('demand-completion')!,text=>{
+  const input=document.querySelector<HTMLTextAreaElement>('#request-text')!;
+  input.value=text;input.dispatchEvent(new Event('input'));
+  document.querySelector<HTMLFormElement>('#proposal-form')!.requestSubmit();
+});
 
 function renderSummary() {
   const runs = orderedRuns();
@@ -241,7 +250,7 @@ function revisionView(run: Run): string {
   const busy = isPending(run.id, 'revise');
   const stale = editor && (editor.revision !== run.revision || editor.planHash !== run.planHash);
   const disabled = busy || !canRevise(run) || stale;
-  const editorHtml = editor ? `<section class="revision-editor" aria-labelledby="revision-heading"><div class="revision-editor-heading">${icon('edit')}<h3 id="revision-heading">修订这条计划</h3><span>基于 v${esc(editor.revision)}</span></div><p>保留需求编号 <strong class="mono">${esc(run.plan.requestId)}</strong>，完整描述新的部门、品类、数量和原因。保存修订后，需要重新确认。</p><form id="revision-form"><label for="revision-text">修订后的完整需求描述</label><textarea id="revision-text" name="revisionText" rows="4" maxlength="1000" minlength="8" required ${busy ? 'disabled' : ''} aria-describedby="revision-help">${esc(editor.text)}</textarea>${stale ? '<div class="revision-stale" role="status">当前计划版本已经变化。请先加载当前计划，再继续编辑。<button type="button" class="button secondary small" data-reset-edit>加载当前计划</button></div>' : !canRevise(run) ? '<p class="revision-stale" role="status">当前执行状态已改变，不能再修订。请结束编辑并核对原需求。</p>' : ''}<div class="revision-editor-actions"><button id="revise-button" type="submit" class="button primary" ${disabled ? 'disabled' : ''}>${busy ? '<span class="spinner" aria-hidden="true"></span>' : icon('spark')}<span>${busy ? '正在生成修订预览…' : '生成修订预览'}</span></button><button type="button" class="button ghost" data-cancel-edit ${busy ? 'disabled' : ''}>取消编辑</button></div><p id="revision-help" class="revision-help">生成修订预览会保存新版本并清除旧批准。取消编辑不会修改现有计划。</p></form></section>` : '';
+  const editorHtml = editor ? `<section class="revision-editor" aria-labelledby="revision-heading"><div class="revision-editor-heading">${icon('edit')}<h3 id="revision-heading">修订这条计划</h3><span>基于 v${esc(editor.revision)}</span></div><p>保留需求编号 <strong class="mono">${esc(run.plan.requestId)}</strong>，完整描述新的部门、品类、数量和原因。保存修订后，需要重新确认。</p><form id="revision-form"><label for="revision-text">修订后的完整需求描述</label><textarea id="revision-text" name="revisionText" rows="4" maxlength="1000" minlength="2" required ${busy ? 'disabled' : ''} aria-describedby="revision-help">${esc(editor.text)}</textarea>${stale ? '<div class="revision-stale" role="status">当前计划版本已经变化。请先加载当前计划，再继续编辑。<button type="button" class="button secondary small" data-reset-edit>加载当前计划</button></div>' : !canRevise(run) ? '<p class="revision-stale" role="status">当前执行状态已改变，不能再修订。请结束编辑并核对原需求。</p>' : ''}<div class="revision-editor-actions"><button id="revise-button" type="submit" class="button primary" ${disabled ? 'disabled' : ''}>${busy ? '<span class="spinner" aria-hidden="true"></span>' : icon('spark')}<span>${busy ? '正在生成修订预览…' : '生成修订预览'}</span></button><button type="button" class="button ghost" data-cancel-edit ${busy ? 'disabled' : ''}>取消编辑</button></div><p id="revision-help" class="revision-help">生成修订预览会保存新版本并清除旧批准。取消编辑不会修改现有计划。</p></form></section>` : '';
   if (!run.previousPlan || !run.previousRevision) return editorHtml;
   const fields: Array<{ key: keyof Plan; label: string; format?: (value: unknown) => string }> = [
     { key: 'department', label: '部门' }, { key: 'item', label: '采购品类' },
@@ -443,6 +452,7 @@ async function connect() {
     if (state.session?.csrf !== session.csrf) {
       state.sessionVersion++;
       intake.reset();
+  demandCompletion.reset();
       state.handoffBusy = false;
       document.getElementById('handoff-notice')!.textContent = '';
       state.runs.clear();
@@ -472,8 +482,10 @@ async function propose(event: SubmitEvent) {
   if (state.proposing || state.batchBusy || !state.session || state.loadError) return;
   const input = document.querySelector<HTMLTextAreaElement>('#request-text')!;
   if (!input.reportValidity()) return;
-  const text = input.value.trim();
-  if (!text) { input.focus(); return; }
+  const rawText = input.value.trim();
+  if (!rawText) { input.focus(); return; }
+  const text=demandCompletion.prepare(rawText);
+  if(!text)return;
   const selectionVersion = state.selectionVersion;
   const sessionVersion = state.sessionVersion;
   state.proposing = true; render();
@@ -626,6 +638,7 @@ app.addEventListener('submit', event => {
   if (event.target instanceof HTMLFormElement && event.target.id === 'revision-form') void revisePlan(event as SubmitEvent);
 });
 app.addEventListener('input', event => {
+  if(event.target instanceof HTMLTextAreaElement && event.target.id==='request-text')demandCompletion.clearView();
   if (event.target instanceof HTMLInputElement && event.target.id === 'queue-search') { state.queueFilter.search = event.target.value; renderHistory(); }
   if (event.target instanceof HTMLTextAreaElement && event.target.id === 'revision-text' && state.selectedId) {
     const editor = state.editors.get(state.selectedId);
