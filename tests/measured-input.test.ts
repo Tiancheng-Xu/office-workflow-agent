@@ -67,3 +67,7 @@ test('declared product fields and pack-size specifications are not reinterpreted
  const raw=extractDemand('给行政买2包A4纸500张装');assert.deepEqual(raw.issues,[]);assert.equal(raw.fields.item,'A4纸500张装');assert.equal(raw.fields.quantity,2);
  const manual=extractDemand('买两本行政采购手册');assert.equal(manual.fields.department,undefined);assert.equal(manual.fields.item,'行政采购手册');
 });
+test('a department-like prefix in an item-first noun is kept, and an explicit recipient wins',()=>{
+ const noun=extractDemand('行政采购手册两本');assert.equal(noun.fields.department,undefined);assert.equal(noun.fields.item,'行政采购手册');assert(noun.issues.some(i=>i.field==='department'));
+ const recipient=extractDemand('行政采购手册两本给研发');assert.deepEqual(recipient.issues,[]);assert.equal(recipient.fields.department,'研发部');assert.equal(recipient.fields.item,'行政采购手册');
+});
