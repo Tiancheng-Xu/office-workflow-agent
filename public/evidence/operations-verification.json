@@ -1,0 +1,42 @@
+{
+  "schema": "office-agent-operations-local-verification-v1",
+  "observedAt": "2026-10-08T05:04:42.070920+00:00",
+  "baseCommit": "c8eb9169f992822f8a99507d2cfa4b911ed3f3f5",
+  "scope": "local Node HTTP + SQLite + isolated Chromium; production verified separately",
+  "checks": {
+    "applicationTypecheck": "passed",
+    "cloudTypecheck": "passed",
+    "unitAndIntegration": {
+      "passed": 64,
+      "failed": 0
+    },
+    "browserAcceptance": {
+      "passed": 51,
+      "failed": 0,
+      "newCases": 12
+    },
+    "productionBuild": "passed",
+    "dependencyAudit": "No known vulnerabilities found"
+  },
+  "newCapabilities": [
+    "bounded multi-row preparation and field template",
+    "sequential unapproved drafts with query-only response-loss recovery",
+    "refresh target and reapprove each draft",
+    "current-session operation queue",
+    "fresh report collection with checksum and partial-read failure"
+  ],
+  "originalTenRetainedJourneys": "unchanged; not replayed into business data",
+  "limitations": [
+    "Preparation text is page-local; individual drafts persist within signed session.",
+    "Browser evidence uses local isolated Chromium in these checks.",
+    "Each business registration remains individually approved and executed."
+  ],
+  "logHashes": {
+    "final-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-cloud-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-build.log": "860efc81bffde879845b4d08c13c96d00c471331e0d4aa15bf6c0a80f5a12177",
+    "final-unit.log": "3a3b52f6afce196e8006c5994fa16b3b961d3a1f3d5ae6255b125b6d3f02e1b4",
+    "final-e2e.log": "40bdd6dc11965d8481f39d3705de93176dca4925842512685bea149805f025e2",
+    "final-audit.log": "15950a68a7ed99c59779717acefdceb3f69cfd31bde67d2c954f2a3cea4d7955"
+  }
+}
