@@ -2,6 +2,10 @@ import type { ApiReply, Plan, Run, RunStatus, SessionView } from '../contracts.j
 import type { ExecutionProof } from '../runtime/proof.js';
 import './styles.css';
 import { mountRetainedHistory } from './retained-history.js';
+import { mountIntake } from './intake.js';
+import { escapeText as esc } from './html.js';
+import { collectHandoff } from './handoff.js';
+import { matchesQueue, queueStage, queueAdvice, queueLabels, type QueueFilter } from './operations.js';
 
 type Action = 'approve' | 'execute' | 'reconcile' | 'cancel' | 'report' | 'revise';
 interface PlanEditor { text: string; revision: number; planHash: string; }
@@ -28,7 +32,6 @@ const icons: Record<string, string> = {
   edit: '<path d="m16 3 5 5-12 12-6 1 1-6L16 3Z"/><path d="m13 6 5 5"/>',
 };
 const icon = (name: string, extra = '') => `<svg class="icon ${extra}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name] ?? icons.file}</svg>`;
-const esc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 const statusLabels: Record<RunStatus, string> = { draft: '待确认', approved: '已确认 · 待执行', executing: '执行中', unknown: '结果待核对', verified: '已核对并登记', blocked: '已停止', cancelled: '已取消' };
 const sourceLabels = { 'bounded-rule': '有界规则', ollama: 'Ollama 本地模型', 'workers-ai': 'Cloudflare Workers AI' };
 const executionErrors: Record<string, string> = {
@@ -42,6 +45,7 @@ const executionErrors: Record<string, string> = {
 const state = {
   session: null as SessionView | null,
   archiveCount: 0,
+  queueFilter: {search: '', department: '', stage: ''} as QueueFilter,
   sessionVersion: 0,
   runs: new Map<string, Run>(),
   selectedId: null as string | null,
@@ -50,6 +54,8 @@ const state = {
   loadError: '',
   syncError: '',
   proposing: false,
+  batchBusy: false,
+  handoffBusy: false,
   refreshing: false,
   actions: new Map<string, Set<Action>>(),
   technical: new Map<string, boolean>(),
@@ -85,6 +91,7 @@ async function api<T>(path: string, options: { method?: 'GET' | 'POST'; body?: u
     if (!payload || typeof payload !== 'object' || !('ok' in payload)) throw new ApiError(`服务暂不可用（HTTP ${response.status}）。请稍后重新连接。`, 'INVALID_RESPONSE', response.status);
     if (!payload.ok) {
       if (payload.error.code === 'SESSION_CHANGED' && requestSessionVersion === state.sessionVersion) invalidateSession('工作区会话已切换。请重新连接，读取当前隔离工作区；旧请求不会自动重新发送。');
+      if (payload.error.code === 'SESSION_REQUIRED' && state.session && requestSessionVersion === state.sessionVersion) invalidateSession('工作区会话已失效。请重新连接；旧操作不会自动发送。');
       throw new ApiError(payload.error.message, payload.error.code, response.status);
     }
     if (!response.ok) throw new ApiError(`请求未完成（HTTP ${response.status}）。`, 'HTTP_ERROR', response.status);
@@ -137,6 +144,9 @@ function patch(id: string, html: string) {
 function invalidateSession(message: string) {
   state.sessionVersion++;
   state.session = null;
+  intake.reset();
+  state.handoffBusy = false;
+  document.getElementById('handoff-notice')!.textContent = '';
   state.runs.clear();
   state.selectedId = null;
   state.selectionVersion++;
@@ -171,13 +181,13 @@ app.innerHTML = `
     <a class="brand" href="/" aria-label="OfficeFlow 项目主页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Office<span class="brand-flow">Flow</span><small>办公流程 Agent</small></span></a>
     <div class="workspace-card"><span class="workspace-avatar">OF</span><div><span class="eyebrow">当前工作区</span><strong id="workspace-label">连接中…</strong></div><span class="workspace-dot" aria-hidden="true"></span></div>
     <div class="nav-label">工作空间</div>
-    <nav class="side-nav"><a href="#main-content" class="active" aria-current="page">${icon('grid')}<span>需求工作台</span><span class="nav-active-dot"></span></a><a href="#history">${icon('clock')}<span>执行记录</span><span id="nav-count" class="nav-count">0</span></a><a href="/evidence/">${icon('shield')}<span>工作证明</span>${icon('chevron', 'nav-chevron')}</a></nav>
+    <nav class="side-nav"><a href="#main-content" class="active" aria-current="page">${icon('grid')}<span>需求工作台</span><span class="nav-active-dot"></span></a><a href="#intake">${icon('plus')}<span>批量准备</span></a><a href="#history">${icon('clock')}<span>执行记录</span><span id="nav-count" class="nav-count">0</span></a><a href="/evidence/">${icon('shield')}<span>工作证明</span>${icon('chevron', 'nav-chevron')}</a></nav>
     <div class="sidebar-bottom"><div class="scope-label"><span class="tiny-dot"></span>合成客户 · 隔离工作区</div><p>仅登记合成采购需求。<br>无需真实企业账号或客户数据。</p><a href="https://baby2b.online/">${icon('link')}<span>返回作品集</span>${icon('arrow')}</a></div>
   </aside>
   <div class="shell">
     <header class="topbar"><div class="breadcrumb">工作空间 ${icon('chevron')} <strong>采购需求登记</strong></div><nav class="top-links" aria-label="项目导航"><a href="https://baby2b.online/">作品集</a><a href="/" aria-current="page">项目主页</a><a href="/evidence/">工作证明 ${icon('arrow')}</a></nav></header>
     <main id="main-content" tabindex="-1">
-      <div class="page-heading"><div><div class="page-kicker"><span></span>从需求到登记，每一步可核对</div><h1>采购需求工作台</h1><p>描述需求，确认动作，再由受控浏览器登记到旧后台。</p></div><div id="connection-state" class="connection-state"></div></div>
+      <div class="page-heading"><div><div class="page-kicker"><span></span>从需求到登记，每一步可核对</div><h1>采购需求工作台</h1><p>准备单条或多条需求，逐条确认与登记，再汇总核对结果。</p></div><div id="connection-state" class="connection-state"></div></div>
       <div id="load-notice" class="load-notice" aria-live="polite"></div>
       <section class="summary-grid" id="summary" aria-label="当前工作区记录概况"></section>
       <div class="workbench-grid">
@@ -193,7 +203,8 @@ app.innerHTML = `
         </section>
         <section class="card plan-card" id="plan-panel" aria-label="动作预览与执行结果"></section>
       </div>
-      <section class="card history-card" id="history" aria-labelledby="history-heading"><div class="history-header"><div><h2 id="history-heading">执行记录 <span id="history-total">0</span></h2><p>当前会话与本地测试历史分别展示；历史记录可展开查看完整过程。</p></div><button type="button" class="button ghost small" data-refresh>${icon('refresh')}<span>刷新记录</span></button></div><h3 class="live-history-heading">当前会话</h3><div id="history-list"></div><section id="retained-history" aria-label="本地全流程历史"></section></section>
+      <section class="card intake-card" id="intake" aria-label="批量准备需求"></section>
+      <section class="card history-card" id="history" aria-labelledby="history-heading"><div class="history-header"><div><h2 id="history-heading">执行记录 <span id="history-total">0</span></h2><p>当前会话与本地测试历史分别展示；历史记录可展开查看完整过程。</p></div><button type="button" class="button ghost small" data-refresh>${icon('refresh')}<span>刷新记录</span></button></div><h3 class="live-history-heading">当前会话</h3><div class="queue-tools"><label>搜索当前会话记录<input id="queue-search" type="search" maxlength="100" placeholder="编号、部门、品类或错误码"></label><label>筛选部门<select id="queue-department"><option value="">全部部门</option><option>研发部</option><option>运营部</option><option>行政部</option></select></label><label>处理阶段<select id="queue-stage"><option value="">全部阶段</option><option value="review">待审核</option><option value="execute">待执行</option><option value="reconcile">需核对</option><option value="stopped">已停止</option><option value="complete">已完成</option></select></label></div><div id="queue-overview" class="queue-overview" aria-live="polite"></div><div class="handoff-bar"><button type="button" id="handoff-export" class="button secondary small" data-handoff>导出筛选结果核对包</button><span id="handoff-notice" aria-live="polite">每次最多 10 条，逐条重新查询。</span></div><p class="queue-scope">仅筛选当前会话已读取的服务端记录（单次读取最多 100 条）；下方本地历史保持只读。阶段来自运行状态及已读取报告，交接时仍需重新核对。</p><div id="history-list"></div><section id="retained-history" aria-label="本地全流程历史"></section></section>
       <div class="trust-strip"><div>${icon('shield')}<span><strong>人工确认</strong>后才允许写入</span></div><div>${icon('monitor')}<span>隔离浏览器执行固定表单</span></div><div>${icon('check')}<span>API 独立核对登记结果</span></div></div>
       <footer><div><strong>OfficeFlow</strong><span>语言提案 · 受控执行 · 结果核对</span></div><nav aria-label="页脚导航"><a href="https://baby2b.online/">作品集首页</a><a href="/">项目主页</a><a href="/evidence/">工作证明 ${icon('arrow')}</a></nav></footer>
     </main>
@@ -213,8 +224,12 @@ function currentProof(run: Run): ExecutionProof | undefined {
   return snapshot && snapshot.epoch === run.epoch && snapshot.revision === run.revision && snapshot.planHash === run.planHash ? snapshot.proof : undefined;
 }
 
+function queueObservation(run: Run) {
+  return {proof: currentProof(run), reportUnavailable: state.proofErrors.has(run.id) || state.proofLoading.has(run.id)};
+}
+
 function canRevise(run: Run) {
-  return ['draft', 'approved', 'blocked'].includes(run.status) && run.effectStatus === 'none' && !run.result && !isPending(run.id, 'execute') && currentProof(run)?.allowedNextAction !== 'query-only';
+  return ['draft', 'approved', 'blocked'].includes(run.status) && run.effectStatus === 'none' && !run.result && !isPending(run.id, 'execute') && !state.proofErrors.has(run.id) && currentProof(run)?.allowedNextAction !== 'query-only';
 }
 
 function describePlan(plan: Plan) {
@@ -238,7 +253,7 @@ function revisionView(run: Run): string {
 }
 
 function proofView(run: Run): string {
-  const proof = currentProof(run);
+  const proof = state.proofErrors.has(run.id) ? undefined : currentProof(run);
   const loading = state.proofLoading.has(run.id);
   const error = state.proofErrors.get(run.id);
   type LayerState = 'verified' | 'pending' | 'warning';
@@ -263,12 +278,12 @@ function proofView(run: Run): string {
   const deduplicated = run.events.some(event => event.type === 'deduplicated');
   const noBrowser = proof?.browser.evidence === null;
   const browserNote = noBrowser && (proof?.api.status === 'verified' || deduplicated) ? `<p class="proof-observation-note">${icon('monitor')}${deduplicated ? '已读取已有结果完成去重；' : ''}本次运行没有浏览器动作证据。后台记录与 API 结果分别核对。</p>` : '';
-  return `<section id="execution-proof" class="execution-proof" aria-label="分层执行核对"><div class="proof-heading"><div><h3>分层执行核对</h3><p>每一层都有独立记录；观察到 POST 不等于业务已完成。</p></div><button type="button" class="button ghost small" data-proof-refresh ${loading ? 'disabled' : ''}>${loading ? '<span class="spinner" aria-hidden="true"></span>' : icon('refresh')}<span>刷新核对报告</span></button></div><div class="proof-grid">${approval}${browser}${database}${apiLayer}</div>${browserNote}${error ? `<p class="proof-error" role="status">${icon('alert')}核对报告读取未完成：${esc(error)}</p>` : ''}<div class="proof-checked">${loading ? '<span class="spinner" aria-hidden="true"></span>正在读取实际核对报告' : proof ? `最近 API 查询：<time datetime="${esc(proof.api.checkedAt)}">${esc(time(proof.api.checkedAt, true))}</time>` : '尚无本版本的独立核对报告'}</div>${proof ? `<details class="proof-technical" id="proof-technical" data-run="${esc(run.id)}" ${state.proofTechnical.get(run.id) ? 'open' : ''}><summary>查看报告内容校验值 ${icon('chevron')}</summary><p>SHA-256 摘要用于发现导出内容是否改变。这是内容校验值，不代表签名或外部认证。</p><code>${esc(proof.digest.value)}</code>${proof.browser.evidence ? `<dl><div><dt>固定执行来源</dt><dd>${esc(proof.browser.evidence.origin ?? '未提供')}</dd></div><div><dt>浏览器观察耗时</dt><dd>${proof.browser.evidence.elapsedMs === null ? '未提供' : `${esc(proof.browser.evidence.elapsedMs)} ms`}</dd></div><div><dt>提交后页面标记</dt><dd>${proof.browser.evidence.registeredMarker === true ? '已观察到登记标记；仍需 API 验收' : '未观察到登记标记'}</dd></div></dl>` : ''}</details>` : ''}</section>`;
+  return `<section id="execution-proof" class="execution-proof" aria-label="分层执行核对"><div class="proof-heading"><div><h3>分层执行核对</h3><p>每一层都有独立记录；观察到 POST 不等于业务已完成。</p></div><button type="button" class="button ghost small" data-proof-refresh ${loading || state.handoffBusy ? 'disabled' : ''}>${loading ? '<span class="spinner" aria-hidden="true"></span>' : icon('refresh')}<span>刷新核对报告</span></button></div><div class="proof-grid">${approval}${browser}${database}${apiLayer}</div>${browserNote}${error ? `<p class="proof-error" role="status">${icon('alert')}核对报告读取未完成：${esc(error)}</p>` : ''}<div class="proof-checked">${loading ? '<span class="spinner" aria-hidden="true"></span>正在读取实际核对报告' : proof ? `最近 API 查询：<time datetime="${esc(proof.api.checkedAt)}">${esc(time(proof.api.checkedAt, true))}</time>` : '尚无本版本的独立核对报告'}</div>${proof ? `<details class="proof-technical" id="proof-technical" data-run="${esc(run.id)}" ${state.proofTechnical.get(run.id) ? 'open' : ''}><summary>查看报告内容校验值 ${icon('chevron')}</summary><p>SHA-256 摘要用于发现导出内容是否改变。这是内容校验值，不代表签名或外部认证。</p><code>${esc(proof.digest.value)}</code>${proof.browser.evidence ? `<dl><div><dt>固定执行来源</dt><dd>${esc(proof.browser.evidence.origin ?? '未提供')}</dd></div><div><dt>浏览器观察耗时</dt><dd>${proof.browser.evidence.elapsedMs === null ? '未提供' : `${esc(proof.browser.evidence.elapsedMs)} ms`}</dd></div><div><dt>提交后页面标记</dt><dd>${proof.browser.evidence.registeredMarker === true ? '已观察到登记标记；仍需 API 验收' : '未观察到登记标记'}</dd></div></dl>` : ''}</details>` : ''}</section>`;
 }
 
 function recoveryView(run: Run): string {
   const proof = currentProof(run);
-  const queryOnly = run.effectStatus !== 'none' || ['executing', 'unknown', 'verified'].includes(run.status) || proof?.allowedNextAction === 'query-only';
+  const queryOnly = state.proofErrors.has(run.id) || run.effectStatus !== 'none' || ['executing', 'unknown', 'verified'].includes(run.status) || proof?.allowedNextAction === 'query-only';
   if (!queryOnly && !['blocked', 'cancelled'].includes(run.status)) return '';
   const confirmed = [...run.events].reverse().find(event => ['execution-query', 'reconciled', 'reconcile', 'deduplicated', 'cancel-after-effect'].includes(event.type) && event.message.includes('确认登记'));
   const confirmedAt = proof?.api.status === 'verified' ? proof.api.checkedAt : confirmed?.at;
@@ -288,7 +303,7 @@ function renderPlan() {
   if (proofTechnical && proofTechnical.dataset.run === run.id) state.proofTechnical.set(run.id, proofTechnical.open);
   const proof = currentProof(run);
   const editing = state.editors.has(run.id);
-  const queryOnly = run.effectStatus !== 'none' || proof?.allowedNextAction === 'query-only';
+  const queryOnly = state.proofErrors.has(run.id) || run.effectStatus !== 'none' || proof?.allowedNextAction === 'query-only';
   const pendingExecute = isPending(run.id, 'execute');
   const pendingCancel = isPending(run.id, 'cancel');
   const otherPending = [...(state.actions.get(run.id) ?? [])].some(action => action !== 'report');
@@ -312,12 +327,16 @@ function renderPlan() {
   if (proof && run.status === 'verified' && proof.api.status !== 'verified') {
     tone = 'warning'; title = '保留已登记效果，当前查询待确认'; description = '历史登记与持久效果仍保留。本次 API 查询尚未完成字段验收，只能继续核对原需求。';
   }
+  if (state.proofErrors.has(run.id)) {
+    tone = 'warning'; title = '当前报告未读取，先核对原需求'; description = '保留历史运行状态和已发生效果；本次报告读取未完成，不能把旧报告作为当前验收。请重新读取核对报告。';
+  }
   const source = sourceLabels[run.plan.source] ?? run.plan.source;
   const result = run.result;
   const disabled = (condition: boolean) => condition ? 'disabled' : '';
   let actions = '';
   if (run.status === 'draft' && !queryOnly && !editing) actions += `<button type="button" class="button primary" data-action="approve" ${disabled(otherPending)}>${isPending(run.id, 'approve') ? '<span class="spinner" aria-hidden="true"></span>' : icon('check')}<span>${isPending(run.id, 'approve') ? '正在记录确认…' : '确认本次登记'}</span></button>`;
   if (run.status === 'approved' && !queryOnly && !editing) actions += `<button type="button" class="button primary" data-action="execute" ${disabled(otherPending || expired)}>${pendingExecute ? '<span class="spinner" aria-hidden="true"></span>' : icon('arrow')}<span>${pendingExecute ? '正在执行…' : '执行已确认计划'}</span></button>`;
+  if (canRevise(run) && !editing) actions += `<button type="button" class="button secondary" data-refresh-target ${disabled(otherPending)}>${icon('refresh')}<span>刷新目标并重新预览</span></button>`;
   if (canRevise(run) && !editing) actions += `<button type="button" class="button secondary" data-edit-plan ${disabled(otherPending)}>${icon('edit')}<span>修改计划</span></button>`;
   if (recoveryAvailable) actions += `<button type="button" class="button ${run.status === 'executing' ? 'secondary' : 'primary'}" data-action="reconcile" ${disabled(otherPending)}>${isPending(run.id, 'reconcile') ? '<span class="spinner" aria-hidden="true"></span>' : icon('refresh')}<span>${isPending(run.id, 'reconcile') ? '正在核对…' : '核对原需求结果'}</span></button>`;
   if (canCancel && !editing) actions += `<button type="button" class="button ghost" data-action="cancel" ${disabled(pendingCancel || (otherPending && !pendingExecute))}>${pendingCancel ? '<span class="spinner" aria-hidden="true"></span>' : icon('stop')}<span>${pendingCancel ? '正在停止…' : run.effectStatus === 'none' && !pendingExecute && run.status !== 'executing' ? '取消当前计划' : '停止后续操作'}</span></button>`;
@@ -337,22 +356,27 @@ function renderPlan() {
 }
 
 function renderHistory() {
-  const runs = orderedRuns();
-  patch('nav-count', String(runs.length + state.archiveCount));
-  patch('history-total', `${runs.length} 会话 · ${state.archiveCount} 历史`);
+  const all = orderedRuns();
+  const runs = all.filter(run => matchesQueue(run, state.queueFilter, queueObservation(run)));
+  patch('queue-overview', Object.entries(queueLabels).map(([stage, label]) => `<span>${label} <strong>${all.filter(run => queueStage(run, queueObservation(run)) === stage).length}</strong></span>`).join('') + `<span class="queue-matches">显示 ${runs.length} / ${all.length} 条</span>`);
+  document.querySelector<HTMLButtonElement>('#handoff-export')!.disabled = state.handoffBusy || state.proofLoading.size > 0 || !state.session || !!state.loadError || runs.length < 1 || runs.length > 10;
+  patch('nav-count', String(all.length + state.archiveCount));
+  patch('history-total', `${all.length} 会话 · ${state.archiveCount} 历史`);
   if (state.loading) { patch('history-list', '<div class="history-empty"><span class="spinner" aria-hidden="true"></span><p>正在读取执行记录…</p></div>'); return; }
+  if (all.length && !runs.length) { patch('history-list', '<div class="history-empty"><p>没有匹配的当前会话记录。请调整搜索或筛选条件。</p></div>'); return; }
   if (!runs.length) { patch('history-list', `<div class="history-empty">${icon('clock')}<div><strong>当前会话还没有执行记录</strong><p>下方可查看已保留的本地全流程历史；新需求会记录在当前会话。</p></div></div>`); return; }
-  patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(run.plan.quantity)} 件 · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
+  patch('history-list', `<div class="history-table-labels" aria-hidden="true"><span>采购需求</span><span>部门 / 品类</span><span>状态</span><span>建立时间</span><span></span></div><div class="history-rows">${runs.map(run => `<button type="button" class="history-row ${run.id === state.selectedId ? 'selected' : ''}" data-select="${esc(run.id)}" aria-label="查看需求 ${esc(run.plan.requestId)}，${esc(statusLabels[run.status])}" aria-pressed="${run.id === state.selectedId}"><span class="history-request"><span class="record-icon">${icon('file')}</span><span><strong class="mono">${esc(run.plan.requestId)}</strong><small>${esc(run.plan.quantity)} 件 · ${esc(sourceLabels[run.plan.source] ?? run.plan.source)}</small><small class="queue-advice">${esc(queueAdvice(run, queueObservation(run)))}${run.error ? ` · ${esc(run.error)}` : ''}</small></span></span><span class="history-target">${esc(run.plan.department)}<small>${esc(run.plan.item)}</small></span><span class="tag status-${run.status}"><span class="status-dot"></span>${esc(statusLabels[run.status])}</span><time datetime="${esc(run.events[0]?.at ?? '')}">${run.events[0]?.at ? esc(time(run.events[0].at, true)) : '—'}</time>${icon('chevron')}</button>`).join('')}</div>`);
 }
 
 function render() {
   const ready = !!state.session && !state.loadError;
+  intake.sync();
   const connection = state.loading ? '<span class="spinner" aria-hidden="true"></span>连接工作区中' : state.loadError ? '<span class="tiny-dot disconnected"></span>连接未完成' : state.syncError ? '<span class="tiny-dot caution"></span>记录同步暂中断' : '<span class="tiny-dot"></span>工作区已连接';
   patch('connection-state', connection);
   patch('workspace-label', esc(state.session?.tenantLabel ?? (state.loadError ? '连接未完成' : '连接中…')));
   patch('load-notice', state.loadError ? `<div class="notice error">${icon('alert')}<div><strong>工作区连接未完成</strong><p>${esc(state.loadError)}</p></div><button type="button" class="button secondary small" data-reconnect>重新连接</button></div>` : state.syncError ? `<div class="notice warning">${icon('alert')}<div><strong>执行记录暂未同步</strong><p>${esc(state.syncError)} 当前页面保留最后一次读取结果。</p></div><button type="button" class="button secondary small" data-refresh>重新读取</button></div>` : '');
   const propose = document.querySelector<HTMLButtonElement>('#propose-button')!;
-  propose.disabled = !ready || state.proposing;
+  propose.disabled = !ready || state.proposing || state.batchBusy;
   propose.innerHTML = state.proposing ? '<span class="spinner" aria-hidden="true"></span><span>正在读取目标并生成计划…</span>' : `${icon('spark')}<span>生成动作预览</span>${icon('arrow')}`;
   patch('planner-info', `${icon('spark')}<div><span>当前提案方式</span><strong>${state.session ? esc(sourceLabels[state.session.planner as keyof typeof sourceLabels] ?? state.session.planner) : '连接后读取实际配置'}</strong></div><span class="planner-caption">${state.session ? '每条计划分别记录实际来源' : '来源由服务端提供'}</span>`);
   document.querySelectorAll<HTMLButtonElement>('[data-refresh]').forEach(button => { button.disabled = state.refreshing || state.loading; });
@@ -361,10 +385,10 @@ function render() {
 
 async function refreshProof(id: string, force = false) {
   const run = state.runs.get(id);
-  if (!run || !state.session || state.loadError || stopped || state.proofLoading.has(id)) return;
+  if (!run || !state.session || state.loadError || stopped || state.handoffBusy || state.proofLoading.has(id)) return;
   if (!force && (currentProof(run) || state.proofErrors.has(id) || run.status === 'executing')) return;
   const sessionVersion = state.sessionVersion;
-  state.proofLoading.add(id); state.proofErrors.delete(id); renderPlan();
+  state.proofLoading.add(id); state.proofErrors.delete(id); renderPlan(); renderHistory();
   try {
     const proof = await api<ExecutionProof>(`/api/runs/${encodeURIComponent(id)}/report`);
     if (sessionVersion !== state.sessionVersion) return;
@@ -381,7 +405,7 @@ async function refreshProof(id: string, force = false) {
     state.proofErrors.set(id, error instanceof Error ? error.message : '核对报告暂不可用。');
   } finally {
     if (sessionVersion === state.sessionVersion) {
-      state.proofLoading.delete(id); renderPlan();
+      state.proofLoading.delete(id); renderPlan(); renderHistory();
       const current = state.runs.get(id);
       if (current && current.epoch !== run.epoch && state.selectedId === id) void refreshProof(id);
     }
@@ -418,6 +442,9 @@ async function connect() {
     const session = await api<SessionView>('/api/session');
     if (state.session?.csrf !== session.csrf) {
       state.sessionVersion++;
+      intake.reset();
+      state.handoffBusy = false;
+      document.getElementById('handoff-notice')!.textContent = '';
       state.runs.clear();
       state.selectedId = null;
       state.selectionVersion++;
@@ -442,7 +469,7 @@ async function connect() {
 
 async function propose(event: SubmitEvent) {
   event.preventDefault();
-  if (state.proposing || !state.session || state.loadError) return;
+  if (state.proposing || state.batchBusy || !state.session || state.loadError) return;
   const input = document.querySelector<HTMLTextAreaElement>('#request-text')!;
   if (!input.reportValidity()) return;
   const text = input.value.trim();
@@ -470,14 +497,46 @@ function sanitize(value: unknown): unknown {
   return value;
 }
 
+async function exportHandoff() {
+  if (state.handoffBusy || state.proofLoading.size > 0 || !state.session || state.loadError || stopped) return;
+  const runs = orderedRuns().filter(run => matchesQueue(run, state.queueFilter, queueObservation(run)));
+  if (!runs.length || runs.length > 10) return;
+  const version = state.sessionVersion;
+  const filter = {...state.queueFilter};
+  state.handoffBusy = true; renderHistory(); renderPlan();
+  const notice = document.getElementById('handoff-notice')!;
+  notice.textContent = `正在逐条读取 ${runs.length} 份报告…`;
+  try {
+    const pack = await collectHandoff(runs, filter, id => api<unknown>(`/api/runs/${encodeURIComponent(id)}/report`, {timeout:10000}), () => !stopped && !!state.session && !state.loadError && version === state.sessionVersion);
+    if (!state.session || state.loadError || version !== state.sessionVersion) return;
+    for (const entry of pack.entries) {
+      const before = runs.find(run => run.id === entry.runId);
+      const current = state.runs.get(entry.runId);
+      if (!before || !current || before.epoch !== current.epoch || before.revision !== current.revision || before.planHash !== current.planHash) continue;
+      if (entry.readStatus === 'failed') state.proofErrors.set(entry.runId, '核对包未能读取或校验这份报告；请重新查询原需求。');
+      else if (entry.report.run.status === current.status && entry.report.run.effectStatus === current.effectStatus) {
+        state.proofErrors.delete(entry.runId);
+        state.proofs.set(entry.runId, {proof:entry.report,epoch:current.epoch,revision:current.revision,planHash:current.planHash});
+      }
+    }
+    renderPlan();
+    const blob = new Blob([JSON.stringify(pack, null, 2)], {type:'application/json;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'officeflow-handoff.json'; anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    notice.textContent = `${pack.complete ? '报告读取完整' : '核对包不完整'} · ${pack.summary.reportsRead} 份已读取，${pack.summary.readFailures} 份失败，${pack.summary.apiVerified} 份本次 API 字段验收通过。`;
+  } catch (error) { if (version === state.sessionVersion) notice.textContent = error instanceof Error ? error.message : '核对包读取失败。'; }
+  finally { if (version === state.sessionVersion) {state.handoffBusy = false; renderHistory(); renderPlan(); if (state.selectedId) void refreshProof(state.selectedId);} }
+}
+
 async function runAction(action: Action) {
   if (action === 'revise') return;
   const run = selectedRun();
   if (!run || isPending(run.id, action)) return;
   const sessionVersion = state.sessionVersion;
   // These client guards make the UI explicit; the API independently enforces every authorization.
-  if (action === 'approve' && (run.status !== 'draft' || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only')) return;
-  if (action === 'execute' && (run.status !== 'approved' || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only' || (run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now()))) return;
+  if (action === 'approve' && (run.status !== 'draft' || state.proofErrors.has(run.id) || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only')) return;
+  if (action === 'execute' && (run.status !== 'approved' || state.proofErrors.has(run.id) || run.effectStatus !== 'none' || state.editors.has(run.id) || currentProof(run)?.allowedNextAction === 'query-only' || (run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now()))) return;
   if (action !== 'cancel' && action !== 'report' && isPending(run.id)) return;
   const pending = state.actions.get(run.id) ?? new Set<Action>();
   pending.add(action); state.actions.set(run.id, pending); render();
@@ -528,6 +587,10 @@ async function revisePlan(event: SubmitEvent) {
   if (!input || !input.reportValidity()) return;
   const text = input.value.trim();
   if (!text) return;
+  await saveRevision(run, editor, text);
+}
+
+async function saveRevision(run: Run, editor: PlanEditor, text: string) {
   const sessionVersion = state.sessionVersion;
   const selectionVersion = state.selectionVersion;
   const pending = state.actions.get(run.id) ?? new Set<Action>();
@@ -563,10 +626,18 @@ app.addEventListener('submit', event => {
   if (event.target instanceof HTMLFormElement && event.target.id === 'revision-form') void revisePlan(event as SubmitEvent);
 });
 app.addEventListener('input', event => {
+  if (event.target instanceof HTMLInputElement && event.target.id === 'queue-search') { state.queueFilter.search = event.target.value; renderHistory(); }
   if (event.target instanceof HTMLTextAreaElement && event.target.id === 'revision-text' && state.selectedId) {
     const editor = state.editors.get(state.selectedId);
     if (editor) editor.text = event.target.value;
   }
+});
+app.addEventListener('change', event => {
+  if (!(event.target instanceof HTMLSelectElement)) return;
+  if (event.target.id === 'queue-department') state.queueFilter.department = event.target.value;
+  else if (event.target.id === 'queue-stage') state.queueFilter.stage = event.target.value;
+  else return;
+  renderHistory();
 });
 app.addEventListener('click', event => {
   const target = (event.target as Element).closest<HTMLElement>('button');
@@ -584,6 +655,12 @@ app.addEventListener('click', event => {
     state.editors.set(run.id, { text: describePlan(run.plan), revision: run.revision, planHash: run.planHash });
     render(); document.getElementById('revision-text')?.focus({ preventScroll: true });
   }
+  else if (target.hasAttribute('data-refresh-target')) {
+    const run = selectedRun();
+    if (!run || !state.session || state.loadError || !canRevise(run) || isPending(run.id) || state.editors.has(run.id)) return;
+    const text = describePlan(run.plan);
+    void saveRevision(run, {text, revision: run.revision, planHash: run.planHash}, text);
+  }
   else if (target.hasAttribute('data-cancel-edit')) {
     const run = selectedRun();
     if (!run || isPending(run.id, 'revise')) return;
@@ -591,6 +668,7 @@ app.addEventListener('click', event => {
     document.querySelector<HTMLButtonElement>('[data-edit-plan]')?.focus({ preventScroll: true });
   }
   else if (target.hasAttribute('data-proof-refresh')) { if (state.selectedId) void refreshProof(state.selectedId, true); }
+  else if (target.hasAttribute('data-handoff')) void exportHandoff();
   else if (target.dataset.action) void runAction(target.dataset.action as Action);
   else if (target.hasAttribute('data-refresh')) void refreshRuns();
   else if (target.hasAttribute('data-reconnect')) void connect();
@@ -599,8 +677,29 @@ const poll = setInterval(() => {
   if (orderedRuns().some(run => run.status === 'executing') || [...state.actions.values()].some(actions => actions.has('execute'))) void refreshRuns(true);
   const run = selectedRun();
   if (run?.status === 'approved' && run.approvalExpiresAt && Date.parse(run.approvalExpiresAt) <= Date.now() && !state.editors.has(run.id)) renderPlan();
+  if (orderedRuns().some(candidate => candidate.status === 'approved' && candidate.approvalExpiresAt && Date.parse(candidate.approvalExpiresAt) <= Date.now())) renderHistory();
 }, 2500);
 window.addEventListener('pagehide', () => { stopped = true; clearInterval(poll); clearTimeout(toastTimer); });
+const intake = mountIntake(document.querySelector<HTMLElement>('#intake')!, {
+  runs: orderedRuns,
+  sessionKey: () => state.session && !state.loadError ? state.sessionVersion : null,
+  available: () => !!state.session && !state.loadError && !state.proposing,
+  setBusy: busy => { state.batchBusy = busy; document.querySelector<HTMLButtonElement>('#propose-button')!.disabled = busy || state.proposing || !state.session || !!state.loadError; },
+  list: async () => {
+    const version = state.sessionVersion;
+    const runs = await api<Run[]>('/api/runs');
+    if (version !== state.sessionVersion || !state.session) throw new Error('工作区已切换。');
+    runs.forEach(upsert); render(); return orderedRuns();
+  },
+  create: async text => {
+    const version = state.sessionVersion;
+    const run = await api<Run>('/api/propose', { method: 'POST', body: {text}, timeout: 40000 });
+    if (version !== state.sessionVersion || !state.session) throw new Error('工作区已切换。');
+    upsert(run); render(); return run;
+  },
+  select: id => setSelected(id, true),
+  uncertainFailure: error => !(error instanceof ApiError) || error.httpStatus === 0 || error.httpStatus >= 500 || error.code === 'INVALID_RESPONSE',
+});
 render();
 void mountRetainedHistory(document.querySelector<HTMLElement>('#retained-history')!, count => { state.archiveCount = count; renderHistory(); });
 void connect();

@@ -1,0 +1,86 @@
+{
+  "schema": "office-agent-operations-local-verification-v1",
+  "observedAt": "2026-10-08T05:04:42.070920+00:00",
+  "baseCommit": "c8eb9169f992822f8a99507d2cfa4b911ed3f3f5",
+  "scope": "local Node HTTP + SQLite + isolated Chromium; production verified separately",
+  "checks": {
+    "applicationTypecheck": "passed",
+    "cloudTypecheck": "passed",
+    "unitAndIntegration": {
+      "passed": 64,
+      "failed": 0
+    },
+    "browserAcceptance": {
+      "passed": 51,
+      "failed": 0,
+      "newCases": 12
+    },
+    "productionBuild": "passed",
+    "dependencyAudit": "No known vulnerabilities found"
+  },
+  "newCapabilities": [
+    "bounded multi-row preparation and field template",
+    "sequential unapproved drafts with query-only response-loss recovery",
+    "refresh target and reapprove each draft",
+    "current-session operation queue",
+    "fresh report collection with checksum and partial-read failure"
+  ],
+  "originalTenRetainedJourneys": "unchanged; not replayed into business data",
+  "limitations": [
+    "Preparation text is page-local; individual drafts persist within signed session.",
+    "Browser evidence uses local isolated Chromium in these checks.",
+    "Each business registration remains individually approved and executed."
+  ],
+  "logHashes": {
+    "final-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-cloud-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final-build.log": "860efc81bffde879845b4d08c13c96d00c471331e0d4aa15bf6c0a80f5a12177",
+    "final-unit.log": "3a3b52f6afce196e8006c5994fa16b3b961d3a1f3d5ae6255b125b6d3f02e1b4",
+    "final-e2e.log": "40bdd6dc11965d8481f39d3705de93176dca4925842512685bea149805f025e2",
+    "final-audit.log": "15950a68a7ed99c59779717acefdceb3f69cfd31bde67d2c954f2a3cea4d7955"
+  },
+  "baselineCandidate": "3546423c1aa8f4776e3091225569760ebdf72182",
+  "reviewRepair": {
+    "observedAt": "2026-10-08T05:26:03.122408+00:00",
+    "applicationTypecheck": "passed",
+    "build": "passed",
+    "affectedBrowserTests": {
+      "passed": 25,
+      "failed": 0,
+      "newRegressionCases": 2,
+      "totalDefinedBrowserCases": 53
+    },
+    "repairs": [
+      "report unavailable or absent moves a verified run to query-only queue while durable effect remains",
+      "all approved rows update after expiration regardless of selected run",
+      "handoff report observations update operation queue only when the captured CAS version still matches"
+    ],
+    "reuse": "The unchanged backend/unit tests, cloud typecheck and dependency audit are retained from the baseline. This amendment is not labeled a fresh local full-suite run.",
+    "logHashes": {
+      "review-regression-red.log": "1065eb06de418b336233e580a3e19e3f9f7cc0b5a2d3f953f960b7885d5ed6c7",
+      "review-expiry-red.log": "a686155313c27e9a29b0baee6748083e52118908b1b85d43a4da0f0b46537f99",
+      "review-regression-green.log": "bfc6971d76fd1422f857f8cd6f2e2063d0568ec15d0ac04f6186705721182c9b",
+      "review-fix-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "review-fix-build.log": "357d96877a542514af426ea98109c7d3cb9c87a3bd59ea19d9854b36eeb9e319",
+      "review-fix-e2e.log": "68c333b683bc9b3e1a58868978ad32471f84f3fbda6ad4c076a9009cd1bfec32"
+    }
+  },
+  "reportReadRepair": {
+    "observedAt": "2026-10-08T05:33:06.150991+00:00",
+    "applicationTypecheck": "passed",
+    "build": "passed",
+    "affectedBrowserTests": {
+      "passed": 26,
+      "failed": 0,
+      "newReadRaceRegression": 1,
+      "totalDefinedBrowserCases": 54
+    },
+    "repair": "Single-report refresh and handoff collection share a UI read lock; execution state/CAS checks and durable effect preservation remain unchanged.",
+    "logHashes": {
+      "review-read-lock-red.log": "3dfce85491397f9d67daaa81b4ee812259b6e4f795e90a193444cff99f70cda6",
+      "review-read-lock-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "review-read-lock-build.log": "bb96e5716e872b8a827d5fec3ff90fa184df71248b3be633a16b902fd5d297bf",
+      "review-read-lock-green.log": "5184437d0ca60f3fd40984673f97f08a4313959590c5e6a035cde44cfe012b75"
+    }
+  }
+}
