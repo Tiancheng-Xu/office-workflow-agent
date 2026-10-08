@@ -51,7 +51,7 @@ test('actual workbench preview → human approval → isolated browser form → 
   await page.getByRole('button', { name: /导出.*报告/ }).click();
   const download = await downloadPromise;
   const report = await readFile((await download.path())!, 'utf8');
-  expect(report).toContain('office-agent-execution-proof-v1');
+  expect(report).toContain('office-agent-execution-proof-v2');
   expect(report).not.toMatch(/"(?:csrf|cookie|token|capability|authorization|password|secret|tenantId)"/i);
   await page.evaluate(() => { document.activeElement instanceof HTMLElement && document.activeElement.blur(); window.scrollTo(0, 0); });
   await page.screenshot({ path: 'docs/qa/normal-workbench.png', fullPage: true });

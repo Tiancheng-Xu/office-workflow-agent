@@ -32,7 +32,7 @@ async function browserHarness(fault:Fault) {
       let raw=await response.text();
       if(url.pathname==='/legacy/form') {
         if(fault==='duplicate')raw=raw.replace('</form>','<input name="quantity" id="duplicate" type="number"><label for="duplicate">数量</label></form>');
-        if(fault==='adapter')raw=raw.replace('synthetic-procurement-v1','synthetic-procurement-v2');
+        if(fault==='adapter')raw=raw.replace(/data-adapter="[^"]+"/,'data-adapter="synthetic-procurement-future"');
         if(fault==='action')raw=raw.replace('action="/legacy/submit"',`action="http://127.0.0.1:${externalAddress.port}/write"`);
         if(fault==='popup')raw=raw.replace('</body>',`<script>window.open('http://127.0.0.1:${externalAddress.port}/popup')</script></body>`);
         if(fault==='payload')raw=raw.replace('</body>','<script>document.querySelector("form").addEventListener("submit",()=>document.querySelector("[name=quantity]").value="99")</script></body>');

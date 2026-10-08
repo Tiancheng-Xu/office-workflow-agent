@@ -29,7 +29,7 @@ export async function readAndAssertProof(app: TestApp, client: Client, run: Run)
   if (!response.body.ok) throw new Error('proof report rejected');
   const report = response.body.data;
   expect(report.syntheticOnly).toBe(true);
-  expect(report.schema).toBe('office-agent-execution-proof-v1');
+  expect(report.schema).toBe(run.plan.unit?'office-agent-execution-proof-v2':'office-agent-execution-proof-v1');
   expect(Object.keys(report).sort()).toEqual(['allowedNextAction', 'api', 'approval', 'browser', 'database', 'digest', 'generatedAt', 'run', 'schema', 'syntheticOnly']);
   expect(report.run.id).toBe(run.id);
   expect(report.run.revision).toBe(run.revision);
@@ -45,7 +45,7 @@ export async function readAndAssertProof(app: TestApp, client: Client, run: Run)
 }
 export function assertVerifiedProof(proof: ExecutionProof, quantity: number) {
   expect(proof.api.queryStatus).toBe('found'); expect(proof.api.status).toBe('verified');
-  expect(Object.keys(proof.api.checks).sort()).toEqual(['canonicalHash', 'department', 'executionKey', 'item', 'payloadHash', 'planHash', 'quantity', 'reason', 'requestId']);
+  expect(Object.keys(proof.api.checks).sort()).toEqual(['canonicalHash', 'department', 'executionKey', 'item', 'payloadHash', 'planHash', 'quantity', 'reason', 'requestId',...(proof.schema==='office-agent-execution-proof-v2'?['unit']:[])]);
   expect(Object.values(proof.api.checks).every(value => value === true)).toBe(true);
   expect(proof.api.demand?.quantity).toBe(quantity);
   expect(proof.database.effectStatus).toBe('applied');

@@ -83,7 +83,7 @@ export class SqliteRepository implements Repository {
       if(run.status!=='executing')throw new DomainError('EXECUTION_NOT_CLAIMED','执行未认领或已取消。');
       const rawTarget=this.db.prepare('SELECT revision FROM targets WHERE tenant_id=?').get(tenantId) as Row|undefined;
       if(!rawTarget||Number(rawTarget.revision)!==run.targetRevision)throw new DomainError('TARGET_DRIFT','后台数据版本已改变，请重新提案。');
-      const demand:Demand={requestId:run.plan.requestId,department:run.plan.department,item:run.plan.item,quantity:run.plan.quantity,reason:run.plan.reason,payloadHash:run.planHash,createdAt:new Date(boundaryNow).toISOString(),executionKey:run.executionKey};
+      const demand:Demand={requestId:run.plan.requestId,department:run.plan.department,item:run.plan.item,quantity:run.plan.quantity,...(run.plan.unit?{unit:run.plan.unit}:{}),reason:run.plan.reason,payloadHash:run.planHash,createdAt:new Date(boundaryNow).toISOString(),executionKey:run.executionKey};
       this.db.prepare('INSERT INTO demands(tenant_id,request_id,payload_hash,execution_key,body) VALUES(?,?,?,?,?)').run(tenantId,run.plan.requestId,run.planHash,run.executionKey,JSON.stringify(demand));
       this.db.prepare('UPDATE targets SET revision=revision+1 WHERE tenant_id=? AND revision=?').run(tenantId,run.targetRevision);
       const applied=event({...run,effectStatus:'applied',result:demand},boundaryNow,'effect-applied','旧后台已登记合成采购需求；等待独立查询核对。');

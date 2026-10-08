@@ -1,3 +1,4 @@
+import {quantityLabel,units} from '../procurement-fields.js';
 import {departments,items} from '../catalog.js';
 import {extractDemand,demandText,newRequestId,demandKey} from '../demand-input.js';
 import type { Plan, Run } from '../contracts.js';
@@ -16,7 +17,7 @@ interface IntakePorts {
   uncertainFailure: (error: unknown) => boolean;
 }
 function sameFields(plan: Plan, run: Run): boolean {
-  return ['requestId', 'department', 'item', 'quantity', 'reason'].every(key => plan[key as keyof Plan] === run.plan[key as keyof Plan]);
+  return ['requestId', 'department', 'item', 'quantity', 'unit', 'reason'].every(key => plan[key as keyof Plan] === run.plan[key as keyof Plan]);
 }
 export function mountIntake(container: HTMLElement, ports: IntakePorts) {
   let rows: IntakeRow[] = [];
@@ -25,7 +26,7 @@ export function mountIntake(container: HTMLElement, ports: IntakePorts) {
   // A missing response must not turn into an automatic repeat after rechecking the text.
   const uncertainIds = new Set<string>();
   const generatedIds=new Map<string,string>();
-  container.innerHTML = `<details class="intake-details" open><summary><strong>批量准备需求</strong><span>逐行校验 → 未批准草稿 → 逐条登记</span></summary><div class="intake-body"><p>每行一个自然语言需求，最多 10 条。自动整理中文数量和别名，缺少编号时生成稳定编号。准备内容仅保留在此页；已生成的草稿保存在当前工作区。</p><details class="intake-template"><summary>用字段模板追加一条</summary><form id="intake-template"><div class="template-fields"><label>部门<select name="department">${departments.map(v=>`<option>${v}</option>`).join('')}</select></label><label>品类<select name="item">${items.map(v=>`<option>${v}</option>`).join('')}</select></label><label>数量<input name="quantity" type="number" min="1" max="100" step="1" required value="1"></label><label>需求编号<input name="requestId" pattern="REQ-[A-Z0-9\\-]{3,48}" maxlength="52" required placeholder="REQ-TEAM-001"></label></div><button type="submit" class="button ghost small">追加到清单</button></form></details><label for="batch-text">多条采购需求</label><textarea id="batch-text" rows="5" maxlength="12000" placeholder="为研发部登记12台显示器，需求编号REQ-BATCH-001&#10;为行政部登记6把办公椅，需求编号REQ-BATCH-002"></textarea><div class="intake-actions"><button type="button" class="button secondary" id="intake-check">校验清单</button><button type="button" class="button primary" id="intake-create" disabled>生成通过校验的草稿</button><button type="button" class="button ghost" id="intake-recover" hidden>查询已有草稿</button></div><p id="intake-notice" aria-live="polite"></p><div id="intake-rows"></div><p class="intake-footnote">草稿逐条确认与执行。前一条登记后，后续草稿需「刷新目标并重新预览」，再人工确认；本清单不会自动批准或登记。</p></div></details>`;
+  container.innerHTML = `<details class="intake-details" open><summary><strong>批量准备需求</strong><span>逐行校验 → 未批准草稿 → 逐条登记</span></summary><div class="intake-body"><p>每行一个自然语言需求，最多 10 条。自动整理中文数量和别名，缺少编号时生成稳定编号。准备内容仅保留在此页；已生成的草稿保存在当前工作区。</p><details class="intake-template"><summary>用字段模板追加一条</summary><form id="intake-template"><div class="template-fields"><label>部门<select name="department">${departments.map(v=>`<option>${v}</option>`).join('')}</select></label><label>品类<input name="item" required minlength="1" maxlength="64" placeholder="A4纸" value="显示器"></label><label>数量<input name="quantity" type="number" min="1" max="100" step="1" required value="1"></label><label>计量单位<select name="unit">${units.map(v=>`<option>${v}</option>`).join('')}</select></label><label>需求编号<input name="requestId" pattern="REQ-[A-Z0-9\\-]{3,48}" maxlength="52" required placeholder="REQ-TEAM-001"></label></div><button type="submit" class="button ghost small">追加到清单</button></form></details><label for="batch-text">多条采购需求</label><textarea id="batch-text" rows="5" maxlength="12000" placeholder="为研发部登记12台显示器，需求编号REQ-BATCH-001&#10;为行政部登记6把办公椅，需求编号REQ-BATCH-002"></textarea><div class="intake-actions"><button type="button" class="button secondary" id="intake-check">校验清单</button><button type="button" class="button primary" id="intake-create" disabled>生成通过校验的草稿</button><button type="button" class="button ghost" id="intake-recover" hidden>查询已有草稿</button></div><p id="intake-notice" aria-live="polite"></p><div id="intake-rows"></div><p class="intake-footnote">草稿逐条确认与执行。前一条登记后，后续草稿需「刷新目标并重新预览」，再人工确认；本清单不会自动批准或登记。</p></div></details>`;
   const input = container.querySelector<HTMLTextAreaElement>('#batch-text')!;
   const notice = container.querySelector<HTMLElement>('#intake-notice')!;
   const result = container.querySelector<HTMLElement>('#intake-rows')!;
@@ -43,7 +44,7 @@ export function mountIntake(container: HTMLElement, ports: IntakePorts) {
     recoverButton.disabled = busy || !ports.available();
   }
   function render() {
-    result.innerHTML = rows.map(row => `<article class="intake-row" data-intake-row="${row.line}"><strong>第 ${row.line} 行${row.plan ? ` · ${esc(row.plan.requestId)}` : ''}</strong>${row.plan ? `<p>${esc(row.plan.department)} · ${esc(row.plan.item)} · ${row.plan.quantity} 件</p><small>${esc(row.plan.reason)} · 有界规则预检</small>` : ''}<p class="${row.issue ? 'intake-warning' : 'intake-ready'}">${esc(row.issue ?? (row.outcome === 'created' ? '已生成未批准草稿' : '字段完整 · 可以准备草稿'))}</p>${row.run ? `<button type="button" class="button ghost small" data-intake-select="${esc(row.run.id)}">查看原记录 · ${esc(row.run.plan.requestId)}</button>` : ''}</article>`).join('');
+    result.innerHTML = rows.map(row => `<article class="intake-row" data-intake-row="${row.line}"><strong>第 ${row.line} 行${row.plan ? ` · ${esc(row.plan.requestId)}` : ''}</strong>${row.plan ? `<p>${esc(row.plan.department)} · ${esc(row.plan.item)} · ${esc(quantityLabel(row.plan))}</p><small>${esc(row.plan.reason)} · 有界规则预检</small>` : ''}<p class="${row.issue ? 'intake-warning' : 'intake-ready'}">${esc(row.issue ?? (row.outcome === 'created' ? '已生成未批准草稿' : '字段完整 · 可以准备草稿'))}</p>${row.run ? `<button type="button" class="button ghost small" data-intake-select="${esc(row.run.id)}">查看原记录 · ${esc(row.run.plan.requestId)}</button>` : ''}</article>`).join('');
     availability();
   }
   function duplicateCheck(runs: Run[]) {
@@ -66,9 +67,9 @@ export function mountIntake(container: HTMLElement, ports: IntakePorts) {
     rows = lines.map(row => {
       try {
         const extraction=extractDemand(row.text);if(extraction.issues.length)throw new Error(extraction.issues.map(i=>i.message).join(' '));
-        const {department,item,quantity}=extraction.fields;if(!department||!item||quantity===undefined)throw new Error('请补全部门、品类和数量。');
+        const {department,item,quantity,unit}=extraction.fields;if(!department||!item||quantity===undefined)throw new Error('请补全部门、品类和数量。');
         const key=demandKey(extraction.fields);const requestId=extraction.fields.requestId||generatedIds.get(key)||newRequestId();if(!extraction.fields.requestId)generatedIds.set(key,requestId);
-        const normalized=demandText({department,item,quantity,requestId});return {...row,normalized,plan:boundedRulePlan(normalized)};
+        const normalized=demandText({department,item,quantity,...(unit?{unit}:{}),requestId});return {...row,normalized,plan:boundedRulePlan(normalized)};
       }
       catch (error) { return {...row, issue: error instanceof Error ? error.message : '字段无法识别。'}; }
     });
@@ -135,7 +136,7 @@ export function mountIntake(container: HTMLElement, ports: IntakePorts) {
     event.preventDefault();
     if (busy || !template.reportValidity()) return;
     const data = new FormData(template);
-    const text = `为${data.get('department')}登记${data.get('quantity')}件${data.get('item')}，需求编号${data.get('requestId')}`;
+    const text = `为${data.get('department')}登记${data.get('quantity')}${data.get('unit')}${data.get('item')}，需求编号${data.get('requestId')}`;
     try { boundedRulePlan(text); } catch { notice.textContent = '请使用支持的完整字段和整数数量。'; return; }
     if (input.value.split(/\r?\n/).filter(line => line.trim()).length >= 10 || input.value.length + text.length + 1 > 12000) { notice.textContent = '清单已达上限，请先处理已有需求。'; return; }
     input.value = [input.value.trim(), text].filter(Boolean).join('\n'); input.dispatchEvent(new Event('input')); input.focus();

@@ -1,4 +1,5 @@
-import {departments,items} from '../catalog.js';
+import {itemSchema,unitSchema,type Unit} from '../procurement-fields.js';
+import {departments} from '../catalog.js';
 import type { Demand, Plan, Run, RunStatus } from '../contracts.js';
 import { canonicalPayload, hash } from './validation.js';
 
@@ -9,7 +10,7 @@ export interface ProofObservation {
 }
 export type AllowedNextAction='approve'|'execute'|'query-only'|'none';
 interface PublicPayload {
-  requestId:string|null;department:string|null;item:string|null;quantity:number|null;reason:string|null;
+  requestId:string|null;department:string|null;item:string|null;quantity:number|null;unit?:Unit|null;reason:string|null;
 }
 interface PublicPlan extends PublicPayload {source:string|null;}
 interface PublicDemand extends PublicPayload {payloadHash:string|null;executionKey:string|null;createdAt:string|null;}
@@ -20,11 +21,11 @@ interface PublicBrowserEvidence {
   stopCode:string|null;
 }
 interface FieldChecks {
-  requestId:boolean|null;department:boolean|null;item:boolean|null;quantity:boolean|null;reason:boolean|null;
+  requestId:boolean|null;department:boolean|null;item:boolean|null;quantity:boolean|null;unit?:boolean|null;reason:boolean|null;
   payloadHash:boolean|null;canonicalHash:boolean|null;executionKey:boolean|null;planHash:boolean|null;
 }
 export interface ExecutionProof {
-  schema:'office-agent-execution-proof-v1';syntheticOnly:true;generatedAt:string;
+  schema:'office-agent-execution-proof-v1'|'office-agent-execution-proof-v2';syntheticOnly:true;generatedAt:string;
   run:{id:string|null;revision:number|null;targetRevision:number|null;adapterVersion:string|null;
     status:RunStatus;effectStatus:Run['effectStatus'];plan:PublicPlan;planHash:string|null;executionKey:string|null};
   approval:{status:'matched'|'missing'|'mismatch'|'expired';approvedHash:string|null;expiresAt:string|null;hashMatches:boolean;validAtObservation:boolean};
@@ -62,15 +63,15 @@ function timestamp(value:unknown):string|null {
   return Number.isFinite(parsed)?new Date(parsed).toISOString():null;
 }
 function publicPayload(value:Plan|Demand):PublicPayload {
-  return {requestId:code(value.requestId),department:publicString(value.department,20),item:publicString(value.item,20),
-    quantity:positiveInteger(value.quantity),reason:publicString(value.reason,200)};
+  return {requestId:code(value.requestId),department:publicString(value.department,20),item:publicString(value.item,64),
+    quantity:positiveInteger(value.quantity),...(value.unit!==undefined?{unit:unitSchema.safeParse(value.unit).success?value.unit:null}:{}),reason:publicString(value.reason,200)};
 }
 function publicDemand(value:Demand):PublicDemand {
   return {...publicPayload(value),payloadHash:digestValue(value.payloadHash),executionKey:digestValue(value.executionKey),createdAt:timestamp(value.createdAt)};
 }
 function validPayload(value:PublicPayload):boolean {
   return value.requestId!==null&&/^REQ-[A-Z0-9][A-Z0-9-]{2,63}$/.test(value.requestId)
-    &&departments.some(x=>x===value.department)&&items.some(x=>x===value.item)
+    &&departments.some(x=>x===value.department)&&itemSchema.safeParse(value.item).success&&(value.unit===undefined||unitSchema.safeParse(value.unit).success)
     &&value.quantity!==null&&value.quantity<=100&&value.reason!==null&&value.reason.trim().length>0;
 }
 async function payloadDigest(value:PublicPayload):Promise<string|null> {
@@ -105,7 +106,7 @@ function emptyChecks():FieldChecks {
   return {requestId:null,department:null,item:null,quantity:null,reason:null,payloadHash:null,canonicalHash:null,executionKey:null,planHash:null};
 }
 function fieldChecks(plan:PublicPayload,planHash:string|null,executionKey:string|null,computedPlanHash:string|null,demand:PublicDemand,computedDemandHash:string|null):FieldChecks {
-  return {requestId:demand.requestId!==null&&demand.requestId===plan.requestId,
+  return {...(plan.unit!==undefined||demand.unit!==undefined?{unit:plan.unit!==null&&demand.unit!==null&&(plan.unit??'件')===(demand.unit??'件')}:{ }),requestId:demand.requestId!==null&&demand.requestId===plan.requestId,
     department:demand.department!==null&&demand.department===plan.department,
     item:demand.item!==null&&demand.item===plan.item,quantity:demand.quantity!==null&&demand.quantity===plan.quantity,
     reason:demand.reason!==null&&demand.reason===plan.reason,
@@ -145,7 +146,7 @@ export async function createExecutionProof(run:Run,observation:ProofObservation)
     approvedHash,expiresAt,hashMatches,validAtObservation:hashMatches&&expiresAt!==null&&Date.parse(expiresAt)>Date.parse(generatedAt)};
   const browser=browserWitness(run);
   const api:ExecutionProof['api']={checkedAt:generatedAt,queryStatus:observation.queryStatus,
-    status:observation.queryStatus==='not-found'?'not-found':'unknown',checks:emptyChecks(),demand:fresh,issues:[]};
+    status:observation.queryStatus==='not-found'?'not-found':'unknown',checks:{...emptyChecks(),...(plan.unit!==undefined?{unit:null}:{})},demand:fresh,issues:[]};
   if(observation.queryStatus==='unavailable')api.issues=['QUERY_UNAVAILABLE'];
   if(observation.queryStatus==='found') {
     if(fresh===null)api.issues=['FRESH_DEMAND_MISSING'];
@@ -158,7 +159,7 @@ export async function createExecutionProof(run:Run,observation:ProofObservation)
   // Keep durable effect evidence independent from current query availability or consistency.
   const database:ExecutionProof['database']={effectStatus:publicRun.effectStatus,hasPersistedResult:persisted!==null,
     persistedResultMatchesPlan:persisted?allMatch(fieldChecks(plan,planHash,executionKey,computedPlanHash,persisted,computedPersistedHash)):null,result:persisted};
-  const body={schema:'office-agent-execution-proof-v1' as const,syntheticOnly:true as const,generatedAt,
+  const body={schema:run.plan.unit!==undefined?'office-agent-execution-proof-v2' as const:'office-agent-execution-proof-v1' as const,syntheticOnly:true as const,generatedAt,
     run:publicRun,approval,browser,database,api,allowedNextAction:allowedAction(publicRun,approval,browser,api)};
   return {...body,digest:{algorithm:'SHA-256',value:await hash(canonicalJSON(body))}};
 }
@@ -181,7 +182,7 @@ function canonicalJSON(value:unknown,ancestors=new Set<object>()):string {
 
 /** Checksum verification detects edits against the supplied digest; it is not a signature or authenticity check. */
 export async function verifyExecutionProof(proof:unknown):Promise<boolean> {
-  if(!isRecord(proof)||proof.schema!=='office-agent-execution-proof-v1'||proof.syntheticOnly!==true||!isRecord(proof.digest)
+  if(!isRecord(proof)||!['office-agent-execution-proof-v1','office-agent-execution-proof-v2'].includes(String(proof.schema))||proof.syntheticOnly!==true||!isRecord(proof.digest)
     ||proof.digest.algorithm!=='SHA-256'||digestValue(proof.digest.value)===null
     ||Object.keys(proof.digest).sort().join(',')!=='algorithm,value')return false;
   const expectedKeys=['allowedNextAction','api','approval','browser','database','digest','generatedAt','run','schema','syntheticOnly'];

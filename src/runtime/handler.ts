@@ -1,4 +1,5 @@
-import {departments,items} from '../catalog.js';
+import {units} from '../procurement-fields.js';
+import {departments} from '../catalog.js';
 import { z } from 'zod';
 import type { BrowserEvidence, Demand, Plan, Run, SessionView } from '../contracts.js';
 import type { BrowserExecutor } from '../browser/executor.js';
@@ -98,21 +99,22 @@ export function createHandler(options:HandlerOptions):(request:Request)=>Promise
       if(run.status!=='executing')throw new DomainError('EXECUTION_NOT_CLAIMED','运行未认领或已结束。');
       const hidden:Record<string,string|number>={run:run.id,cap:token,revision:run.revision,planHash:run.planHash,targetRevision:run.targetRevision,adapterVersion:run.adapterVersion};
       const fields=Object.entries(hidden).map(([key,value])=>`<input type="hidden" name="${key}" value="${escapeHtml(value)}">`).join('');
-      return html(`<h1>独立体验租户 · 合成采购需求</h1><p>此页只登记模拟办公需求，无付款操作。</p><form method="post" action="/legacy/submit" data-adapter="${escapeHtml(run.adapterVersion)}" data-run="${escapeHtml(run.id)}" data-target-revision="${run.targetRevision}">${fields}<label for="requestId">需求编号</label><input id="requestId" name="requestId" type="text" required maxlength="68"><label for="department">部门</label><select id="department" name="department">${departments.map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="item">物品</label><select id="item" name="item">${items.map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="quantity">数量</label><input id="quantity" name="quantity" type="number" min="1" max="100" required><label for="reason">用途</label><textarea id="reason" name="reason" maxlength="200" required></textarea><button type="submit">登记合成需求</button></form>`);
+      return html(`<h1>独立体验租户 · 合成采购需求</h1><p>此页只登记模拟办公需求，无付款操作。</p><form method="post" action="/legacy/submit" data-adapter="${escapeHtml(run.adapterVersion)}" data-run="${escapeHtml(run.id)}" data-target-revision="${run.targetRevision}">${fields}<label for="requestId">需求编号</label><input id="requestId" name="requestId" type="text" required maxlength="68"><label for="department">部门</label><select id="department" name="department">${departments.map(v=>`<option value="${v}">${v}</option>`).join('')}</select><label for="item">物品</label><input id="item" name="item" type="text" maxlength="64" required><label for="quantity">数量</label><input id="quantity" name="quantity" type="number" min="1" max="100" required>${run.plan.unit?`<label for="unit">计量单位</label><select id="unit" name="unit">${units.map(v=>`<option value="${v}">${v}</option>`).join('')}</select>`:''}<label for="reason">用途</label><textarea id="reason" name="reason" maxlength="200" required></textarea><button type="submit">登记合成需求</button></form>`);
     }
     if(path==='/legacy/submit'&&request.method==='POST') {
       if(request.headers.get('origin')!==origin)throw new DomainError('ORIGIN_DENIED','表单来源不受信任。',403);
       if(!request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded'))throw new DomainError('INVALID_CONTENT_TYPE','表单格式无效。',415);
       const raw=await limitedText(request);
       const form=new URLSearchParams(raw);
-      const names=['run','cap','revision','planHash','targetRevision','adapterVersion','requestId','department','item','quantity','reason'];
+      const names=['run','cap','revision','planHash','targetRevision','adapterVersion','requestId','department','item','quantity','reason',...(form.has('unit')?['unit']:[])];
       if(form.size!==names.length||names.some(name=>form.getAll(name).length!==1))throw new DomainError('INVALID_INPUT','表单字段发生变化。',400);
       const token=form.get('cap')!;
       if(!/^[a-f0-9]{64}$/.test(token))throw new DomainError('CAPABILITY_INVALID','执行授权无效。',403);
       const cap=await repository.getCapability(await hash(token));
       if(!cap)throw new DomainError('CAPABILITY_INVALID','执行授权无效。',403);
       const run=await requiredRun(cap.tenantId,form.get('run')!);
-      const plan=validatePlan({requestId:form.get('requestId'),department:form.get('department'),item:form.get('item'),quantity:Number(form.get('quantity')),reason:form.get('reason'),source:run.plan.source});
+      if(form.has('unit')!==Boolean(run.plan.unit))throw new DomainError('PAYLOAD_CONFLICT','计量单位字段与批准计划不一致。');
+      const plan=validatePlan({requestId:form.get('requestId'),department:form.get('department'),item:form.get('item'),quantity:Number(form.get('quantity')),...(run.plan.unit?{unit:form.get('unit')}:{}),reason:form.get('reason'),source:run.plan.source});
       const demand=await repository.submitDemand({tokenHash:cap.tokenHash,runId:form.get('run')!,revision:Number(form.get('revision')),planHash:form.get('planHash')!,targetRevision:Number(form.get('targetRevision')),adapterVersion:form.get('adapterVersion')!,plan,now:now()});
       return html(`<h1 data-result="registered">需求已登记</h1><p>${escapeHtml(demand.requestId)} · ${escapeHtml(demand.department)} · ${escapeHtml(demand.item)} · ${demand.quantity}</p>`);
     }

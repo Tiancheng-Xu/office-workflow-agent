@@ -1,4 +1,5 @@
-import {departments,items} from '../catalog.js';
+import {itemSchema,unitSchema} from '../procurement-fields.js';
+import {departments} from '../catalog.js';
 import { z } from 'zod';
 import { verifyExecutionProof } from '../runtime/proof.js';
 import type { Run } from '../contracts.js';
@@ -9,7 +10,7 @@ const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const code = z.string().regex(/^[A-Za-z0-9._-]{1,128}$/).nullable();
 const payload = {
   requestId: z.string().regex(/^REQ-[A-Z0-9-]{3,48}$/).nullable(),
-  department: z.enum(departments).nullable(), item: z.enum(items).nullable(),
+  department: z.enum(departments).nullable(), item: itemSchema.nullable(),unit:unitSchema.nullable().optional(),
   quantity: z.number().int().min(1).max(100).nullable(), reason: z.literal('合成采购需求登记').nullable(),
 };
 const demand = z.object({...payload, payloadHash:digest.nullable(),executionKey:digest.nullable(),createdAt:stamp.nullable()}).nullable();
@@ -20,10 +21,10 @@ const evidence = z.object({
   postObserved:z.boolean().nullable(),registeredMarker:z.boolean().nullable(),stopCode:code,
 }).nullable();
 const checked = z.boolean().nullable();
-const fieldChecks = z.object({requestId:checked,department:checked,item:checked,quantity:checked,reason:checked,payloadHash:checked,canonicalHash:checked,executionKey:checked,planHash:checked});
+const fieldChecks = z.object({requestId:checked,department:checked,item:checked,quantity:checked,unit:checked.optional(),reason:checked,payloadHash:checked,canonicalHash:checked,executionKey:checked,planHash:checked});
 // Explicit objects strip all unexpected keys, including inside nested report layers.
 const reportSchema = z.object({
-  schema:z.literal('office-agent-execution-proof-v1'),syntheticOnly:z.literal(true),generatedAt:stamp,
+  schema:z.enum(['office-agent-execution-proof-v1','office-agent-execution-proof-v2']),syntheticOnly:z.literal(true),generatedAt:stamp,
   run:z.object({id:z.string().uuid(),revision:z.number().int().positive(),targetRevision:z.number().int().nonnegative().nullable(),
     adapterVersion:code,status:z.enum(['draft','approved','executing','unknown','verified','blocked','cancelled']),
     effectStatus:z.enum(['none','unknown','applied']),plan:z.object({...payload,source:z.enum(['bounded-rule','ollama','workers-ai']).nullable()}),
@@ -56,6 +57,6 @@ export async function collectHandoff(runs: Run[], filter: QueueFilter, read: (id
   return {schema:'office-agent-handoff-v1',syntheticOnly:true,scope:'current-session-filtered-runs',startedAt,generatedAt:new Date().toISOString(),
     selection:{...filter,count:runs.length},complete:readEntries.length===runs.length,
     summary:{selected:runs.length,reportsRead:readEntries.length,readFailures:runs.length-readEntries.length,
-      apiVerified:readEntries.filter(entry=>entry.report.api.status==='verified'&&entry.report.api.queryStatus==='found'&&Object.values(entry.report.api.checks).length===9&&Object.values(entry.report.api.checks).every(value=>value===true)).length},
+      apiVerified:readEntries.filter(entry=>entry.report.api.status==='verified'&&entry.report.api.queryStatus==='found'&&Object.values(entry.report.api.checks).length===(entry.report.schema==='office-agent-execution-proof-v2'?10:9)&&Object.values(entry.report.api.checks).every(value=>value===true)).length},
     statement:'Each report is a separate fresh API observation. Read completeness is not execution success. The digest is not a signature.',entries};
 }
