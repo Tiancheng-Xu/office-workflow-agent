@@ -1,0 +1,306 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="OfficeFlow 办公流程 Agent：完整产品需求、架构取舍与项目讲述，已有交付与规划分层。"><title>OfficeFlow 办公流程 Agent · 项目 PRD</title><style>
+  :root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f7f8fb;color:#182332;font:16px/1.85 system-ui,sans-serif}header,main,footer{max-width:1100px;margin:auto;padding:24px}nav{display:flex;gap:20px;flex-wrap:wrap}a{color:#285ba8;text-underline-offset:4px}a:focus-visible{outline:3px solid #5b86cc;outline-offset:4px}h1{font-size:clamp(26px,4vw,40px);line-height:1.4}h2,h3,h4{scroll-margin-top:20px;line-height:1.5}article{background:white;padding:clamp(18px,4vw,44px);border:1px solid #dae0ea;border-radius:12px;overflow-wrap:anywhere}.notice{background:#eef3fb;padding:16px;border-left:4px solid #527ab8}.toc{border:1px solid #dce3ec;background:white;padding:20px;margin:24px 0;border-radius:12px}.toc ul{columns:2;padding-left:20px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;min-width:600px;width:100%;font-size:14px}th,td{border:1px solid #dae0ea;padding:10px;vertical-align:top}th{background:#edf2f8}pre{overflow-x:auto;background:#111d2e;color:#e6edf5;padding:18px;border-radius:8px}code{font:14px/1.7 ui-monospace,monospace}p code,li code,td code{background:#edf2f8;padding:2px 4px}li{margin:6px 0}@media(max-width:600px){header,main,footer{padding:16px}.toc ul{columns:1}nav{gap:12px}}@media print{body{background:white}.toc,header{display:none}article{border:0;padding:0}pre{white-space:pre-wrap}.table-wrap{overflow:visible}table{min-width:0}}
+  </style></head><body><header><nav aria-label="项目导航"><a href="https://baby2b.online/">作品集首页</a><a href="https://office-workflow-agent.baby2b.online/">项目主页</a><a href="https://office-workflow-agent.baby2b.online/evidence/">工作证明</a></nav></header><main><h1>OfficeFlow 办公流程 Agent</h1><p>公开脱敏版 · 文档生成日期 2026-10-12</p><p class="notice">本文保留完整产品需求与项目讲述。本人已确认实际项目主控与上线；具体版本、增强设计、实测结果分别说明。新规划项目仅代表设计文档，文档完成不等于实现、模型效果或生产验收。内部来源保留原件，但不公开本机路径、联系方式、凭据与客户原始资料。</p><nav class="toc" aria-label="PRD章节目录"><ul><li><a href="#section-1">OfficeFlow：基于现状的 PRD 与项目讲述稿</a></li><li><a href="#section-2">1. 文档身份与证据截止点</a></li><li><a href="#section-3">2. 一句话定义与产品背景</a></li><li><a href="#section-4">3. 用户、角色、权限与核心场景</a></li><li><a href="#section-5">4. 目标、成功指标与非目标</a></li><li><a href="#section-6">5. 产品边界、模块、入口与依赖</a></li><li><a href="#section-7">6. 正常、失败、取消与恢复流程</a></li><li><a href="#section-8">7. 需求与验收矩阵</a></li><li><a href="#section-9">8. 状态机、业务规则与重试边界</a></li><li><a href="#section-10">9. 数据与领域模型</a></li><li><a href="#section-11">10. API、事件与外部接口</a></li><li><a href="#section-12">11. 架构与技术取舍</a></li><li><a href="#section-13">12. Agent 职责、授权、模型、评测与回放</a></li><li><a href="#section-14">13. 非功能要求与运行限制</a></li><li><a href="#section-15">14. 测试、验收与发布账本</a></li><li><a href="#section-16">15. 本人职责与协作边界</a></li><li><a href="#section-17">16. 已知缺口、风险与路线图</a></li><li><a href="#section-18">17. 项目讲述：30 秒、90 秒与 5 分钟</a></li><li><a href="#section-22">18. 追问树与大白话复习</a></li><li><a href="#section-23">19. 演示顺序、证据索引与历史确认问题</a></li></ul></nav><article><h2 id="section-1">OfficeFlow：基于现状的 PRD 与项目讲述稿</h2>
+<h3 id="section-2">1. 文档身份与证据截止点</h3>
+<p>本文是基于已实现产品重建的产品需求文档（Product Requirements Document，PRD），用于理解项目与准备项目讲述，不是新一轮开发计划，也不替代个人贡献确认。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">项目</th><th scope="col">当前可查证事实</th></tr></thead><tbody>
+<tr><td>产品</td><td>OfficeFlow · 办公流程 Agent，Web2 合成采购需求登记工作台</td></tr>
+<tr><td>归属</td><td>Tiancheng-Xu 名下实际产品；本人于 2026-10-11 确认主控且已上线，不以 demo 概括。现有部署使用合成数据，没有佳达等企业客户交付证据</td></tr>
+<tr><td>本文</td><td>v1.1，2026-10-11；按统一编写约定覆盖 19 节；本次同步已确认的主控/上线口径，具体增强仍按版本分层</td></tr>
+<tr><td>代码</td><td><code>内部证据路径（未公开）</code>；本轮只读检查 HEAD 为 <code>3c6e44c34a2fbbbedbebc3fb6cb4d87ac8c8cd4a</code>，工作区干净</td></tr>
+<tr><td>发布版本</td><td>2026-10-08 合并 PR #6，当前核验代码与该合并版本一致；包清单版本仍为 <code>0.1.0</code>，不能用它唯一定位发布</td></tr>
+<tr><td>生产证据截止</td><td>2026-10-08T12:34:35.080Z 的独立 API 再核对；本轮没有重新访问线上或发起登记</td></tr>
+<tr><td>已知状态</td><td>该版本完成预览、生产合成登记和回读。没有持续可用性、真实企业运营或任意自然语言理解的验收结论</td></tr>
+<tr><td>个人贡献</td><td>本人主控、项目已上线已确认；具体模块决策、编码、审查、排障及 AI 协作分工仍按事实补充，不再重复询问总体身份</td></tr>
+</tbody></table></div>
+<p><a href="https://github.com/Tiancheng-Xu/office-workflow-agent" rel="noreferrer">公开仓库</a> · <a href="https://office-workflow-agent.baby2b.online/" rel="noreferrer">生产工作台</a> · <a href="https://office-workflow-agent.baby2b.online/evidence/" rel="noreferrer">工作证明</a> · <a href="https://github.com/Tiancheng-Xu/office-workflow-agent/pull/6" rel="noreferrer">PR #6</a>。文中的公开地址是项目入口，不能据此认定 10 月 11 日仍可用。源码、历史测试和生产结果分别记账，证据编号见第 19 节。</p>
+<h3 id="section-3">2. 一句话定义与产品背景</h3>
+<p>OfficeFlow 把一条采购口语整理成可核对的入参，在人工确认后通过隔离浏览器登记固定后台表单，再独立查询实际记录，说明到底登记了什么。</p>
+<p>原始痛点有两个。输入层要求用户照固定句式、品类白名单和编号填写，接近“把表单再说一遍”；执行层如果只以点击成功或页面回执为准，会无法区分后台已写入、提交未发生和结果未知。产品因此同时解决“少记格式”与“写入后能查证”。这是产品假设和工程目标，没有企业访谈、真实采购人员使用量或节省工时数据。</p>
+<p>实际反馈推动了两个版本。用户输入“前台买一台打印机”，推动部门别名、中文数字、不同语序、自动编号和补全；随后输入“给行政买一打a4纸”，暴露品类封闭、规格数字被误当数量、单位缺失的问题。最新版本保留 A4 规格，整理为行政部 / A4纸 / 1 打，且把单位贯穿到批准、写入与证明。[E02、E03、E13]</p>
+<p>可受益的假设用户是行政或运营登记人员，以及需要向下一位处理者交接结果的人。当前部署使用合成数据和独立体验租户，验证的是工作流工程可行性，不是实际采购履约。</p>
+<h3 id="section-4">3. 用户、角色、权限与核心场景</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">角色/参与者</th><th scope="col">能做什么</th><th scope="col">权限边界</th></tr></thead><tbody>
+<tr><td>当前体验用户</td><td>准备需求、补全、预览、修订、逐条确认与执行、取消、查证、导出</td><td>会话决定租户；不能在请求体中选择其他租户</td></tr>
+<tr><td>语言提案器</td><td>提取有限字段、形成计划，标记实际来源</td><td>不能批准、付款、访问用户指定外链或增加动作</td></tr>
+<tr><td>服务端执行器</td><td>校验批准、认领运行、签发短期执行能力、运行固定表单</td><td>仅执行已确认版本、当前适配器和目标；隔离浏览器</td></tr>
+<tr><td>核对/交接者</td><td>阅读分层报告和核对包</td><td>导出的包是观察快照，不是执行许可，也不是跨租户授权</td></tr>
+<tr><td>维护者</td><td>查看代码、测试、发布收据，维护适配器</td><td>产品没有实现企业管理员、审批主管等独立角色体系</td></tr>
+</tbody></table></div>
+<p>“确认人”和“操作人”当前可以是同一体验用户，没有双人复核、企业组织树、单点登录或基于角色的访问控制。会话 Cookie 签名并绑定随机租户，默认有效 24 小时；过期后不能假设新会话能找回旧租户数据。[E04、E06]</p>
+<p>核心场景：一句话准备单条需求；最多 10 行准备多条未批准草稿；修订字段后重新确认；浏览器中断后只核对原编号；搜索与按部门/阶段筛选；向下一位处理者导出 1–10 条核对包。十条历史案例另设只读归档，不混入当前会话登记数。</p>
+<h3 id="section-5">4. 目标、成功指标与非目标</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">目标及验收口径</th><th scope="col">已有结果</th><th scope="col">尚不能推导的结论</th></tr></thead><tbody>
+<tr><td>明确口语可变成正确字段；缺项给补全，不猜归属和包装换算</td><td>最新源码和回归测试覆盖中文数量、别名、语序、规格及单位；生产原句通过</td><td>没有开放语料准确率、召回率或真实用户完成率</td></tr>
+<tr><td>未确认不写；修订清旧批准；执行只写已确认载荷</td><td>本地故障与端到端测试；生产一次批准后登记</td><td>没有真实企业权限系统接入结论</td></tr>
+<tr><td>重复执行和未知结果不能变成重复写入</td><td>业务唯一键、执行认领及查询恢复；本地重复/崩溃/取消验证</td><td>不承诺所有外部系统的“恰好一次”效果</td></tr>
+<tr><td>完成必须有新鲜记录核对</td><td>生产含单位的证明十项全真，独立重新计算哈希与报告校验值</td><td>浏览器点击、D1 持久效果和新鲜查询不是同一种证据</td></tr>
+<tr><td>可复查交付过程和不同失败终点</td><td>保留十条本地全流程历史，终点不同；最新 82/82 单元集成、63/63 浏览器测试</td><td>不是十次生产成功，也不是 63 次云端登记</td></tr>
+<tr><td>有界运行并说明资源消耗</td><td>生产样本云浏览器 5.280 秒；代码每日预算和间隔限制</td><td>单次耗时不能代表平均、p95 或服务等级承诺</td></tr>
+</tbody></table></div>
+<p>未测的商业指标包括登记节省工时、错误率改善、采用率、留存、采购成本和付费转化。后续如衡量这些收益，需定义同一任务的人工基线、样本量与时间范围。</p>
+<p>非目标：真实客户系统或数据写入、支付退款、钱包/链上操作、采购下单与物流履约、任意网站自动化、检索增强生成（Retrieval-Augmented Generation，RAG）、光学字符识别（Optical Character Recognition，OCR）、全平台多 Agent、付费模型兜底、自动批量批准。契约明确限定合成采购登记。[E01]</p>
+<h3 id="section-6">5. 产品边界、模块、入口与依赖</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">模块/入口</th><th scope="col">实际职责</th><th scope="col">上下游</th></tr></thead><tbody>
+<tr><td><code>/</code>、<code>#main-content</code></td><td>单条输入、缺项补全、完整动作预览、差异、批准、执行、取消、核对</td><td>共享提取器 → 服务端运行</td></tr>
+<tr><td><code>#intake</code></td><td>每行一条，最多 10 条；模板追加、校验、草稿创建、不确定响应查询</td><td>单条同一字段契约；不是批量执行器</td></tr>
+<tr><td><code>#history</code></td><td>当前会话队列、搜索、部门/阶段筛选、核对包</td><td>服务端一次最多读取 100 条；不是全库分析</td></tr>
+<tr><td>同页只读历史</td><td>展示十个保留案例的过程、断言与不同结束节点</td><td>静态归档，不恢复为可执行计划</td></tr>
+<tr><td><code>/evidence/</code></td><td>项目工作证明及发布说明</td><td>与工作台、作品集相互导航</td></tr>
+<tr><td><code>/api/*</code></td><td>会话、提案、运行状态、批准、修订、执行、报告、恢复</td><td>Pages Functions 转发至 Runtime Worker</td></tr>
+<tr><td><code>/legacy/*</code></td><td>合成旧系统表单、提交、结果页</td><td>浏览器持短期能力执行；不使用个人 Chrome 档案</td></tr>
+</tbody></table></div>
+<p>上游是用户明确的合成采购文本与中央部门/单位目录；下游是项目自有合成登记表及查询。当前部门只有研发部、运营部、行政部、前台，物品是受校验的文本，并非只有四种选项。名称最大 64 字，数量为 1–100 整数，支持 20 种单位：件、台、把、个、套、张、包、箱、盒、打、支、本、卷、块、瓶、袋、组、根、只、枚。受字符和保守词过滤限制，不能承诺所有合法商品名称都被接受。[E03、E05]</p>
+<p>外部工程依赖是 GitHub、Cloudflare Pages、Workers、D1 和 Browser Run，以及可选 Ollama/Workers AI。产品没有接入 Dify 或 n8n；它们只是入参提取分层的设计参考。[E02]</p>
+<h3 id="section-7">6. 正常、失败、取消与恢复流程</h3>
+<p>正常单条链路：</p>
+<pre><code>原话 → 提取部门/名称规格/数量单位 → 缺项则保留原话并补全
+    → 生成或保留 REQ 编号 → 有类型的规范入参
+    → 服务端读目标版本并保存 draft → 预览完整计划
+    → 人工批准当前版本（五分钟有效）→ 用户明确执行
+    → 持久认领 executing → 短期能力 → 隔离浏览器固定表单
+    → 提交载荷与批准一致 → 数据库条件写入
+    → 新鲜 API 查询字段/哈希/业务键 → verified → 报告/核对包</code></pre>
+<p>“给行政买一打a4纸”不需用户自己编编号，输出行政部 / A4纸 / 数量 1 / 单位 打。<code>A4纸500张装</code> 的包装说明属于名称规格；若输入“买两包”，采购数量仍为 2 包。既不把 A4 中的 4 当数量，也不把 500 张包装算成采购 500 张。[E02、E13]</p>
+<p>修订链路：展示旧字段与新字段差异 → 保留原需求编号 → revision 加一、重新读目标、清批准 → 回到 draft → 人工重新确认。执行中、未知效果、已登记和取消状态不能这样改。</p>
+<p>失败与恢复示例：</p>
+<ol>
+<li>DOM（Document Object Model，文档对象模型）的字段标签、名称、数量或适配器不匹配，提交前停止；用户检查后刷新/修订并重新确认。</li>
+<li>已批准两条，第一条登记改变租户目标版本，第二条不能沿用旧目标批准；先刷新目标重新预览再确认。</li>
+<li>提交后回执丢失或查询失败，标记 unknown/需核对，保留可能或已发生效果；按原编号再次查询，不启动第二次浏览器提交。</li>
+<li>取消先查结果，再通过并发控制停止新提交。事务写入前取消可阻止晚到写入；已经 applied 的登记保留，取消不是撤销或退款。</li>
+</ol>
+<p>批量链路只是“逐行校验 → 顺序创建未批准草稿”。创建响应不确定时停止后续创建并查询已有草稿；每条之后仍需单独批准和执行。页面准备文本与已保存服务端草稿的生命周期不同。[E04、E09]</p>
+<h3 id="section-8">7. 需求与验收矩阵</h3>
+<p>P0 表示会影响权限、写入和结果可信性的必备项；P1 表示主要输入与交接体验。状态“生产”只指列出的实际样本；“本地”不提升为云故障验收。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">ID</th><th scope="col">优先级</th><th scope="col">需求与验收条件</th><th scope="col">实现/验证状态</th><th scope="col">证据</th></tr></thead><tbody>
+<tr><td>OF-01</td><td>P1</td><td>部门别名、中文数字、语序归一；明确字段才进入草稿</td><td>已实现；本地回归；生产原句样本</td><td>E02、E05、E13</td></tr>
+<tr><td>OF-02</td><td>P1</td><td>名称含规格；单位独立；一打保持 1 打；包装数字不误提取</td><td>已实现；82/63 回归；生产十项核对</td><td>E02、E03、E13</td></tr>
+<tr><td>OF-03</td><td>P0</td><td>缺项/歧义保留原话和已识别值，显式补全；不猜归属数量</td><td>已实现；本地回归，包括 101包保留单位</td><td>E03、E05、E09</td></tr>
+<tr><td>OF-04</td><td>P0</td><td>租户来自会话，其他租户不可读写；所有业务修改校验来源与防伪令牌</td><td>已实现；本地隔离/安全验证；不等同渗透测试</td><td>E04、E06、E16</td></tr>
+<tr><td>OF-05</td><td>P0</td><td>批准绑定版本、内容、目标、适配器和有效期；未批准不可执行</td><td>已实现；本地旧批准/过期/漂移；生产正常链路</td><td>E04、E06、E12、E13</td></tr>
+<tr><td>OF-06</td><td>P0</td><td>同一运行修订，保留编号、字段差异、清旧批准；危险阶段禁止修改</td><td>已实现；本地 API/UI 验证</td><td>E04、E09、E16</td></tr>
+<tr><td>OF-07</td><td>P0</td><td>固定 DOM 和 POST 校验；同源受控网络；跳转/弹窗/下载停止</td><td>已实现；真实本地浏览器故障；云端正常写入</td><td>E07、E12、E13</td></tr>
+<tr><td>OF-08</td><td>P0</td><td>持久认领与业务唯一键；并发/重试不能重复登记</td><td>已实现；本地事务/重复/崩溃验证</td><td>E04、E08、E16</td></tr>
+<tr><td>OF-09</td><td>P0</td><td>取消前后分清效果；晚到提交不能绕过现场状态</td><td>已实现；本地取消竞态和历史终点</td><td>E04、E08、E12</td></tr>
+<tr><td>OF-10</td><td>P0</td><td>unknown 仅核对原编号，不自动重发；保留 durable applied</td><td>已实现；本地丢回执/查询失败/崩溃</td><td>E04、E10、E12、E16</td></tr>
+<tr><td>OF-11</td><td>P0</td><td>浏览器、持久效果、新鲜 API 分层证明；有单位 v2 十项，无单位 v1 九项</td><td>已实现；本地兼容；生产新旧记录 GET 回查</td><td>E10、E13</td></tr>
+<tr><td>OF-12</td><td>P1</td><td>单批最多 10 行，草稿不自动批准；语义稳定编号；响应不明可查询</td><td>已实现；本地测试；生产三条仅草稿</td><td>E05、E09、E13</td></tr>
+<tr><td>OF-13</td><td>P1</td><td>搜索/部门/阶段筛选；1–10 条新鲜报告导出；完整度与成功数分开</td><td>已实现；本地核对包；生产单条核对包</td><td>E09、E10、E14</td></tr>
+<tr><td>OF-14</td><td>P1</td><td>保留十条全流程历史，结束节点不同，不能重放</td><td>已实现；本地归档/UI 验证；生产页面保留</td><td>E03、E12、E13</td></tr>
+<tr><td>OF-15</td><td>P0</td><td>预算不足停止；预览生产隔离；CI、部署版本、域名与真实业务回读一致</td><td>已实现；CI/预览/生产收据；持续监控未测</td><td>E11、E13、E15</td></tr>
+<tr><td>OF-16</td><td>P0</td><td>本地迁移、备份恢复不触发重写；故障有原始测量分母</td><td>历史本地验收；不是生产灾备演练</td><td>E16</td></tr>
+</tbody></table></div>
+<h3 id="section-9">8. 状态机、业务规则与重试边界</h3>
+<p>运行状态 <code>draft / approved / executing / unknown / verified / blocked / cancelled</code> 与效果状态 <code>none / unknown / applied</code> 是两个轴。例如后台已 applied，但当前 API 查询失败，仍应显示“需核对”，不能擦除已写入事实。[E04、E10]</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">当前/目标</th><th scope="col">允许条件与行为</th></tr></thead><tbody>
+<tr><td>无运行 → draft</td><td>通过安全与字段校验，读目标，保存计划和哈希；不写登记表</td></tr>
+<tr><td>draft/approved/blocked → draft</td><td>无效果、无 result；匹配旧 revision/hash；同一编号；修订清批准</td></tr>
+<tr><td>draft/approved/blocked → approved</td><td>未产生效果；批准字段、适配器、当前目标一致；有效五分钟</td></tr>
+<tr><td>approved → executing</td><td>批准仍有效；目标未变；数据库尚无同键记录；CAS 认领成功</td></tr>
+<tr><td>executing → verified</td><td>独立查到相同载荷哈希和执行键的需求；保存 result/applied</td></tr>
+<tr><td>executing → blocked</td><td>浏览器证明提交不可能发生，安全检查停止；若仍可能有效则走 unknown</td></tr>
+<tr><td>executing → unknown</td><td>可能产生效果但无法确认，或认领/能力/提交中断；只查询恢复</td></tr>
+<tr><td>unknown → verified</td><td>原编号查到一致记录，不重写；未查到仍不能擅自判定可重试</td></tr>
+<tr><td>活动前/活动中 → cancelled</td><td>先查效果、再现场 CAS 停新提交；已 applied 保留，不撤销</td></tr>
+<tr><td>已 verified 再执行/取消</td><td>查询/记录事实，不能再次提交或声称撤销</td></tr>
+</tbody></table></div>
+<p>CAS（Compare-and-Swap，比较并交换）用 <code>epoch</code> 比较现场版本，避免读到旧快照后覆盖别人刚写入的状态。执行认领租约超过 35 秒后只查询恢复；不是自动重新执行租约。短期能力期限不超过批准到期与签发后 30 秒的较早者。[E04、E06]</p>
+<p>幂等分两层：页面按部门、物品、数量、单位的语义键复用无编号需求的生成编号；数据库以 <code>(tenant_id, request_id)</code> 唯一，并以稳定执行键约束效果。同编号不同载荷为 <code>PAYLOAD_CONFLICT</code>，不能覆盖。相同文字再次采购若确实是一笔新业务，应显式使用不同编号。跨页面、会话及真实外部系统的任意重试“恰好一次”不在承诺内。[E05、E08]</p>
+<p>报告允许的下一步为 <code>approve / execute / query-only / none</code>。它是观察时的建议，不替代执行时服务端再次鉴权。页面“已完成”同时要求状态和新鲜 API 十项或九项检查匹配；仅有 verified 标签但报告未读或失效，仍属于需核对。[E09、E10]</p>
+<h3 id="section-10">9. 数据与领域模型</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">实体</th><th scope="col">关键字段与关联</th><th scope="col">来源/持久化</th></tr></thead><tbody>
+<tr><td>Session</td><td>id、tenantId、csrf、expiresAt</td><td>随机签发；sessions 表；Cookie 仅保存签名会话标识</td></tr>
+<tr><td>Plan</td><td>requestId、department、item、quantity、可选 unit、reason、source</td><td>文本提取/显式补全；属于 Run；用途固定为“合成采购需求登记”</td></tr>
+<tr><td>Run</td><td>id、revision、planHash、targetRevision、adapterVersion、status、effectStatus、approvedHash、到期、executionKey、epoch、事件、旧计划、result</td><td>runs 表有 status/epoch 列及 JSON body，另有租户索引；当前最多保留 100 个运行事件</td></tr>
+<tr><td>Target</td><td>tenantId、revision</td><td>每个租户的后台版本；写入登记后改变，约束旧批准</td></tr>
+<tr><td>Capability</td><td>tokenHash、tenantId、runId、revision、planHash、targetRevision、adapterVersion、expiresAt</td><td>capabilities 表；只存能力令牌哈希，公开报告不含令牌</td></tr>
+<tr><td>Demand</td><td>requestId、部门、名称规格、数量、单位、reason、payloadHash、executionKey、createdAt</td><td>合成表单实际事务生成；demands 表按租户/编号唯一，JSON 保存单位</td></tr>
+<tr><td>BrowserEvidence</td><td>时间、耗时、origin、适配器、计划哈希、DOM/载荷/POST/标记观测、停止码</td><td>Run 白名单观测；不保存原始浏览器存储或能力 URL</td></tr>
+<tr><td>ExecutionProof/Handoff</td><td>新鲜查询、分层状态、字段核对、允许动作、校验值；每条独立观察</td><td>读取时生成报告，用户导出 JSON 快照；不授予新权限</td></tr>
+<tr><td>RetainedFlow</td><td>历史案例、原时间、过程、断言、结束码</td><td>静态只读归档，不关联到新租户执行权</td></tr>
+</tbody></table></div>
+<p>存储有本地 SQLite 与云端 D1 两种适配，复用业务仓库接口；D1 是云托管 SQLite 数据库。单位添加到 JSON 记录，已有无单位载荷保持原规范字节，所以本次没有追加数据库迁移；历史结构已有迁移 1/2/3。[E08、E16]</p>
+<p>计划哈希采用 SHA-256（Secure Hash Algorithm 256-bit，256 位安全散列算法），对固定字段顺序的规范 JSON 计算；提案来源不进入业务载荷，显式单位才附加 unit，旧无单位载荷保持不变。报告校验值对报告内容的规范 JSON 计算，是完整性检查，不能证明签发者身份或存储不可篡改。[E06、E10]</p>
+<p>数据仅应是合成需求。用户仍可能误填私人信息，所以范围提示不是自动脱敏保证。公开报告排除会话、令牌、Cookie 和原始浏览器状态。当前没有查证到产品级数据删除入口、统一保留期、账号找回或跨设备迁移；会话到期不等于后台数据已删除，不能把归档当生产可执行数据迁移。[E01、E06、E08]</p>
+<h3 id="section-11">10. API、事件与外部接口</h3>
+<p>API（Application Programming Interface，应用程序编程接口）使用 <code>{ok:true,data}</code> 或 <code>{ok:false,error:{code,message}}</code>。请求体严格校验，不接收额外权限字段；修改接口要求当前会话、可信来源及 <code>X-CSRF-Token</code>。CSRF（Cross-Site Request Forgery，跨站请求伪造）防护令牌由会话签发。[E04、E06]</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">接口</th><th scope="col">入参与责任</th><th scope="col">关键错误/限制</th></tr></thead><tbody>
+<tr><td><code>GET /api/health</code></td><td>运行健康与适配器/统计</td><td>不是成功率或 SLA 报表</td></tr>
+<tr><td><code>GET /api/session</code></td><td>获取/创建租户会话、csrf、planner 标签</td><td>云端每日请求预算</td></tr>
+<tr><td><code>GET /api/runs</code></td><td>当前租户运行列表</td><td>一次最多 100 条，不读取其他租户</td></tr>
+<tr><td><code>POST /api/propose</code></td><td><code>{text}</code>；保存未批准草稿</td><td><code>PLAN_UNSUPPORTED</code>、<code>INVALID_PLAN</code></td></tr>
+<tr><td><code>POST /api/runs/:id/revise</code></td><td><code>{revision,planHash,text}</code>；同编号修订</td><td><code>STALE_REVISION</code>、<code>REQUEST_ID_CHANGED</code>、<code>REVISION_NOT_ALLOWED</code></td></tr>
+<tr><td><code>POST /api/runs/:id/approve</code></td><td><code>{revision,planHash,targetRevision}</code></td><td><code>STALE_APPROVAL</code>、<code>TARGET_DRIFT</code>、<code>APPROVAL_NOT_ALLOWED</code></td></tr>
+<tr><td><code>POST /api/runs/:id/execute</code></td><td><code>{}</code>；认领、能力、浏览器、查询</td><td><code>APPROVAL_REQUIRED</code>、<code>APPROVAL_EXPIRED</code>、<code>ADAPTER_DRIFT</code>；故障也可能返回正常封装的 unknown/blocked Run</td></tr>
+<tr><td><code>POST /api/runs/:id/reconcile</code></td><td><code>{}</code>；按原编号只查询恢复</td><td>未查到不自动重写；查询故障仍需核对</td></tr>
+<tr><td><code>POST /api/runs/:id/cancel</code></td><td><code>{}</code>；先核对、停新提交</td><td>applied 不撤销；取消后仍可核对</td></tr>
+<tr><td><code>GET /api/runs/:id/report</code></td><td>白名单报告；每次重新查询 Demand</td><td>API 状态 <code>verified / mismatch / not-found / unknown</code>；无可读查询时 <code>unavailable</code></td></tr>
+<tr><td><code>GET /legacy/form</code>、<code>POST /legacy/submit</code>、<code>GET /legacy/result</code></td><td>项目自有固定合成表单；带运行与短期能力</td><td><code>CAPABILITY_INVALID</code>、版本/载荷/执行认领拒绝</td></tr>
+</tbody></table></div>
+<p>业务修改 JSON 体读取上限 12,000 字节，提案 API 文本最多 2,000 字符；单条 UI 当前最多 1,000 字符，批量文本上限 12,000 字符。这些是不同层的限制。[E04、E09]</p>
+<p>已查证运行事件包括 <code>proposed</code>、<code>plan-revised</code>、<code>approved</code>、<code>execution-claimed</code>、<code>browser-observed</code>、<code>browser-stopped</code>、<code>execution-query</code>、<code>reconciled</code>、<code>effect-unresolved</code>、<code>cancelled</code>、<code>cancel-after-effect</code>、<code>cancel-after-effect-unconfirmed</code>、<code>payload-conflict</code>、<code>capability-failed</code>。事件在运行内，不是消息队列订阅协议。</p>
+<p>没有公开业务 <code>POST /api/demands</code> 接口。实际写入由受控 legacy 提交发生；报告通过仓库读取需求。Ollama 的本地 <code>/api/chat</code> 和 Workers AI 仅是可选提案接口，不是生产执行权限入口。[E04、E17]</p>
+<h3 id="section-12">11. 架构与技术取舍</h3>
+<pre><code>浏览器工作台（TypeScript + Vite，客户端渲染）
+  → Pages Functions（API/legacy 服务绑定转发）
+  → Runtime Worker（会话、严格入参、状态机、批准、预算、证明）
+       ↔ D1（运行、目标版本、能力哈希、合成需求、预算）
+       → Browser Run / Playwright（隔离固定表单）→ 同一受控 legacy 入口
+       → 独立需求查询 → 分层报告
+
+本地适配：Node HTTP 服务 + SQLite + 隔离 Chromium
+可选提案：Ollama / Workers AI → 严格验证 → 失败回退规则</code></pre>
+<div class="table-wrap"><table><thead><tr><th scope="col">选择</th><th scope="col">由什么需求驱动</th><th scope="col">替代方案与边界</th></tr></thead><tbody>
+<tr><td>自然语言提取、类型校验、执行分层</td><td>用户不用照固定句式；仍要明确可批准载荷</td><td>直接让模型操作页面更灵活，但输入解释和权限纠缠。当前提取有界，复杂需求需补全</td></tr>
+<tr><td>原生 TypeScript DOM + Vite</td><td>页面以工作流状态、少量路由入口为主，共享类型易核对</td><td>React/Next 可处理更大组件体系；当前没有服务端渲染需求，不能称 SSR 产品</td></tr>
+<tr><td>共用仓库接口，本地 SQLite / 云 D1</td><td>能真实本地复现事务，又能云端持久运行</td><td>独立 PostgreSQL/服务集群更易拓展多组织流程，但增加维护成本；未做横向大负载证明</td></tr>
+<tr><td>固定 Playwright 适配器 v2</td><td>演示旧网页只有表单写入口，且写前须精确守卫</td><td>若真实系统提供可信写 API，应优先评估 API；合成后台也是项目自建，不能把此演示当真实客户旧系统集成经历</td></tr>
+<tr><td>CAS、现场状态和唯一键</td><td>防止并发确认/取消/提交覆盖；以原编号恢复</td><td>只用前端按钮禁用无法拦服务器竞态；更强的分布式事务也不能覆盖所有外部系统效果</td></tr>
+<tr><td>持久效果与查询观察分离</td><td>已写入后查询失败必须诚实表达</td><td>单个 success 布尔值无法表达 unknown；实现更复杂但便于安全恢复</td></tr>
+<tr><td>新旧证明并存</td><td>加单位时不破坏旧哈希、批准语义和历史核对</td><td>一次性强制重写旧载荷简单，但会让历史哈希失效；这里 v1/v2 按载荷区分</td></tr>
+<tr><td>Pages 前端 + 独立 Runtime Worker</td><td>静态前端发布与浏览器执行资源分开，预览/生产独立</td><td>单一 Node 服务器便于本地；云端另有部署、绑定和版本一致性成本</td></tr>
+</tbody></table></div>
+<p>Dify Parameter Extractor、n8n Information Extractor 的参考仅支持“文本 → 类型化字段 → 校验 → 工作流”的分层思路。本项目没有直接复制其运行时，也没有因参考框架而获得通用语言理解能力。[E02]</p>
+<h3 id="section-13">12. Agent 职责、授权、模型、评测与回放</h3>
+<p>当前生产来源是 <code>bounded-rule</code>，界面明确显示“有界规则提案；模型未启用”。规则提取中文整数、部门别名、名称规格和计量片段，缺项由显式补全完成；不会让提案器猜部门、包装换算或执行授权。这里的 Agent 价值在于受控的“提案—批准—执行—证明—恢复”闭环，不以模型开启与否替代权限设计。[E03、E05、E17]</p>
+<p>可选模型路径存在：本地 Ollama 使用已安装 <code>qwen2.5-coder:7b-code</code>；Workers AI 的源码使用 <code>@cf/meta/llama-3.1-8b-instruct</code>。两者都先运行规则基线，再对 JSON 做严格字段和原文对应校验；无效、超时或不可用回退规则并如实记 source。因此模型不能绕过当前规则不支持的输入，不能称“LLM 自动理解任何采购句子”。本地模型超时 15 秒、输出最多 512 token；云提案同为 15 秒、256 token。这里是源码参数，不是当前生产模型调用结果。[E17]</p>
+<p>工具权力在服务端：批准绑定租户、运行、revision、载荷哈希、目标、适配器与到期；能力令牌短期有效；浏览器只访问受控来源和固定动作。文本中的支付、外链、权限或脚本不能增加工具权限。模型来源本身不进入业务哈希，但模型提出的业务字段仍完整绑定批准。</p>
+<p>没有在线资料检索/RAG、开放网站规划、视觉/OCR 或自主多步骤工具探索。记录了运行事件、浏览器观测、持久结果、新鲜查询、发布版本；没有模型链式思考追踪和生产提示词质量平台。</p>
+<p>历史模型评测必须分开说明：2026-10-04 使用 20 个冻结合成案例，规则和“模型＋严格验证/规则回退”均 20/20；其中只有三个正常输入实际来源为 Ollama，其余是规则层拒绝。该样本没有执行登记，<code>notExecuted</code> 指业务未执行，不表示没有模型请求。三个模型接受输出不足以证明 100% 模型准确率；也不能将当时样本倒推到最新单位/规格版本。另有 10 月 3 日一次原始模型返回，数量是字符串，HTTP 200 不等于满足严格 Plan。[E18]</p>
+<p>历史回放是只读查看，不重放写入。unknown 恢复是查询原编号；核对包不是 replay 命令。独立代码审查的 Spec/Standards ALLOW 是工程审查结论，不是标定后的模型裁判准确率。[E03、E12]</p>
+<h3 id="section-14">13. 非功能要求与运行限制</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">维度</th><th scope="col">当前机制/证据</th><th scope="col">限制与未验收内容</th></tr></thead><tbody>
+<tr><td>安全</td><td>签名会话、HttpOnly/SameSite、HTTPS Secure Cookie、CSRF/来源校验、租户读取、严格 schema、能力哈希、DOM/POST/网络守卫</td><td>没有外部渗透测试、企业身份治理或完整合规认证</td></tr>
+<tr><td>隐私</td><td>合成数据，公开报告字段白名单，不存公开令牌/浏览器状态</td><td>没有产品级自动私人信息识别、删除期和跨设备恢复</td></tr>
+<tr><td>并发可靠性</td><td>CAS、事务条件、业务唯一键、稳定执行键、认领持久化</td><td>限定项目数据库边界；不能承诺任意第三方恰好一次</td></tr>
+<tr><td>超时/降级</td><td>云浏览器整体 25 秒；能力最长 30 秒；35 秒认领租约后只查；模型失败规则回退</td><td>原契约 browserSeconds=30 是规划预算，实际云执行上限 25 秒；本地历史超时案例是 10 秒</td></tr>
+<tr><td>成本/预算</td><td>UTC 每日 session-requests 200、proposal-requests 200 两类预算；提案与修订共享后一类。浏览器每日 6 次，启动间隔至少 30 秒；可选 AI 每日 12 次</td><td>是数据库环境预算，不是每用户 6 次，也不是云账单保证；耗尽需停止，无付费兜底</td></tr>
+<tr><td>性能</td><td>10 月 8 日生产一次云浏览器 5.280 秒；预览一次 12.517 秒</td><td>无当前生产延迟分位数、真实用户监测或 SLA；不能宣称速度提升比例</td></tr>
+<tr><td>运维</td><td>CI、应用/云类型检查、构建、依赖审计、健康接口；本地备份/崩溃样本</td><td>本地恢复不是 D1 生产灾备；没有持续生产告警验收</td></tr>
+<tr><td>可用性/UI</td><td>单条/批量复用解析；补全保持字段；队列与证明分开；生产 390px 无横向溢出/页面错误</td><td>不是完整无障碍、全部终端或浏览器兼容认证</td></tr>
+<tr><td>可维护性</td><td>统一部门/单位/验证、仓库接口、适配版本、旧载荷兼容、证据版本</td><td>README 等历史文档仍有旧品类/关闭状态，需版本化更新</td></tr>
+</tbody></table></div>
+<p>有限历史本地负载：2026-10-04，Node 24.20.0，排除 10 次预热，实际测量 165 次，分别提案 40 次/并发 4、列表 120 次/并发 8、浏览器业务 5 次/串行，零错误。提案 p95 4.308ms，列表 p95 3.446ms，五次业务 p95 443.615ms；这只是回环 HTTP、SQLite 和当时适配器 v1 小样本，不能推广为云吞吐量或最新生产 p95。[E16]</p>
+<p>生产真实用户监测（Real User Monitoring，RUM）及页面性能指标汇聚仍无实施验收。历史性能契约文件为 10 月 4 日 <code>planned</code>，其中“尚未部署”等状态被后来部署收据覆盖，但“不存在生产 RUM 分位数”不能被一次登记补齐。[E13、E19]</p>
+<h3 id="section-15">14. 测试、验收与发布账本</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">日期/层级</th><th scope="col">版本/对象</th><th scope="col">真实结果与边界</th><th scope="col">来源</th></tr></thead><tbody>
+<tr><td>2026-10-04 历史基础</td><td>当时源码/适配器 v1</td><td>64 项测试、36 项浏览器验收；不是最新 82/63 版本</td><td>E16、E20</td></tr>
+<tr><td>2026-10-04 运维故障</td><td>历史本地临时库/真实子进程</td><td>两个事务前后 SIGKILL（强制终止进程）场景恢复，不重启浏览器/重发 POST；备份恢复表/会话/需求，回放写入为零；165 次有限负载</td><td>E16</td></tr>
+<tr><td>2026-10-08 自然语言历史版</td><td>PR #5，<code>cb14fa7</code> 历史版本</td><td>71/59 回归；“前台买一台打印机”旧生产记录之后仍可 GET 回查 v1 九项；不能倒推已具备单位增强</td><td>E13、E20</td></tr>
+<tr><td>2026-10-08 最新本地</td><td><code>de1254098724874f229953a43374588a6895f46e</code></td><td>82/82 单元集成、63/63 浏览器端到端（End-to-End，E2E）；应用/云类型、构建、依赖审计通过，审计当时零已知漏洞</td><td>E03</td></tr>
+<tr><td>2026-10-08 独立审查</td><td>同一 <code>de12540</code> 源码</td><td>Spec ALLOW / Standards ALLOW；发布候选只追加真实验证收据。不是云业务验收</td><td>E03、E13</td></tr>
+<tr><td>2026-10-08 预览</td><td>Pages <code>716973f8-d777-495f-be7d-add8d37b2c6f</code>；Runtime <code>20265412-255b-4e57-a284-4cb2bb7f8940</code></td><td>原句一次真实云浏览器登记 12.517 秒、D1/十项 API 证明通过</td><td>E13</td></tr>
+<tr><td>2026-10-08 合并与 CI</td><td>PR #6 候选 <code>4210ece</code>；main <code>3c6e44c</code>；CI <code>37777131209</code></td><td>候选与合并树一致，主分支 CI 成功、82/63；持续集成（Continuous Integration，CI）成功不等于已经云部署</td><td>E13、E15</td></tr>
+<tr><td>2026-10-08 生产</td><td>Pages <code>73d33754-84aa-4f36-9f70-24c0d2406c04</code>；Runtime <code>6e6892fc-b785-484c-a291-bcc76eef499b</code></td><td>前端字节/API 发布标记匹配；真实云浏览器 5.280 秒；D1 applied；v2 十项核对；之后 GET-only 独立核算载荷与报告校验值</td><td>E13、E14</td></tr>
+<tr><td>2026-10-08 生产只读/UI</td><td>同一发布</td><td>六个 URL 200，项目/Evidence 双向导航；390px 无溢出和页面脚本错误；旧 v1 记录九项核对</td><td>E13</td></tr>
+<tr><td>2026-10-11 本轮</td><td>当前 main <code>3c6e44c</code></td><td>仓库只读、干净；重建文档与引用检查；没有重测代码或当前线上</td><td>本文检查</td></tr>
+</tbody></table></div>
+<p>最新生产运行 <code>2881b11c-0682-41a0-81e7-532ff8da8b75</code>，输入“给行政买一打a4纸”，API 核对时间 2026-10-08T12:34:35.080Z。本次增强预览和生产各登记一次；另三条需求（2包A4纸500张装、2块M.2硬盘、一盒回形针）仅是未批准草稿。[E13、E14]</p>
+<p>十条历史不同终点是：<code>PLAN_UNSUPPORTED</code>、<code>STALE_APPROVAL</code>、<code>APPROVAL_EXPIRED</code>、<code>TARGET_DRIFT</code>、<code>DOM_DRIFT</code>、<code>REDIRECT_DENIED</code>、<code>CANCELLED_BEFORE_EFFECT</code>、<code>BROWSER_TIMEOUT</code>、<code>QUERY_UNAVAILABLE</code>、<code>API_VERIFIED</code>。批准过期使用模拟时钟；浏览器超时案例使用真实本地 10 秒预算。不是十个生产故障注入。[E12]</p>
+<p>发布脚本静态扫描绝对 Evidence 地址时误报，因为页面运行时使用相对 <code>/evidence/</code> 链接；随后真实浏览器检查解析后的 href 并双向点击通过，无业务 POST。必须保留“静态检查未通过、实际导航通过”两项事实，不能将脚本记为成功。[E13]</p>
+<h3 id="section-16">15. 本人职责与协作边界</h3>
+<p>2026-10-11 本人明确确认“所有项目均为我主控且已经上线，不存在demo项目”。OfficeFlow 按主控、已上线实际产品讲述；合成采购是数据与业务验收范围，不是将产品降格为 demo 的理由。该确认不把尚未实现的 OCR 消费适配或新增外贸域变成生产能力。[E21]</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">证据层</th><th scope="col">可以说明</th><th scope="col">不能代替什么</th></tr></thead><tbody>
+<tr><td>人类明确需求</td><td>用户要求自然语言关键词整理、参考同类实现、深入工作流、十条不同结束记录及生产验收；这些推动增强</td><td>不证明用户亲自写了每段代码或独立完成上线</td></tr>
+<tr><td>工程记录</td><td>仓库、PR、源码、测试、独立审查、CI、部署和业务回读能证明项目机制与交付存在</td><td>GitHub 账号/提交作者字段不能独自证明候选人全部手写或真实任职贡献</td></tr>
+<tr><td>协作过程</td><td>契约和回执明确存在 AI 实施与独立 subagent 审查，且审查与实施区分</td><td>不能隐藏 AI 协作，不能把 Agent 做的所有操作讲成独立人类劳动</td></tr>
+<tr><td>模块细节待补</td><td>在主控/上线已确认基础上，补充具体选型决策、代码模块、排障、测试设计、资源配置、review/merge、工期与 AI 分工</td><td>不再要求重证整体身份；不从工程成品反推未知客户、工作年限或商业成绩</td></tr>
+</tbody></table></div>
+<p>项目讲述应选择自己能讲清、能复现且确实承担的模块，说明怎样使用 AI、怎样审查和验证。可讨论的项目证据是入参契约、批准版本绑定、取消事务边界、查询恢复与分层证明。没有目标岗位说明（Job Description，JD）及本次精确简历版本，岗位匹配先标为暂定；不声称满足某家公司要求。</p>
+<p>第 17 节以已确认的主控与上线为开场，机制与验收按现有证据讲；具体个人动作仍是待补实的模块细节。不能改写为全部独立手写、真实客户事故或未测量化业绩。</p>
+<h3 id="section-17">16. 已知缺口、风险与路线图</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">优先级</th><th scope="col">缺口/风险</th><th scope="col">建议下一步与验收口径</th></tr></thead><tbody>
+<tr><td>P0</td><td>项目主控/上线已确认；具体模块决策、AI 分工与可公开实例待补</td><td>只补第 19 节的具体动作和例子，不重复问总体身份；不新增工程以填补历史</td></tr>
+<tr><td>P1</td><td>有界提取、部门封闭、商品词过滤会拒绝部分合法输入</td><td>建立冻结失败语料，分别测字段正确、应澄清和误放行；新模型只能提字段、不得放宽授权</td></tr>
+<tr><td>P1</td><td>README 品类/浏览器关闭说明、性能契约部署描述滞后</td><td>下一开发轮版本化文档；本文保留冲突并引用最新代码/收据，不擅自改仓库</td></tr>
+<tr><td>P1</td><td>会话过期、无跨设备找回和删除/保留期</td><td>如面向长期用户，先定义身份、租户所有权、生命周期和删除验证，再实现产品入口</td></tr>
+<tr><td>P1</td><td>当前只有合成系统，无真实企业审批组织</td><td>客户接入需另定数据授权、身份、审批角色、适配契约和撤销规则；原合成部署不能直接扩权</td></tr>
+<tr><td>P1</td><td>生产只有有限真实运行，预算每日 6 次</td><td>如增加使用量，先验证账户额度/成本，再设计容量、报警、超时与复核队列；不将本地 RPS 当生产容量</td></tr>
+<tr><td>P2</td><td>无生产 RUM、完整无障碍验收、持续 SLO</td><td>定义脱敏采样、release/route/time-window 维度及分母，再测真实体验；先补对比度/键盘检查证据</td></tr>
+<tr><td>P2</td><td>未实现模型泛化、OCR/RAG、跨平台操作</td><td>按真实需求逐项决定是否需要；这些不是已交付功能，也不是必然路线图</td></tr>
+</tbody></table></div>
+<p>历史基础交付已有批准/执行/取消/恢复与只读历史；10 月 8 日先扩展自然表达，再加名称规格/单位贯穿与旧证明兼容。后续建议没有在本轮实现，也未授权新收费资源或真实客户写入。</p>
+<h3 id="section-18">17. 项目讲述：30 秒、90 秒与 5 分钟</h3>
+<p>以下“我主控、产品已上线”依据本人最新确认；具体“负责/实现/决定”须落到真实模块动作。证据数字可讲，不能将 AI 协作的全部操作讲成个人逐行手写。</p>
+<h4 id="section-19">30 秒稿</h4>
+<p>我主控的 OfficeFlow 已经上线，它把一句需求变成可核对的后台动作。用户描述需求，系统整理部门、物品、数量和单位，先预览并让人确认，再由隔离浏览器登记，最后独立查询结果。难点是自然语言歧义和提交后结果不明，所以采用有类型入参、版本批准、唯一键和查询恢复。10 月 8 日“给行政买一打A4纸”生产样本十项核对通过；当前运行使用有界规则和合成数据。</p>
+<h4 id="section-20">90 秒稿</h4>
+<p>我主控并已上线 OfficeFlow。产品背景是假设办公人员不想先学固定表单句式，但后台写入又必须可控。目标是把输入体验和执行可信度连起来：原话整理成字段，缺项让人补全，展示完整计划，确认后执行，结果再查证。</p>
+<p>工作台使用 TypeScript，服务端在 Worker 上运行，D1 保存运行和需求，Playwright 只操作固定合成表单。本地有 Node、SQLite 和 Chromium 对应适配，便于复现故障。</p>
+<p>我准备重点讲两个问题。第一，“一打A4纸”里 A4 是规格，1 打是采购计量，不能扫描所有数字，也不能猜包装换算。单位必须进入批准哈希、表单和 API 证明。第二，提交后断线不代表没写，所以先持久认领，再按原编号查询；已经可能生效的需求不自动重发，取消也不撤销已登记事实。</p>
+<p>最新版本有 82 项单元集成和 63 项浏览器测试，预览与生产各一次实际云登记；生产十项核对通过，单样本浏览器耗时 5.280 秒。当前模型关闭，没有企业客户、开放语料准确率或 SLA 结论。我的具体负责模块和 AI 协作方式需要按真实经历补充。</p>
+<h4 id="section-21">5 分钟稿（八段讲清整个项目）</h4>
+<p><strong>背景，约 30 秒。</strong> 我主控的 OfficeFlow 已上线。用户希望直接输入“前台买一台打印机”“给行政买一打A4纸”，而不是把编号、品类和固定格式都记住。另一方面，办公 Agent 如果只会点击提交，遇到断线就可能重复登记。项目把输入体验和效果核对一起考虑。当前验收在合成工作区，没有真实客户采购收益数据。</p>
+<p><strong>目标与边界，约 25 秒。</strong> 目标是明确需求可整理、每次写入有人确认、结果未知时安全恢复，而且能给下一位处理者看证据。范围只包含合成采购需求登记，不做付款、履约、任意网站或真实企业系统。部门目录有限，复杂语言可以澄清。</p>
+<p><strong>流程，约 35 秒。</strong> 用户原话先提取字段；缺项保留原话并补全；生成稳定编号，服务端保存 draft；预览字段及实际提案来源；批准当前版本；用户再明确执行。浏览器填写固定表单，后台事务写入，最后用新鲜查询核对字段和业务键。批量只准备草稿，后续仍逐条确认。</p>
+<p><strong>架构，约 35 秒。</strong> 前端是 TypeScript 和 Vite 的客户端页面，Pages Functions 转发到 Runtime Worker，D1 保存运行、目标版本、能力哈希和实际需求。受控 Browser Run 是写入口，查询走仓库。业务逻辑共用，本地用 Node、SQLite、Chromium。这样能够分别做本地故障验证和云端正常验收。</p>
+<p><strong>输入难点，约 40 秒。</strong> 旧版白名单拒绝纸张，扫描数字还会把 A4 或包装说明当数量。我会解释最新设计为什么把名称规格和计量分开：只提取“数量＋单位”或明确数量标签，A4纸500张装留在名称，采购两包就是 2 包，一打就是 1 打。只做整个名称的别名归一，打印机墨盒不能变成打印机。单位最终也进入哈希、批准、表单、持久化、证明和核对包。</p>
+<p><strong>执行难点，约 55 秒。</strong> 批准不是一个布尔值，而是当前计划版本、哈希、目标、适配器与五分钟期限。修订清旧批准。执行先用 CAS 认领，再发短期能力。写入时仍验证现场状态和唯一键，防晚到提交或取消竞态。浏览器看到回执与后台已写入要分开；API 暂时查不到不能证明没写。unknown 的恢复只能查原编号，不重新发起提交；applied 在取消后也不能擦掉。</p>
+<p><strong>取舍，约 30 秒。</strong> 生产关闭模型，有界规则可解释、成本可控，代价是覆盖有限。可选模型只提出字段并受严格验证，不能获取批准权。固定浏览器适配器适合演示旧网页，真实系统有可靠 API 时应重新评估写接口。旧无单位载荷保留原字节与 v1 证明，新单位进入 v2，避免升级破坏历史核对。</p>
+<p><strong>验证与反思，约 50 秒。</strong> 我会拿源码、测试、独审和生产分别说明。最新 82/63 测试包括自然语言、事务、取消、恢复和 UI；十条历史案例终点不同，但它们是本地归档。10 月 8 日预览生产各一次真实登记，原句在生产核对十项全真，独立回查也验证哈希。5.280 秒只是一例，不报云 p95 或业务收益。之后要补的是失败语料、生产监测、身份与生命周期；个人究竟承担了哪些模块必须据实回答。</p>
+<h3 id="section-22">18. 追问树与大白话复习</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">追问</th><th scope="col">答题要点与证据</th><th scope="col">大白话记法</th></tr></thead><tbody>
+<tr><td>1. 这为什么叫 Agent，模型没开还有价值吗？</td><td>提案、审批、工具执行、观察、恢复是闭环；当前提案是有界规则，可选模型存在但不扩权。不能吹泛化智能。[E04、E17]</td><td>会办事还要知道什么时候不能办</td></tr>
+<tr><td>2. 为什么不直接让模型点网页？</td><td>语言解释与执行权限分开；类型化字段、审批哈希、固定 DOM/POST。模型自由行动增加边界和复现成本。[E05、E07]</td><td>先写清办事单，再按单办</td></tr>
+<tr><td>3. 一打为什么不是 12？A4 的 4 怎么处理？</td><td>数量和单位独立；保留 1 打，无包装换算假设；只读计量片段，规格/型号不当数量。[E02、E05]</td><td>规格像商品标签，数量像购买份数</td></tr>
+<tr><td>4. 自动编号会不会让真实第二笔采购消失？</td><td>页面语义键避免同意图改语序重复；相同意图的新业务要不同编号。数据库同租户/编号不同内容拒绝，不是跨设备全局文本去重。[E05、E08]</td><td>同一张单防重复，新一笔要新单号</td></tr>
+<tr><td>5. 批准后还能改数量吗？</td><td>只能安全阶段同编号 revise；匹配旧版本/hash，revision+1，清批准，展示 diff，再确认。执行中/unknown 禁止改。[E04]</td><td>改了办事单，旧签字作废</td></tr>
+<tr><td>6. 已经点过提交但断线怎么办？</td><td>先持久认领；状态与 effect 分开；原编号新鲜查询；查不到也不能证明未写，不自动重发。[E04、E16]</td><td>先查账，不能因为没收到回执再买一次</td></tr>
+<tr><td>7. 取消和写入同时发生，谁赢？</td><td>CAS 比现场 epoch，事务前核对 live run/目标/能力/批准。写前取消阻止效果；写后 applied 保留，取消不能撤销。[E04、E08、E12]</td><td>以真正落账的时刻为界</td></tr>
+<tr><td>8. 唯一键是不是证明恰好一次？</td><td>唯一键限制这套数据库重复效果；网络和第三方系统仍可能不确定。须限定租户/编号/执行键与事务边界。[E08]</td><td>本账本不重复，不等于全世界都不重复</td></tr>
+<tr><td>9. 页面成功为什么还要 API？</td><td>浏览器仅观察 DOM/POST/标记；数据库是持久效果；新鲜 API 对字段与哈希。查询失败仍保留 applied。[E10、E14]</td><td>看到按钮变绿、后台写进账、再次查对账，是三件事</td></tr>
+<tr><td>10. SHA-256 能证明报告谁签发、不可篡改吗？</td><td>可验证内容一致性，非签名；有权修改内容的人也能重算。身份真实性需另设计可信签名/存储，当前未做。[E06、E10]</td><td>校验码像校对尺，不是公章</td></tr>
+<tr><td>11. 82＋63、20/20、十条历史分别是什么？</td><td>82单元集成、63本地E2E；20旧模型回归含17规则拒绝，仅3来源Ollama；十条历史终点归档。生产增强一条，不能混算。[E03、E12、E13、E18]</td><td>样本、试车、正式上路分别记账</td></tr>
+<tr><td>12. 你具体做了什么、AI 做了什么？</td><td>主控/上线已确认；进一步按模块说明自己作出的决策、审查/排障/验证与 AI 操作，给对应 PR/代码/收据；不能把主控等同全部手写</td><td>主控责任和具体协作分工要一起讲</td></tr>
+<tr><td>13. 为什么选择 Cloudflare？还能怎么做？</td><td>Pages/Worker/D1/Browser Run 与已有合成发布边界匹配，资源可限制；Node服务器或数据库服务有不同运维代价。没有成本优越性对照试验。[E08、E11]</td><td>选适合当前小闭环的工具，不宣称万能</td></tr>
+<tr><td>14. 两条都批准，第一条写完为什么第二条停了？</td><td>批准绑定 targetRevision；第一条改变后台目标版本；第二条刷新目标重预览/确认，批量草稿不能当连批连写。[E04、E09]</td><td>环境变了，旧确认要重新看</td></tr>
+</tbody></table></div>
+<p>复习时先能不看稿复述第 6 节链路，再讲清“原话/计划、批准/能力、运行/效果、观察/事实、测试/生产、项目/个人”六组区别。评审者追机制时指向自己的真实负责模块与证据，不用堆框架名字。</p>
+<h3 id="section-23">19. 演示顺序、证据索引与历史确认问题</h3>
+<h4 id="section-24">演示顺序（默认先用已有只读证据）</h4>
+<ol>
+<li>打开生产验收报告和原句截图，说明版本与 10 月 8 日截止点；展示行政部/A4纸/1 打，以及真实提案来源。</li>
+<li>对照名称规格/数量单位源码与需求矩阵。用已有测试说明 A4、500张装、M.2 和 101包补全，不临时声称线上自动理解成功。</li>
+<li>展示已有批准、浏览器、D1 和新鲜 API 分层报告；核对十项全真和查询时间，解释校验值边界。</li>
+<li>用本地只读历史讲旧批准、漂移、取消、超时和 unknown；不向生产注入故障或重放。</li>
+<li>展示三条未批准草稿、筛选与核对包，解释“准备”“已批准”“实际已登记”不同；包读取完整不是所有业务成功。</li>
+<li>对照 PR #6、CI 和部署收据；最后说明当前缺口与个人职责。若另做现场演示，先确定数据、额度和权限，单独记录当时结果；本文编写不发起新登记。</li>
+</ol>
+<h4 id="section-25">证据索引</h4>
+<p>本地链接指向本轮存在的文件；公开 PR/CI/网站链接来自交付记录，本轮未再作在线检查。源码统一以当前 <code>3c6e44c</code> 为准。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">ID</th><th scope="col">来源</th><th scope="col">主要支撑</th></tr></thead><tbody>
+<tr><td>E01</td><td>合同 v4（内部证据或非公开入口）</td><td>合成边界、批准、验收、独审和授权；规划参数不等于实际运行</td></tr>
+<tr><td>E02</td><td>单位与规格架构（内部证据或非公开入口）</td><td>文本入参设计、旧字节兼容、参考范围</td></tr>
+<tr><td>E03</td><td>最新本地验证（内部证据或非公开入口）</td><td>de12540、82/63、独审、局限</td></tr>
+<tr><td>E04</td><td>类型契约（内部证据或非公开入口）、API/状态机（内部证据或非公开入口）</td><td>实体、接口、修订/批准/认领/取消/恢复</td></tr>
+<tr><td>E05</td><td>提取器（内部证据或非公开入口）、物品/单位校验（内部证据或非公开入口）</td><td>解析、规格、语义键、数量单位和名称边界</td></tr>
+<tr><td>E06</td><td>会话（内部证据或非公开入口）、规范载荷与批准（内部证据或非公开入口）</td><td>租户、期限、哈希、审批校验</td></tr>
+<tr><td>E07</td><td>浏览器执行器（内部证据或非公开入口）</td><td>DOM、载荷、网络守卫及超时</td></tr>
+<tr><td>E08</td><td>仓库接口（内部证据或非公开入口）、SQLite（内部证据或非公开入口）、D1（内部证据或非公开入口）、初始结构（内部证据或非公开入口）</td><td>适配器、事务、唯一键、JSON 持久化</td></tr>
+<tr><td>E09</td><td>主工作台（内部证据或非公开入口）、补全（内部证据或非公开入口）、批量（内部证据或非公开入口）、队列（内部证据或非公开入口）</td><td>输入/审批/UI/阶段与读取范围</td></tr>
+<tr><td>E10</td><td>分层证明（内部证据或非公开入口）、核对包（内部证据或非公开入口）</td><td>v1/v2、观察、query-only、校验值、导出完整度</td></tr>
+<tr><td>E11</td><td>云入口（内部证据或非公开入口）、预算（内部证据或非公开入口）、Pages API 网关（内部证据或非公开入口）</td><td>25 秒、200/6/12、30 秒间隔、转发</td></tr>
+<tr><td>E12</td><td>十条归档（内部证据或非公开入口）、只读历史 UI（内部证据或非公开入口）</td><td>十个不同结束节点、只读生命周期</td></tr>
+<tr><td>E13</td><td>生产验收报告（内部证据或非公开入口）、完整收据（内部证据或非公开入口）</td><td>预览/生产/版本/样本/旧记录/UI与检查差异</td></tr>
+<tr><td>E14</td><td>生产 API 证明（内部证据或非公开入口）、核对包（内部证据或非公开入口）、原句登记截图（内部证据或非公开入口）、未批准草稿截图（内部证据或非公开入口）</td><td>新鲜十项核对、观察时间、实际界面</td></tr>
+<tr><td>E15</td><td>CI 定义（内部证据或非公开入口）、<a href="https://github.com/Tiancheng-Xu/office-workflow-agent/actions/runs/37777131209" rel="noreferrer">main CI 记录</a>、<a href="https://github.com/Tiancheng-Xu/office-workflow-agent/pull/6" rel="noreferrer">PR #6</a></td><td>检查层、发布版本、远端成功收据</td></tr>
+<tr><td>E16</td><td>本地备份恢复（内部证据或非公开入口）、进程崩溃（内部证据或非公开入口）、有限负载（内部证据或非公开入口）、历史独立门禁（内部证据或非公开入口）</td><td>历史本地运维与断言，不能升为生产演练</td></tr>
+<tr><td>E17</td><td>提案器（内部证据或非公开入口）</td><td>规则先行、模型严格字段验证、超时/回退</td></tr>
+<tr><td>E18</td><td>历史模型评测（内部证据或非公开入口）、原始模型单例（内部证据或非公开入口）</td><td>20 条分母、仅 3 条模型接受、业务未执行、HTTP 与字段验收区别</td></tr>
+<tr><td>E19</td><td>历史性能契约（内部证据或非公开入口）</td><td>planned RUM，不是生产性能验收</td></tr>
+<tr><td>E20</td><td>历史 README（内部证据或非公开入口）</td><td>旧64/36与71/59口径、旧范围；当前品类/开关描述滞后</td></tr>
+<tr><td>E21</td><td>本人确认与主控上线总表（内部证据或非公开入口）</td><td>2026-10-11 本人最新确认；本轮只读原 HC 用户消息亦一致，不据此补造新版本或客户事实</td></tr>
+</tbody></table></div>
+<h4 id="section-26">仅本人能确认的历史问题（不阻塞本文）</h4>
+<ol>
+<li>主控与上线已经确认。为补实讲述，只需说明开始时间、投入周期、可公开的参与者分工和产品归属；真实客户与保密信息没有证据就不写。</li>
+<li>如果暂时拿走 AI 工具，你实际能从零重写并解释哪三个模块？请指出对应源码/PR，区分亲手编写、AI 生成后审查、只参与验收。</li>
+<li>你亲自作出的最重要设计选择是什么？当时比较过哪个替代方案，为什么放弃，是否有当时记录，而不只是现在读懂代码？</li>
+<li>“A4纸/一打”增强中，你承担的是需求发现、方案、编码、测试还是上线？哪个缺陷由你本人定位，怎么找到根因？</li>
+<li>取消竞态、unknown 恢复或载荷兼容，你能现场讲清并复现哪一个？这是开发测试里的故障，还是你经历过真实生产事故？</li>
+<li>谁实际执行 review、merge、资源配置和生产验收？你亲自复核了哪些证据，哪部分是 Agent 执行，哪部分只是看了结果？</li>
+<li>你希望简历对应哪一份 JD 和哪个简历版本？哪些“主导/独立/性能优化/模型准确率”表述已经写过，需要按本文证据收窄？</li>
+<li>是否有真实用户反馈、重复使用、节省工时或运营收益的原始数据？没有就保留“合成工程验收”，不补造量化结果。</li>
+</ol>
+<p>上述问题用于下一次本人核对；本文已经完整覆盖当前可查证产品、历史交付和讲述边界。</p></article></main><footer><a href="https://office-workflow-agent.baby2b.online/evidence/">返回该项目工作证明</a> · <a href="https://office-workflow-agent.baby2b.online/">返回项目主页</a></footer></body></html>
