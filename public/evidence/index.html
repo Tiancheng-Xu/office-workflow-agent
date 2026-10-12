@@ -10,6 +10,7 @@
   <header><a class="brand" href="/" aria-label="OfficeFlow 项目主页"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div>Office<span>Flow</span></div></a><nav aria-label="项目导航"><a href="https://baby2b.online/">作品集</a><a href="/">项目主页</a><a href="/evidence/" aria-current="page">工作证明</a></nav></header>
   <main>
     <div class="kicker">OFFICEFLOW / 工作证明</div><h1>每个结论，都有对应证据。</h1><div class="intro"><p>记录合成采购需求从语言提案、人工确认、浏览器登记到 API 核对的全过程。实现、测试与生产回读分别确认；本页不包含客户数据、会话令牌或浏览器存储。</p></div>
+    <section class="principle" aria-label="项目 PRD"><h2>完整产品需求与项目讲述</h2><p><a href="/evidence/prd.html">查看完整项目 PRD</a> · 公开脱敏版，覆盖业务流程、权限、架构取舍、失败恢复与技术追问；设计规划、历史测试与生产回执分别说明。</p></section>
     <div class="pending-banner" role="note"><span class="pending-dot" aria-hidden="true"></span><div><strong>本地与云端闭环均已实测</strong><p>2026-10-04 基础工作流历史版本通过64项测试和36项独立浏览器验收，独立审查已放行。<a href="/evidence/local-verification.json">查看本地机器收据</a>。远端 CI 与正式域名 HTTPS 已验证；云端浏览器完成固定表单后，生产 D1 保存为 applied，独立 API 再次读取为 verified。<a href="/evidence/production-verification.json">查看线上观测收据</a>。</p></div></div>
     <div class="proof-grid">
       <section class="proof-card" aria-labelledby="functional"><div class="proof-top"><span class="proof-number">01</span><h2 id="functional">功能与实际登记</h2><span class="badge">本地通过</span></div><p>一次明确批准的需求，经隔离浏览器填写并提交固定表单，再由 API 读取真实登记结果。相同需求重复请求不得重复写入。</p><dl><div><dt>需要的证据</dt><dd>真实修订12→15、旧批准拒绝、浏览器POST及fresh API核对</dd></div><div><dt>当前结论</dt><dd>36/36独立本地验收；本次无浏览器动作时明确无证据</dd></div></dl></section>
