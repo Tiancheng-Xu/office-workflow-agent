@@ -183,7 +183,7 @@ test('real SQLite crash recovery, migration and backup restore preserve keys and
     await h.repository.saveRunCAS(session!.tenantId,{...crash,status:'executing',effectStatus:'unknown',epoch:crash.epoch+1},crash.epoch);
     const backup=join(h.repository.path,'..','backup.sqlite'),target=join(h.repository.path,'..','restore.sqlite');
     await h.repository.backup(backup);restored=SqliteRepository.restore(backup,target);
-    assert.equal(restored.db.prepare('SELECT count(*) AS n FROM schema_migrations').get()!.n,3);
+    assert.equal(restored.db.prepare('SELECT count(*) AS n FROM schema_migrations').get()!.n,4);
     assert.equal((await restored.health()).demands,1);assert.equal((await restored.getDemand(session!.tenantId,run.plan.requestId))!.executionKey,run.executionKey);
     assert.equal(await restored.recoverExecuting(Date.now()),1);assert.equal((await restored.getRun(session!.tenantId,crash.id))!.status,'unknown');assert.equal(await restored.recoverExecuting(Date.now()),0);
     assert.equal(restored.db.prepare('PRAGMA integrity_check').get()!.integrity_check,'ok');

@@ -5,6 +5,8 @@ import type { Demand, Run } from '../contracts.js';
 import { ADAPTER_VERSION, DomainError, type CapabilityRecord, type Repository, type SessionRecord, type Submission } from './repository.js';
 import { assertApproval, canonicalPayload, event, hash, validatePlan } from './validation.js';
 
+import type {MaterialCase} from '../materials/types.js';
+
 type Row=Record<string,unknown>;
 export class SqliteRepository implements Repository {
   readonly db:DatabaseSync;
@@ -25,6 +27,25 @@ export class SqliteRepository implements Repository {
   async getSession(id:string):Promise<SessionRecord|undefined> {
     const row=this.db.prepare('SELECT * FROM sessions WHERE id=?').get(id) as Row|undefined;
     return row?{id:String(row.id),tenantId:String(row.tenant_id),csrf:String(row.csrf),expiresAt:Number(row.expires_at)}:undefined;
+  }
+  async createMaterialCase(tenantId:string,material:MaterialCase):Promise<void> {
+    if(material.revision!==1)throw new DomainError('INVALID_REVISION','材料初始版本无效。',500);
+    const inserted=this.db.prepare('INSERT INTO material_cases(id,tenant_id,revision,body) SELECT ?,?,?,? WHERE (SELECT count(*) FROM material_cases WHERE tenant_id=?)<30').run(material.id,tenantId,material.revision,JSON.stringify(material),tenantId);
+    if(Number(inserted.changes)!==1)throw new DomainError('MATERIAL_LIMIT_REACHED','当前合成体验租户最多保存30个材料案例。',429);
+  }
+  async getMaterialCase(tenantId:string,id:string):Promise<MaterialCase|undefined> {
+    const row=this.db.prepare('SELECT body FROM material_cases WHERE tenant_id=? AND id=?').get(tenantId,id) as Row|undefined;
+    return row?JSON.parse(String(row.body)) as MaterialCase:undefined;
+  }
+  async listMaterialCases(tenantId:string):Promise<MaterialCase[]> {
+    return this.db.prepare('SELECT body FROM material_cases WHERE tenant_id=? ORDER BY rowid DESC LIMIT 30').all(tenantId).map(r=>JSON.parse(String(r.body)) as MaterialCase);
+  }
+  async saveMaterialCaseCAS(tenantId:string,material:MaterialCase,expectedRevision:number):Promise<boolean> {
+    if(material.revision!==expectedRevision+1)throw new DomainError('INVALID_REVISION','材料更新版本无效。',500);
+    const link=material.linkedRun;
+    if(link&&link.caseRevision!==material.revision)throw new DomainError('INVALID_REVISION','材料关联版本无效。',500);
+    const guard=link?` AND EXISTS (SELECT 1 FROM runs r WHERE r.tenant_id=material_cases.tenant_id AND r.id=? AND r.status IN ('draft','approved') AND json_extract(r.body,'$.effectStatus')='none' AND json_extract(r.body,'$.result') IS NULL AND json_extract(r.body,'$.revision')=? AND json_extract(r.body,'$.planHash')=?)`:'';
+    return Number(this.db.prepare('UPDATE material_cases SET revision=?,body=? WHERE tenant_id=? AND id=? AND revision=?'+guard).run(material.revision,JSON.stringify(material),tenantId,material.id,expectedRevision,...(link?[link.id,link.revision,link.planHash]:[])).changes)===1;
   }
   async createRun(tenantId:string,run:Run):Promise<void> {
     this.db.prepare('INSERT INTO runs(id,tenant_id,epoch,status,body) VALUES(?,?,?,?,?)').run(run.id,tenantId,run.epoch,run.status,JSON.stringify(run));

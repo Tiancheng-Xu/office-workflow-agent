@@ -8,6 +8,7 @@ import { ADAPTER_VERSION, DomainError, type CapabilityRecord, type Repository, t
 import { assertApproval, canonicalPayload, escapeHtml, event, hash, randomToken, validatePlan } from './validation.js';
 import { SessionManager } from './session.js';
 import { createExecutionProof } from './proof.js';
+import {createMaterialService} from '../materials/service.js';
 
 export interface HandlerOptions {
   repository:Repository;sessionSecret:string;publicOrigin:string;proposePlan:(text:string)=>Promise<Plan>;
@@ -50,6 +51,7 @@ export function createHandler(options:HandlerOptions):(request:Request)=>Promise
   const {repository,executor}=options,now=options.now??Date.now;
   const adapterVersion=options.adapterVersion??ADAPTER_VERSION;
   const origin=new URL(options.publicOrigin).origin;
+  const materials=createMaterialService(repository,now);
   const sessions=new SessionManager(repository,options.sessionSecret,origin.startsWith('https:'),now);
   async function requiredRun(tenantId:string,id:string):Promise<Run> {
     const run=await repository.getRun(tenantId,id);
@@ -143,6 +145,20 @@ export function createHandler(options:HandlerOptions):(request:Request)=>Promise
       if(workspaceContext!==null&&workspaceContext!==session.csrf)
         throw new DomainError('SESSION_CHANGED','工作区会话已切换，请重新连接。',403);
       if(request.method!=='GET')sessions.mutation(request,session,origin);
+      if(path==='/api/material-cases') {
+        if(request.method==='GET')return json({ok:true,data:await materials.list(session.tenantId)});
+        if(request.method==='POST')return json({ok:true,data:await materials.create(session.tenantId,await body(request))},201);
+        throw new DomainError('METHOD_NOT_ALLOWED','请求方法不受支持。',405);
+      }
+      const materialMatch=path.match(/^\/api\/material-cases\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(?:\/(review|link|report))?$/);
+      if(materialMatch) {
+        const [,id,action]=materialMatch;
+        if(!action&&request.method==='GET')return json({ok:true,data:await materials.get(session.tenantId,id!)});
+        if(action==='report'&&request.method==='GET')return json({ok:true,data:await materials.report(session.tenantId,id!)});
+        if(action==='review'&&request.method==='POST')return json({ok:true,data:await materials.review(session.tenantId,id!,await body(request))});
+        if(action==='link'&&request.method==='POST')return json({ok:true,data:await materials.link(session.tenantId,id!,await body(request))});
+        throw new DomainError('METHOD_NOT_ALLOWED','请求方法不受支持。',405);
+      }
       if(path==='/api/runs'&&request.method==='GET') {
         const runs=await repository.listRuns(session.tenantId);
         const observed=await Promise.all(runs.map(run=>run.status==='executing'&&executionLeaseExpired(run)?reconcile(session!.tenantId,run.id,'lease-expired'):Promise.resolve(run)));

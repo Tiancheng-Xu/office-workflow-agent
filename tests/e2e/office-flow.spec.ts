@@ -319,7 +319,7 @@ test('online SQLite backup restores schema, signed session, persisted result and
   const restored = SqliteRepository.restore(backup, restoredPath);
   expect(restored.db.prepare('PRAGMA integrity_check').get()!.integrity_check).toBe('ok');
   const migrationVersions = restored.db.prepare('SELECT version FROM schema_migrations ORDER BY version').all().map(row => Number(row.version));
-  expect(migrationVersions).toEqual([1, 2, 3]);
+  expect(migrationVersions).toEqual([1, 2, 3, 4]);
   expect(restored.db.prepare('SELECT used FROM resource_budgets WHERE name=?').get('synthetic-backup-budget')!.used).toBe(3);
   expect(restored.db.prepare('SELECT next_allowed_at FROM resource_windows WHERE name=?').get('synthetic-backup-window')!.next_allowed_at).toBe(42);
   expect(Number(restored.db.prepare('SELECT COUNT(*) AS count FROM demands').get()!.count)).toBe(1);

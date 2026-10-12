@@ -1,0 +1,267 @@
+{
+  "schema": "office-material-independent-qa-v1",
+  "generatedAt": "2026-10-12T03:31:04.532Z",
+  "status": "PASS",
+  "environment": "local TestApp + actual Chromium; synthetic fixtures only",
+  "browserVersion": "153.0.8010.12",
+  "command": "./node_modules/.bin/playwright test tests/e2e/materials.spec.ts --reporter=line",
+  "observedTests": {
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "durationSeconds": 8.5
+  },
+  "sourceHashes": {
+    "materials.html": "0e49c7c483e1a624c6387f9be64a9cb70d70528f6611611b937a78c173812893",
+    "migrations/004_material_cases.sql": "5266966bf79963f54084603df235c21bd4faabd1b78547cdbf717c0fffbef072",
+    "src/materials/review.ts": "1253a17d415a6ed5278a9b0606254a8e8ef83eeeb7932127ba00c33f53ed6dd7",
+    "src/materials/service.ts": "e42fb8e5f60fe0a0c553470dfd6daaebeef61e36e3f0c9dc753e6754a3bb1073",
+    "src/materials/sources.ts": "ae9801fb0d5132110370ae680a5146c65afd164f3f5c09b35fae47e1f3a7bb14",
+    "src/materials/types.ts": "8ed1d7d244250aac0e39e151bd02d3bd3d4e4df9671f3509af16ddf0a9e5cd5d",
+    "src/ui/materials.css": "139bf8e1c7090724baa83edf4d2338573ceb5ff3f1fc93fd0993d126ec08448e",
+    "src/ui/materials.ts": "586cf6a64d9fccba0f39f5379b31bd01452ccdb3cfa7404a9d81b65f6614b3a9",
+    "tests/e2e/materials.spec.ts": "2e5eaba387fece10df09f9f7ecf27fd588e93d0a53717ef0d558ae2fcf63b5e7",
+    "tests/material-review.test.ts": "dad24e1a9230a87eff1592a78502dce4929fec078e324bfe1d56135d1d4b46a4",
+    "tests/material-runtime.test.ts": "7a410dd0fa4eab166177196f6fc29572011ae3625133dfccaf5933c489771b0a",
+    "tests/material-sources.test.ts": "81de2074512e6346bc1d960519527d55e887185e70daa11f6346fb4490bc4a1c",
+    "vite.config.ts": "74711d89a814293a0bc2d72e4c5bf9ce17973fdae07017c770f81c8c13207b22",
+    "src/cloud/repository.ts": "69b2636bd4989ca2082da4c9dfd103e527168692143cb9cdd1425b58d3320ee6",
+    "src/cloud/worker.ts": "95996ce03f7b392456dba2b8f445c30c06aeaaff5dfb2782521390f0d8ee3662",
+    "src/runtime/handler.ts": "3181b8496da42a1a8ab25cf404a58b61e526ba97c592c4cd6502e6766f38d427",
+    "src/runtime/repository.ts": "2ca58c228860cbb9d08980734d7d7ab4ed673a6fa6abd5e35a3fae21e197718c",
+    "src/runtime/sqlite.ts": "6b09a3edabd76a5f8b5132ab52db1096c0d2f06e7a4d0af07678f820e3d13e54",
+    "src/ui/main.ts": "da0a33bf33ea792323d146b850dd89486be14d5df2fbdd2707ea29a54d59db37",
+    "tests/e2e/office-flow.spec.ts": "c7138678d30d703a62058b33a04e1d8c1e87edad12141dc5a1094fb7f6b04cb1",
+    "tests/runtime.test.ts": "aab85e1ea927661e116ad5bbe461cba81946cf3f5415aad85201c7a7ea3719e5"
+  },
+  "results": [
+    {
+      "scenario": "vtt",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "dimensions": {
+        "scrollWidth": 1440,
+        "viewport": 1440
+      },
+      "screenshot": "work/material-independent-qa/vtt-1440.png"
+    },
+    {
+      "scenario": "vtt",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dimensions": {
+        "scrollWidth": 390,
+        "viewport": 390
+      },
+      "screenshot": "work/material-independent-qa/vtt-390.png"
+    },
+    {
+      "scenario": "vtt",
+      "sourceSummary": "合成采购会议字幕\n采购申请 · 字幕\n\n已解析来源内容\n\n查看来源与原文依据（4 段）\n\n00:00:01.000 部门：行政部\n00:00:03.000 物品：A4纸500张装",
+      "resultSummary": "字段已核对 · 当前资料一致\nv3\n\n已确认 5 项 · 待处理 0 项\n\n本次字段核对未发现差异；这不代表登记或法律审查已完成。\n\n已关联采购运行 05c3cc26-4529-4d29-9b86-de03b1ca84fb · 关联版本 v1。导出时重新读取关联状态。",
+      "health": {
+        "runs": 1,
+        "demands": 0,
+        "unknown": 0
+      },
+      "executorBrowserLaunches": 0,
+      "formPosts": 0,
+      "prohibitedRequests": [],
+      "pageErrors": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/session",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/material-cases",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases",
+          "status": 201
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases/9590cb38-d72f-43db-a242-a0b9e800f6d2/review",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/material-cases/9590cb38-d72f-43db-a242-a0b9e800f6d2",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/runs",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/propose",
+          "status": 201
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases/9590cb38-d72f-43db-a242-a0b9e800f6d2/link",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "scenario": "ocr",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "dimensions": {
+        "scrollWidth": 1440,
+        "viewport": 1440
+      },
+      "screenshot": "work/material-independent-qa/ocr-1440.png"
+    },
+    {
+      "scenario": "ocr",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dimensions": {
+        "scrollWidth": 390,
+        "viewport": 390
+      },
+      "screenshot": "work/material-independent-qa/ocr-390.png"
+    },
+    {
+      "scenario": "ocr",
+      "sourceSummary": "合成OCR采购申请夹具\n采购申请 · OCR分析\n\n合成解析夹具 · 不代表真实OCR识别验收 · 原件未比对\n\n查看来源与原文依据（5 段）\n\n第 1 页 · 原文片段可展开核对",
+      "resultSummary": "字段已核对 · 当前资料一致\nv2\n\n已确认 5 项 · 待处理 0 项\n\n本次字段核对未发现差异；这不代表登记或法律审查已完成。",
+      "health": {
+        "runs": 0,
+        "demands": 0,
+        "unknown": 0
+      },
+      "executorBrowserLaunches": 0,
+      "formPosts": 0,
+      "prohibitedRequests": [],
+      "pageErrors": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/session",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/material-cases",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases",
+          "status": 201
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases/ac965bc5-0904-4bfd-9b03-f6439647054e/review",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "scenario": "trade",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "dimensions": {
+        "scrollWidth": 1440,
+        "viewport": 1440
+      },
+      "screenshot": "work/material-independent-qa/trade-1440.png"
+    },
+    {
+      "scenario": "trade",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dimensions": {
+        "scrollWidth": 390,
+        "viewport": 390
+      },
+      "screenshot": "work/material-independent-qa/trade-390.png"
+    },
+    {
+      "scenario": "trade",
+      "sourceSummary": "合成合同\n合同 · 文本\n\n已解析来源内容\n\n查看来源与原文依据（1 段）\n合成订单\n订单 · 文本\n\n已解析来源内容\n\n查看来源与原文依据（1 段）\n合成产品资料\n产品资料 · 文本\n\n已解析来源内容\n\n查看来源与原文依据（1 段）",
+      "resultSummary": "字段已核对 · 存在差异\nv2\n\n已确认 15 项 · 待处理 0 项\n\n数量 · 不同资料的值不一致 资料确认值不一致，需人工核对；未换算单位或币种。\n合同 · 合成合同：10\n订单 · 合成订单：12\n币种 · 不同资料的值不一致 资料确认值不一致，需人工核对；未换算单位或币种。\n合同 · 合成合同：USD\n订单 · 合成订单：EUR\n总额 · 不同资料的值不一致 资料确认值不一致，需人工核对；未换算单位或币种。\n合同 · 合成合同：250\n订单 · 合成订单：300\n交付日期 · 不同资料的值不一致 资料确认值不一致，需人工核对；未换算单位或币种。\n合同 · 合成合同：2026-11-15\n订单 · 合成订单：2026-11-20",
+      "health": {
+        "runs": 0,
+        "demands": 0,
+        "unknown": 0
+      },
+      "executorBrowserLaunches": 0,
+      "formPosts": 0,
+      "prohibitedRequests": [],
+      "pageErrors": [],
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/api/session",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/material-cases",
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases",
+          "status": 201
+        },
+        {
+          "method": "POST",
+          "path": "/api/material-cases/fb89772e-0ad2-4d5c-a794-04a95c47cf27/review",
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "visualChecks": [
+    "1440px and 390px no horizontal overflow",
+    "Source provenance and result viewport images captured",
+    "Required evidence footer link visible at both sizes"
+  ],
+  "limits": [
+    "No production deployment or production checks performed",
+    "OCR fixture consumption is not OCR recognition accuracy",
+    "VTT parsing is not ASR transcription",
+    "Screenshots and checks do not prove server authentication of client-supplied OCR provenance"
+  ],
+  "manualVisualInspection": {
+    "inspected": [
+      "trade-1440-result.png",
+      "trade-390-result.png",
+      "ocr-1440-provenance.png",
+      "vtt-390-footer.png"
+    ],
+    "observations": [
+      "Trade discrepancies visibly identify quantity 10 vs 12, currency USD vs EUR, total 250 vs 300, delivery 2026-11-15 vs 2026-11-20",
+      "OCR page and bounding box provenance, imported/original SHA-256, synthetic fixture label and original-not-compared warning visible",
+      "390px cards and footer wrap within viewport; no overlapping controls or clipped result labels observed"
+    ],
+    "nonBlockingNotes": [
+      "Expanded OCR sample bounding box may display full floating-point decimal 0.30000000000000004",
+      "Trade review uses a long scrolling list of 15 fields; desktop full-page height exceeds 5,600px"
+    ]
+  }
+}
