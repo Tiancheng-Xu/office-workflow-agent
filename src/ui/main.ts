@@ -186,7 +186,7 @@ app.innerHTML = `
     <a class="brand" href="/" aria-label="OfficeFlow 项目主页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Office<span class="brand-flow">Flow</span><small>办公流程 Agent</small></span></a>
     <div class="workspace-card"><span class="workspace-avatar">OF</span><div><span class="eyebrow">当前工作区</span><strong id="workspace-label">连接中…</strong></div><span class="workspace-dot" aria-hidden="true"></span></div>
     <div class="nav-label">工作空间</div>
-    <nav class="side-nav"><a href="#main-content" class="active" aria-current="page">${icon('grid')}<span>需求工作台</span><span class="nav-active-dot"></span></a><a href="#intake">${icon('plus')}<span>批量准备</span></a><a href="#history">${icon('clock')}<span>执行记录</span><span id="nav-count" class="nav-count">0</span></a><a href="/evidence/">${icon('shield')}<span>工作证明</span>${icon('chevron', 'nav-chevron')}</a></nav>
+    <nav class="side-nav"><a href="#main-content" class="active" aria-current="page">${icon('grid')}<span>需求工作台</span><span class="nav-active-dot"></span></a><a href="#intake">${icon('plus')}<span>批量准备</span></a><a href="#history">${icon('clock')}<span>执行记录</span><span id="nav-count" class="nav-count">0</span></a><a href="/materials.html">${icon('file')}<span>资料核对</span></a><a href="/evidence/">${icon('shield')}<span>工作证明</span>${icon('chevron', 'nav-chevron')}</a></nav>
     <div class="sidebar-bottom"><div class="scope-label"><span class="tiny-dot"></span>合成客户 · 隔离工作区</div><p>仅登记合成采购需求。<br>无需真实企业账号或客户数据。</p><a href="https://baby2b.online/">${icon('link')}<span>返回作品集</span>${icon('arrow')}</a></div>
   </aside>
   <div class="shell">

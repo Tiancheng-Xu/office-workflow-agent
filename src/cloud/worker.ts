@@ -13,7 +13,7 @@ export default {async fetch(request:Request,env:Env):Promise<Response>{
   if(!allowedCloudOrigin(request.url,origins,env.TRUSTED_PREVIEW_PROJECT))return Response.json({ok:false,error:{code:'ORIGIN_DENIED',message:'服务地址不受信任。'}},{status:403});
   if(!env.SESSION_SECRET||env.SESSION_SECRET.length<32)return Response.json({ok:false,error:{code:'NOT_CONFIGURED',message:'服务配置尚未完成。'}},{status:503});
   const path=new URL(request.url).pathname;
-  if((path==='/api/session'||path==='/api/propose'||path.endsWith('/revise'))&&!await consumeBudget(env.DB,path==='/api/session'?'session-requests':'proposal-requests',200))return Response.json({ok:false,error:{code:'FREE_REQUEST_BUDGET_EXHAUSTED',message:'今日体验额度已用完。'}},{status:429,headers:{'Cache-Control':'no-store'}});
+  if((path==='/api/session'||path==='/api/propose'||path.endsWith('/revise')||(request.method==='POST'&&path.startsWith('/api/material-cases')))&&!await consumeBudget(env.DB,path==='/api/session'?'session-requests':'proposal-requests',200))return Response.json({ok:false,error:{code:'FREE_REQUEST_BUDGET_EXHAUSTED',message:'今日体验额度已用完。'}},{status:429,headers:{'Cache-Control':'no-store'}});
   const repo=new D1Repository(env.DB);
   const executor=createBrowserExecutor({browserFactory:async()=>{if(env.ENABLE_BROWSER_RUN!=='true')throw new BrowserExecutionError('BROWSER_PLAN_NOT_CONFIRMED',false);if(!await claimBrowserSlot(env.DB))throw new BrowserExecutionError('FREE_BROWSER_BUDGET_OR_INTERVAL_EXHAUSTED',false);return await launch(env.BROWSER) as unknown as Browser;},timeoutMs:25_000});
   const handle=createHandler({repository:repo,sessionSecret:env.SESSION_SECRET,publicOrigin:origin,executor,proposePlan:async(text)=>{

@@ -1,0 +1,50 @@
+{
+  "schema": "office-materials-independent-review-v1",
+  "generatedAt": "2026-10-12T03:36:49.158406+00:00",
+  "baseCommit": "3c6e44c34a2fbbbedbebc3fb6cb4d87ac8c8cd4a",
+  "sourceDigest": "70a66309a9ede2a9764de22d1dae4fd851cd4b15e821b8fe41be319cbabc3052",
+  "sourceHashes": {
+    "materials.html": "0e49c7c483e1a624c6387f9be64a9cb70d70528f6611611b937a78c173812893",
+    "migrations/004_material_cases.sql": "5266966bf79963f54084603df235c21bd4faabd1b78547cdbf717c0fffbef072",
+    "src/cloud/repository.ts": "69b2636bd4989ca2082da4c9dfd103e527168692143cb9cdd1425b58d3320ee6",
+    "src/cloud/worker.ts": "95996ce03f7b392456dba2b8f445c30c06aeaaff5dfb2782521390f0d8ee3662",
+    "src/materials/review.ts": "1253a17d415a6ed5278a9b0606254a8e8ef83eeeb7932127ba00c33f53ed6dd7",
+    "src/materials/service.ts": "e42fb8e5f60fe0a0c553470dfd6daaebeef61e36e3f0c9dc753e6754a3bb1073",
+    "src/materials/sources.ts": "ae9801fb0d5132110370ae680a5146c65afd164f3f5c09b35fae47e1f3a7bb14",
+    "src/materials/types.ts": "8ed1d7d244250aac0e39e151bd02d3bd3d4e4df9671f3509af16ddf0a9e5cd5d",
+    "src/runtime/handler.ts": "3181b8496da42a1a8ab25cf404a58b61e526ba97c592c4cd6502e6766f38d427",
+    "src/runtime/repository.ts": "2ca58c228860cbb9d08980734d7d7ab4ed673a6fa6abd5e35a3fae21e197718c",
+    "src/runtime/sqlite.ts": "6b09a3edabd76a5f8b5132ab52db1096c0d2f06e7a4d0af07678f820e3d13e54",
+    "src/ui/main.ts": "da0a33bf33ea792323d146b850dd89486be14d5df2fbdd2707ea29a54d59db37",
+    "src/ui/materials.css": "139bf8e1c7090724baa83edf4d2338573ceb5ff3f1fc93fd0993d126ec08448e",
+    "src/ui/materials.ts": "586cf6a64d9fccba0f39f5379b31bd01452ccdb3cfa7404a9d81b65f6614b3a9",
+    "vite.config.ts": "74711d89a814293a0bc2d72e4c5bf9ce17973fdae07017c770f81c8c13207b22"
+  },
+  "reviewers": [
+    {
+      "identity": "independent subagent /root/materials_security_review",
+      "axis": "API/DB/isolation/recovery",
+      "verdict": "ALLOW"
+    },
+    {
+      "identity": "independent subagent /root/materials_product_review",
+      "axis": "requirements/domain/UI",
+      "verdict": "ALLOW",
+      "displayDeltaVerdict": "ALLOW"
+    }
+  ],
+  "closedFindings": [
+    "same-content source ID collision",
+    "text chunk truncation",
+    "Chinese numeric comma truncation",
+    "unsaved fields creating old draft",
+    "definitive rejection locked as uncertain",
+    "concurrent tabs creating duplicate drafts",
+    "uncertain proposal repeated after lock release"
+  ],
+  "remainingLimitations": [
+    "OCR and provider hashes are declarations, not server authenticity attestation",
+    "Cross-tab proposal guards are client-side within the same browser session; not cross-device server idempotency",
+    "Actual OCR/ASR inference providers not integrated"
+  ]
+}

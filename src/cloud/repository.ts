@@ -2,11 +2,21 @@ import type { D1Database } from '@cloudflare/workers-types';
 import type { Run,Demand } from '../contracts.js';
 import {ADAPTER_VERSION,DomainError,type Repository,type SessionRecord,type CapabilityRecord,type Submission} from '../runtime/repository.js';
 import {assertApproval,canonicalPayload,event,hash,validatePlan} from '../runtime/validation.js';
+import type {MaterialCase} from '../materials/types.js';
 type Row=Record<string,unknown>;
 export class D1Repository implements Repository {
   constructor(readonly db:D1Database){}
   async createSession(s:SessionRecord){await this.db.batch([this.db.prepare('INSERT INTO sessions(id,tenant_id,csrf,expires_at) VALUES(?,?,?,?)').bind(s.id,s.tenantId,s.csrf,s.expiresAt),this.db.prepare('INSERT INTO targets(tenant_id,revision) VALUES(?,0)').bind(s.tenantId)]);}
   async getSession(id:string){const r=await this.db.prepare('SELECT * FROM sessions WHERE id=?').bind(id).first<Row>();return r?{id:String(r.id),tenantId:String(r.tenant_id),csrf:String(r.csrf),expiresAt:Number(r.expires_at)}:undefined;}
+  async createMaterialCase(t:string,r:MaterialCase){if(r.revision!==1)throw new DomainError('INVALID_REVISION','材料初始版本无效。',500);const inserted=await this.db.prepare('INSERT INTO material_cases(id,tenant_id,revision,body) SELECT ?,?,?,? WHERE (SELECT count(*) FROM material_cases WHERE tenant_id=?)<30').bind(r.id,t,r.revision,JSON.stringify(r),t).run();if(inserted.meta.changes!==1)throw new DomainError('MATERIAL_LIMIT_REACHED','当前合成体验租户最多保存30个材料案例。',429);}
+  async getMaterialCase(t:string,id:string){const r=await this.db.prepare('SELECT body FROM material_cases WHERE tenant_id=? AND id=?').bind(t,id).first<Row>();return r?JSON.parse(String(r.body)) as MaterialCase:undefined;}
+  async listMaterialCases(t:string){const r=await this.db.prepare('SELECT body FROM material_cases WHERE tenant_id=? ORDER BY rowid DESC LIMIT 30').bind(t).all<Row>();return r.results.map(x=>JSON.parse(String(x.body)) as MaterialCase);}
+  async saveMaterialCaseCAS(t:string,r:MaterialCase,e:number){
+    if(r.revision!==e+1)throw new DomainError('INVALID_REVISION','材料更新版本无效。',500);
+    const link=r.linkedRun;if(link&&link.caseRevision!==r.revision)throw new DomainError('INVALID_REVISION','材料关联版本无效。',500);
+    const guard=link?` AND EXISTS (SELECT 1 FROM runs live WHERE live.tenant_id=material_cases.tenant_id AND live.id=? AND live.status IN ('draft','approved') AND json_extract(live.body,'$.effectStatus')='none' AND json_extract(live.body,'$.result') IS NULL AND json_extract(live.body,'$.revision')=? AND json_extract(live.body,'$.planHash')=?)`:'';
+    return (await this.db.prepare('UPDATE material_cases SET revision=?,body=? WHERE tenant_id=? AND id=? AND revision=?'+guard).bind(r.revision,JSON.stringify(r),t,r.id,e,...(link?[link.id,link.revision,link.planHash]:[])).run()).meta.changes===1;
+  }
   async createRun(t:string,r:Run){await this.db.prepare('INSERT INTO runs(id,tenant_id,epoch,status,body) VALUES(?,?,?,?,?)').bind(r.id,t,r.epoch,r.status,JSON.stringify(r)).run();}
   async getRun(t:string,id:string){const r=await this.db.prepare('SELECT body FROM runs WHERE tenant_id=? AND id=?').bind(t,id).first<Row>();return r?JSON.parse(String(r.body)) as Run:undefined;}
   async listRuns(t:string){const r=await this.db.prepare('SELECT body FROM runs WHERE tenant_id=? ORDER BY rowid DESC LIMIT 100').bind(t).all<Row>();return r.results.map(x=>JSON.parse(String(x.body)) as Run);}

@@ -42,3 +42,9 @@ pnpm audit
 - 模型与后续部署收据：`docs/evidence/`。
 
 计划部署为 Pages Git Integration + Pages Functions service binding + Browser Worker + D1，预览和生产已配置分别绑定独立 Worker/D1。Chrome 导航需要公开 HTTPS 旧后台。当前 `ENABLE_BROWSER_RUN=false`、`ENABLE_FREE_AI=false`；实际账户计划和共享额度未证实前保持关闭。CPU、TLS、部署 commit 与真实浏览器登记回读通过后，才更新生产完成状态。后续资源收据见 `docs/deployment/followup.json`。不存 Cloudflare token，不自动购买资源或升级套餐。
+
+## 采购材料与外贸单据核对
+
+`/materials.html` 支持文本、真实VTT时间码和结构化OCR结果导入，按来源定位字段并人工确认。采购人核只形成未批准草稿；外贸核对合同、订单和产品资料的数量、单位、币种、金额与交期，保存差异并导出核对包。租户案例、版本CAS及当前运行版本/哈希关联分别记录。
+
+扫描识别与音视频转录引擎未接入；OCR合成样例不是识别准确率验收。使用范围、容量及恢复行为见 [资料核对说明](docs/materials-workspace.md) 与 [架构](docs/architecture/enterprise-materials-2026-10-11.md)。

@@ -1,4 +1,5 @@
 import type { Demand, Plan, Run } from '../contracts.js';
+import type {MaterialCase} from '../materials/types.js';
 
 export const ADAPTER_VERSION = 'synthetic-procurement-v2';
 export interface SessionRecord { id:string; tenantId:string; csrf:string; expiresAt:number; }
@@ -7,6 +8,10 @@ export interface Submission { tokenHash:string; runId:string; revision:number; p
 export interface Repository {
   createSession(session:SessionRecord):Promise<void>;
   getSession(id:string):Promise<SessionRecord|undefined>;
+  createMaterialCase(tenantId:string,material:MaterialCase):Promise<void>;
+  getMaterialCase(tenantId:string,id:string):Promise<MaterialCase|undefined>;
+  listMaterialCases(tenantId:string):Promise<MaterialCase[]>;
+  saveMaterialCaseCAS(tenantId:string,material:MaterialCase,expectedRevision:number):Promise<boolean>;
   createRun(tenantId:string,run:Run):Promise<void>;
   getRun(tenantId:string,id:string):Promise<Run|undefined>;
   listRuns(tenantId:string):Promise<Run[]>;
