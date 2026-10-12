@@ -1,0 +1,92 @@
+{
+  "schema": "office-prd-evidence-summary-v1",
+  "summaryDate": "2026-10-12",
+  "kind": "documentation-summary",
+  "evidenceAnchor": "prd-design",
+  "evidenceURL": "https://office-workflow-agent.baby2b.online/evidence/#prd-design",
+  "syntheticOnly": true,
+  "repository": "https://github.com/Tiancheng-Xu/office-workflow-agent",
+  "implementationSourceCommit": "50ac4654f10c1c429b0e1c996c387e6bd9b6ad54",
+  "sources": [
+    {
+      "title": "OfficeFlow：基于现状的 PRD 与面试讲述稿",
+      "version": "1.1",
+      "documentDate": "2026-10-11",
+      "sha256": "ae1e7a96925fb1f7c4afa8dfd52107c7107d574fc07ba93d6b1171bf6fe53957",
+      "role": "Product positioning, approval and execution boundaries, historical verification scope",
+      "publication": "Original private source is not published; this artifact summarizes it alongside the existing sanitized public PRD"
+    },
+    {
+      "title": "采购材料与外贸核对：来源、人核和交接",
+      "documentDate": "2026-10-11",
+      "sha256": "9dfaa794c2593af85c00d7cd34383fe3805610eee1b4155260a8c040854ea44f",
+      "role": "Material provenance, human review, procurement and trade consumer contract",
+      "publication": "Sanitized summary only; existing public contract remains the implementation reference"
+    },
+    {
+      "title": "通用文档解析核心 PRD 与面试设计",
+      "version": "1.0",
+      "documentDate": "2026-10-12",
+      "sha256": "4eae6b9f814a848e1e68e684e031036984ac3eb08b8110ef1fa52a3197ea8fd1",
+      "role": "Future OCR provider, temporary retention, per-node and actor SHA-256 audit design",
+      "publication": "Sanitized design summary only; no runtime implementation or integration acceptance"
+    }
+  ],
+  "product": {
+    "positioning": "Traceable procurement preparation and trade material review, with separate approved synthetic registration",
+    "ownership": "User confirmed project ownership and release; detailed personal and AI contributions remain module-specific",
+    "workflow": [
+      "Supplied text, VTT or OCR result to source-linked field candidates",
+      "Human review and reasons for corrected or supplied values",
+      "Procurement: create unapproved draft; trade: export discrepancies and review questions",
+      "Procurement: preview, approve current version, explicitly execute",
+      "Persisted effect and independent fresh API verification"
+    ]
+  },
+  "mechanisms": {
+    "materialSources": "Raw values, references and review decisions persist separately; missing/conflicting candidates require human decisions",
+    "approval": "Reviewing material fields does not authorize execution; changed plan versions clear previous approval",
+    "execution": "Version/hash/target/adapter/expiry checks, persistent compare-and-swap claim and conditional unique-key write",
+    "unknownRecovery": "Query original request only; retain applied effect; never treat missing response as permission to resubmit",
+    "consumerProviderBoundary": "Actual supplied VTT parsing and strict OCR-result consumption are implemented; actual OCR/ASR inference providers are not integrated",
+    "auditDesign": "Per-node receipts and actor-snapshot SHA-256 chains are proposed in the generic parser PRD, not implemented in OfficeFlow",
+    "hashBoundary": "Content checksums are not signatures, identity authentication, permission grants or OCR accuracy proofs"
+  },
+  "scopeMatrix": [
+    {
+      "layer": "Historical synthetic production",
+      "date": "2026-10-04",
+      "scope": "Basic approved fixed-form registration, persisted applied effect and fresh API verification",
+      "receipt": "/evidence/production-verification.json"
+    },
+    {
+      "layer": "Historical synthetic production reported by approved PRD",
+      "date": "2026-10-08",
+      "evidenceCutoff": "2026-10-08T12:34:35.080Z",
+      "scope": "Item specification and unit sample, with ten-field API check; not a new execution in this documentation update",
+      "implementationReceipt": "/evidence/measured-input-verification.json",
+      "implementationReceiptBoundary": "This linked machine receipt is local; the separate production observation is described in the approved private PRD"
+    },
+    {
+      "layer": "Local implementation verification",
+      "date": "2026-10-11",
+      "scope": "Procurement and trade material consumer, source references, human review and case versions",
+      "receipt": "/evidence/enterprise-materials-verification.json",
+      "productionAcceptance": "Not supplied by this local receipt"
+    },
+    {
+      "layer": "Design only",
+      "date": "2026-10-12",
+      "scope": "Generic PDF/image OCR provider, extraction quality report, temporary jobs, node and actor audit chain",
+      "implementedInOfficeFlow": false,
+      "runtimeAcceptance": false
+    }
+  ],
+  "limitations": [
+    "This summary does not execute or re-verify production business operations",
+    "No real customer delivery, enterprise identity integration, payment or fulfillment acceptance",
+    "No open-corpus accuracy, OCR/ASR inference acceptance or measured labor savings",
+    "Local tests, static source and document design are not new production acceptance",
+    "Private paths, full interview answers, credentials, customer documents and session artifacts are excluded"
+  ]
+}

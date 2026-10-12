@@ -2,16 +2,28 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="OfficeFlow 办公流程 Agent 的工作证明：实现、验证和上线证据分别记录。">
+  <meta name="description" content="OfficeFlow 办公流程 Agent 的工作证明：产品定位、来源与批准机制，以及设计、实现、本地验证和历史生产证据分别记录。">
   <title>工作证明 · OfficeFlow</title>
   <link rel="stylesheet" href="/evidence/styles.css">
 </head>
 <body>
-  <header><a class="brand" href="/" aria-label="OfficeFlow 项目主页"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div>Office<span>Flow</span></div></a><nav aria-label="项目导航"><a href="https://baby2b.online/">作品集</a><a href="/">项目主页</a><a href="/evidence/" aria-current="page">工作证明</a></nav></header>
+  <header><a class="brand" href="/" aria-label="OfficeFlow 项目主页"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div>Office<span>Flow</span></div></a><nav aria-label="项目导航"><a href="https://baby2b.online/">作品集首页</a><a href="/">项目主页</a><a href="/evidence/" aria-current="page">工作证明</a></nav></header>
   <main>
     <div class="kicker">OFFICEFLOW / 工作证明</div><h1>每个结论，都有对应证据。</h1><div class="intro"><p>记录合成采购需求从语言提案、人工确认、浏览器登记到 API 核对的全过程。实现、测试与生产回读分别确认；本页不包含客户数据、会话令牌或浏览器存储。</p></div>
     <section class="principle" aria-label="项目 PRD"><h2>完整产品需求与项目讲述</h2><p><a href="/evidence/prd.html">查看完整项目 PRD</a> · 公开脱敏版，覆盖业务流程、权限、架构取舍、失败恢复与技术追问；设计规划、历史测试与生产回执分别说明。</p></section>
-    <div class="pending-banner" role="note"><span class="pending-dot" aria-hidden="true"></span><div><strong>本地与云端闭环均已实测</strong><p>2026-10-04 基础工作流历史版本通过64项测试和36项独立浏览器验收，独立审查已放行。<a href="/evidence/local-verification.json">查看本地机器收据</a>。远端 CI 与正式域名 HTTPS 已验证；云端浏览器完成固定表单后，生产 D1 保存为 applied，独立 API 再次读取为 verified。<a href="/evidence/production-verification.json">查看线上观测收据</a>。</p></div></div>
+    <section id="prd-design" class="principle" aria-labelledby="prd-summary"><h2 id="prd-summary">产品定位与 PRD 证据摘要 · 2026-10-12</h2><p>OfficeFlow 把采购口语和带来源的材料整理为可人工核对的字段，再把确认后的采购需求交给受批准约束的登记流程；外贸材料输出来源值、差异与待核对问题。当前使用合成数据和隔离工作区，没有真实客户交付、采购履约或节省工时的验收数据。</p><p>已确认本人主控、项目已上线；具体编码、审查、排障与 AI 协作分工按模块证据说明。PRD 原始文档保留在本机，公开脱敏版沿用上方入口；本节补充来源版本、关键机制与验收范围。<a href="/evidence/prd-evidence-summary.json">查看来源版本、SHA-256 与范围矩阵</a>。来源哈希用于匹配文档字节，不是签名或身份认证。</p>
+      <div class="prd-flow" role="img" aria-label="材料和口语先整理成带来源字段，人工核对后创建未批准草稿，再预览批准执行，最后独立查询"><span>口语 / 文本 / 已有 OCR / VTT</span><span aria-hidden="true">→</span><span>来源字段 → 人工核对</span><span aria-hidden="true">→</span><span>未批准草稿 → 预览 / 批准 / 执行</span><span aria-hidden="true">→</span><span>持久效果 → 新鲜 API 核对</span></div>
+      <div style="overflow-x:auto"><table class="prd-matrix"><thead><tr><th>关键机制</th><th>行为与证据边界</th></tr></thead><tbody>
+        <tr><td>来源与字段</td><td>文本、VTT 时间段及 OCR 分析结果的页码 / 区域形成候选。原值、人工确认值与修正理由分别保存；缺项、多值和差异不能自动变为正确结论。</td></tr>
+        <tr><td>人工核对与执行批准</td><td>资料确认只决定字段。采购仅创建未批准草稿，随后仍需单独预览、批准和明确执行；外贸核对不触发登记、付款或履约。</td></tr>
+        <tr><td>版本与写入</td><td>批准绑定当前计划版本、内容哈希、后台目标、适配器与期限；修订清旧批准。执行先持久认领，事务写入仍校验现场状态与业务唯一键。</td></tr>
+        <tr><td>未知结果恢复</td><td>浏览器观察、后台 applied 效果与本次 API 核对分开。提交后断线只查询原编号，不能自动重发；取消保留已经发生的登记。</td></tr>
+        <tr><td>识别与消费</td><td>本仓库解析提供的 VTT 并消费严格 OCR JSON；样例标记 fixture。没有运行真实 OCR / ASR provider。通用 PDF / 图片解析核心目前是设计文档，不能据此报告识别率或接入完成。</td></tr>
+        <tr><td>节点与操作人校验</td><td>通用解析核心提出每节点收据、操作人快照与审计链的 SHA-256 设计，尚未实装到 OfficeFlow。现有计划 / 报告校验值不证明操作人身份、授权或存储不可篡改。</td></tr>
+      </tbody></table></div>
+      <p>证据按版本读取：2026-10-04 基础闭环、2026-10-08 规格与单位的合成生产样本保留原收据；2026-10-11 资料核对增强以本地收据为准。PRD 的生产业务证据截止为 2026-10-08T12:34:35.080Z，本节未重跑登记或新增生产验收。文档设计、源码存在、本地测试和历史生产样本不能相互替代。</p>
+    </section>
+    <div class="pending-banner" role="note"><span class="pending-dot" aria-hidden="true"></span><div><strong>基础工作流历史版本：本地与云端闭环实测</strong><p>2026-10-04 基础工作流历史版本通过64项测试和36项独立浏览器验收，独立审查已放行。<a href="/evidence/local-verification.json">查看本地机器收据</a>。远端 CI 与正式域名 HTTPS 已验证；云端浏览器完成固定表单后，生产 D1 保存为 applied，独立 API 再次读取为 verified。<a href="/evidence/production-verification.json">查看线上观测收据</a>。</p></div></div>
     <div class="proof-grid">
       <section class="proof-card" aria-labelledby="functional"><div class="proof-top"><span class="proof-number">01</span><h2 id="functional">功能与实际登记</h2><span class="badge">本地通过</span></div><p>一次明确批准的需求，经隔离浏览器填写并提交固定表单，再由 API 读取真实登记结果。相同需求重复请求不得重复写入。</p><dl><div><dt>需要的证据</dt><dd>真实修订12→15、旧批准拒绝、浏览器POST及fresh API核对</dd></div><div><dt>当前结论</dt><dd>36/36独立本地验收；本次无浏览器动作时明确无证据</dd></div></dl></section>
       <section class="proof-card" aria-labelledby="safety"><div class="proof-top"><span class="proof-number">02</span><h2 id="safety">失败、隔离与恢复</h2><span class="badge">本地通过</span></div><p>检查租户隔离、过期批准、表单结构变化、跨域跳转、提交后断线、取消、并发及进程崩溃后的恢复行为。</p><dl><div><dt>需要的证据</dt><dd>DOM/跳转拦截、取消竞态、会话轮转、真实SIGKILL恢复</dd></div><div><dt>当前结论</dt><dd>强杀2/2通过；恢复零新浏览器与POST，仅查询原需求</dd></div></dl></section>
@@ -26,7 +38,7 @@
     <section class="principle"><h2>自然语言入参整理：一句需求进入受控工作流</h2><p>2026-10-08：可直接输入「前台买一台打印机」，提取部门、物品和中文数量，系统生成需求编号。支持不同语序、数量字段与常见别名；缺项时保留已识别内容，逐项补全，完整字段再生成未批准草稿。</p><p>新增前台与打印机，并统一提案、后台表单、浏览器校验和核对报告的字段目录。71项单元/集成测试和59项网页验收通过；本地测试不代替生产业务验收。当前无模型模式仍如实标注；不是通用语义理解或真实企业业务。<a href="/evidence/natural-input-verification.json">查看本地验证收据</a> · <a href="https://github.com/Tiancheng-Xu/office-workflow-agent/blob/main/docs/architecture/natural-input-references-2026-10-08.md">Dify、n8n、LangChain的实现参考</a> · <a href="/#main-content">体验自然语言需求</a></p></section>
     <section class="principle"><h2>运营增强：从采购清单到核对交接</h2><p>2026-10-08 增加字段模板、最多十条需求的逐行预检与顺序草稿准备。重复编号、模糊字段和晚到响应分别处理；响应丢失先查询已有草稿，不自动重发。后台版本变化时，刷新目标并重新预览，再逐条人工确认。</p><p>当前会话队列支持部门、处理阶段、编号和错误码筛选。核对交接包逐条 GET 新鲜报告，校验内容摘要并保留读取失败；运行状态与本次 API 验收分别展示。初版新增12项网页验收，全套64项单元/集成测试和51项浏览器验收通过；审查修正后新增3项回归，26项受影响浏览器验收通过，未变化的后端与审计结果复用。本地测试与生产回读分开留证。<a href="/evidence/operations-verification.json">查看本次本地验证收据</a> · <a href="https://github.com/Tiancheng-Xu/office-workflow-agent/blob/main/docs/architecture/github-comparison-2026-10-08.md">GitHub 同类实现与取舍</a> · <a href="/#intake">体验批量准备</a></p><p>临时清单仅在当前页面，草稿保存在当前隔离会话；原十条不同结束节点的历史记录完整保留。</p></section>
     <section class="principle"><h2>资料来源与两条业务线：采购与外贸</h2><p>2026-10-11 增加资料核对工作台：文本、VTT字幕时间段及结构化OCR页码/区域形成候选，人工确认后保存独立版本。采购只创建未批准草稿，合同/订单/产品资料按数量、单位、币种、金额和交期显示差异与各来源值。</p><p>147项单元/集成检查通过；77项浏览器用例首轮76项通过，旧迁移断言修正后剩余1项复验通过；新增14项材料用例经独立QA运行。案例按租户保存，旧版本不能覆盖新确认。字段未保存及提案不确定时限制后续写入；跨标签页保护限定同源同浏览器会话。<a href="/materials.html">进入资料核对</a> · <a href="/evidence/enterprise-materials-verification.json">本地验证收据</a> · <a href="https://github.com/Tiancheng-Xu/office-workflow-agent/blob/main/docs/materials-workspace.md">使用与来源契约</a></p><p>该收据记录本地验收，生产验证另记。OCR样例为合成分析结果，VTT导入不等于运行音视频转录；扫描识别与转录引擎未接入。原件只在本机计算哈希，不上传，也不把哈希比对当识别正确或服务端认证。原十条不同终点历史完整保留。</p></section>
-    <a href="/" class="return-link">进入需求工作台 <span aria-hidden="true">→</span></a>
+    <a href="/" class="return-link">返回项目主页 <span aria-hidden="true">→</span></a>
   </main>
   <footer><span>OfficeFlow · 办公流程 Agent</span><nav aria-label="页脚导航"><a href="https://baby2b.online/">作品集首页</a><a href="/">项目主页</a><a href="/evidence/">工作证明</a></nav></footer>
 </body>
