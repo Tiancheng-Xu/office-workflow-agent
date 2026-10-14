@@ -1,4 +1,6 @@
 import {demandText} from '../demand-input.js';
+import {getProjectSnapshot} from '../agent-interface/public-queries.js';
+import {mountPageProjectTools} from '../agent-interface/webmcp-registry.js';
 import {quantityLabel} from '../procurement-fields.js';
 import {departments,items} from '../catalog.js';
 import {mountDemandCompletion} from './demand-completion.js';
@@ -17,6 +19,7 @@ interface ProofSnapshot { proof: ExecutionProof; epoch: number; revision: number
 const root = document.querySelector<HTMLDivElement>('#app');
 if (!root) throw new Error('OfficeFlow mount is missing');
 const app = root;
+mountPageProjectTools(getProjectSnapshot);
 const icons: Record<string, string> = {
   grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
   clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/>',
