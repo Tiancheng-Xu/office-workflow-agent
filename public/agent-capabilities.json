@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "projectId": "office-workflow-agent",
+  "runtime": "webmcp-experimental",
+  "discovery": "project-defined-not-standard",
+  "status": {
+    "implementation": "implemented-local",
+    "native": "not-verified",
+    "publication": "local"
+  },
+  "tools": [
+    {
+      "name": "of_project_info",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        },
+        "required": [
+          "projectId"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "untrustedContentHint": true,
+        "consequentialHint": false
+      }
+    },
+    {
+      "name": "of_project_evidence",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "default": 3
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "projectId"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "untrustedContentHint": true,
+        "consequentialHint": false
+      }
+    }
+  ],
+  "limits": {
+    "defaultPageSize": 3,
+    "maxPageSize": 5,
+    "resultUtf8Bytes": 6144
+  },
+  "boundaries": {
+    "businessRecords": false,
+    "modelCalls": false,
+    "businessWrites": false,
+    "crossOrigin": false
+  }
+}
