@@ -31,7 +31,7 @@ pnpm audit
 
 ## 状态与证据
 
-Agent-friendly 公开只读入口：[接口与安全说明](docs/agent-interface.md)，项目自定义清单 `/agent-capabilities.json`。仅查询公开项目和证明，不读取采购/会话/材料或执行动作；本地接入、原生验收与生产发布分别记录，不由此清单宣称已发布。
+Agent-friendly 公开只读入口：[接口与安全说明](docs/agent-interface.md)，项目自定义清单 `/agent-capabilities.json`。仅查询公开项目和证明，不读取采购/会话/材料或执行动作；已验证发布版本、适配器检查与范围见[发布收据](public/evidence/agent-interface-verification.json)。原生 WebMCP 尚未验证。
 
 结果不确定时只查询原需求编号，禁止自动重复提交。取消不会撤销已发生登记。数据库业务唯一键限制重复记录，产品不声称跨所有外部系统 exactly-once。
 
