@@ -1,0 +1,540 @@
+{
+  "schema": "officeflow-public-interface-verification-v1",
+  "recordedAt": "2026-10-15T03:20:16.133171+00:00",
+  "recordKind": "verified-release-snapshot",
+  "repository": "https://github.com/Tiancheng-Xu/office-workflow-agent",
+  "pullRequest": "https://github.com/Tiancheng-Xu/office-workflow-agent/pull/12",
+  "featureCommit": "be7bc5a677348bb5194f3d76d4cded2519991499",
+  "mergedCommit": "6290c4f9ccf6d6d4a5e5f0df77126179284f6efa",
+  "featureAndMergedTreesIdentical": true,
+  "patchSha256": "aa285d52943a7d4de76004a88e419a1e1de804b6d4f1e5c386c93319ea30465d",
+  "tools": [
+    "of_project_info",
+    "of_project_evidence"
+  ],
+  "production": {
+    "project": "office-workflow-agent",
+    "branch": "main",
+    "sourceCommit": "6290c4f9ccf6d6d4a5e5f0df77126179284f6efa",
+    "deploymentId": "ba1206fa-7386-494f-b6df-a50a3b7041dc",
+    "canonicalDeploymentId": "ba1206fa-7386-494f-b6df-a50a3b7041dc",
+    "status": "success",
+    "url": "https://ba1206fa.office-workflow-agent.pages.dev",
+    "aliases": [
+      "https://office-workflow-agent.baby2b.online"
+    ],
+    "build": {
+      "command": "pnpm build",
+      "output": "dist",
+      "root": "",
+      "systemVersion": 3,
+      "nodeVersion": "22.23.1",
+      "pnpmVersion": "11.17.0"
+    },
+    "customDomainStatus": "active",
+    "sslEnabled": true
+  },
+  "verification": {
+    "independentSourceReview": "ALLOW",
+    "optionalReviewSuggestions": "independently triaged nonblocking",
+    "sourceIdenticalHandoff": {
+      "typeChecks": "PASS",
+      "unitTests": 152,
+      "browserE2E": 79,
+      "logSha256": {
+        "check": "3f8be84e6ecf08808414b8fc0e5bcb4a49cbb955d07e9984556fbc369b2f7560",
+        "e2e": "a23468e93397ffbaf2fcdcf7250d87a25939db658ecba7e37695d40183234551",
+        "build": "171ed7713f4bf12c98a609184c5e860f38cc78a479972fb8df2693fcc90706a0"
+      }
+    },
+    "freshAffectedChecks": 20,
+    "adapterApi": "explicitly simulated document.modelContext; not native proof",
+    "isolatedBrowser": "Chromium153.0.8010.12",
+    "previewUi": "PASS at1440/390",
+    "productionUi": "PASS at1440/390",
+    "actualNativeApiAvailable": false,
+    "native": "not-verified",
+    "realBfcache": "not-verified",
+    "githubChecks": [
+      {
+        "conclusion": "success",
+        "name": "Cloudflare Pages: office-workflow-agent",
+        "status": "completed",
+        "url": "https://github.com/Tiancheng-Xu/office-workflow-agent/runs/116226934554"
+      },
+      {
+        "conclusion": "success",
+        "name": "Cloudflare Pages: office-workflow-agentx",
+        "status": "completed",
+        "url": "https://github.com/Tiancheng-Xu/office-workflow-agent/runs/116226743931"
+      },
+      {
+        "conclusion": "success",
+        "name": "product",
+        "status": "completed",
+        "url": "https://github.com/Tiancheng-Xu/office-workflow-agent/actions/runs/38675012166/job/116226517008"
+      },
+      {
+        "conclusion": "success",
+        "name": "publishing-contract / verify",
+        "status": "completed",
+        "url": "https://github.com/Tiancheng-Xu/office-workflow-agent/actions/runs/38675012166/job/116226516458"
+      }
+    ]
+  },
+  "http": [
+    {
+      "label": "preview-commit",
+      "base": "https://40a647f9.office-workflow-agent.pages.dev",
+      "sourceCommit": "be7bc5a677348bb5194f3d76d4cded2519991499",
+      "deploymentId": "40a647f9-2c06-4001-a274-e3191ccf50c1",
+      "records": [
+        {
+          "path": "/",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4a1c87596e80bc10f075c65609886281989a743e2041729bd54013d1ba94c0a5"
+        },
+        {
+          "path": "/assets/workbench-BnPsbIcf.js",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "0136ba6fd32166639eaa406b9097c08b2926be37c652b67550e12dc737bcc2e4"
+        },
+        {
+          "path": "/assets/validation-Ds-O0Tuf.js",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "6909bcc2156821d6e90e8b9a38d99f56f6a681685a2ed2715d4eb2922303cd0c"
+        },
+        {
+          "path": "/assets/workbench-DKqZvVOF.css",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4b4c1d39ab7ffeafa09402a9adc89c8a68f312b50171b8000f9bc4156ee6f13d"
+        },
+        {
+          "path": "/agent-capabilities.json",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/agent-capabilities.json",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/agent-capabilities.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "c6af0e37a1109ec442c53d56c82678db237a05fa69cb40d1ae8120827c42d33f"
+        },
+        {
+          "path": "/evidence/retained-flows.json",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "f31f3ce5ad188c9417c7809536e39cd9c17fe019921686775d9f5974a78cfa1d"
+        },
+        {
+          "path": "/materials.html",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/materials.html",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/materials",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "fdc3817a9d871cacd48bdf8f0bc0cbc0a5a91e4389a321471bf19944a3e81f61"
+        },
+        {
+          "path": "/evidence/",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/evidence/",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/evidence/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "d34cfa7ebd8f61087036ebaf6ecbb15d271b5e25720ea2ed4767b820b1ec616a"
+        },
+        {
+          "path": "/api/health",
+          "url": "https://40a647f9.office-workflow-agent.pages.dev/api/health",
+          "finalUrl": "https://40a647f9.office-workflow-agent.pages.dev/api/health",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "b93974cb80901effe671efb498f5f55001e2b3f35d26820592dde555d6f19f1f"
+        }
+      ],
+      "healthMode": "ok"
+    },
+    {
+      "label": "preview-branch",
+      "base": "https://tc-of-public-tools.office-workflow-agent.pages.dev",
+      "sourceCommit": "be7bc5a677348bb5194f3d76d4cded2519991499",
+      "deploymentId": "40a647f9-2c06-4001-a274-e3191ccf50c1",
+      "records": [
+        {
+          "path": "/",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4a1c87596e80bc10f075c65609886281989a743e2041729bd54013d1ba94c0a5"
+        },
+        {
+          "path": "/assets/workbench-BnPsbIcf.js",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "0136ba6fd32166639eaa406b9097c08b2926be37c652b67550e12dc737bcc2e4"
+        },
+        {
+          "path": "/assets/validation-Ds-O0Tuf.js",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "6909bcc2156821d6e90e8b9a38d99f56f6a681685a2ed2715d4eb2922303cd0c"
+        },
+        {
+          "path": "/assets/workbench-DKqZvVOF.css",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4b4c1d39ab7ffeafa09402a9adc89c8a68f312b50171b8000f9bc4156ee6f13d"
+        },
+        {
+          "path": "/agent-capabilities.json",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/agent-capabilities.json",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/agent-capabilities.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "c6af0e37a1109ec442c53d56c82678db237a05fa69cb40d1ae8120827c42d33f"
+        },
+        {
+          "path": "/evidence/retained-flows.json",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "f31f3ce5ad188c9417c7809536e39cd9c17fe019921686775d9f5974a78cfa1d"
+        },
+        {
+          "path": "/materials.html",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/materials.html",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/materials",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "fdc3817a9d871cacd48bdf8f0bc0cbc0a5a91e4389a321471bf19944a3e81f61"
+        },
+        {
+          "path": "/evidence/",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/evidence/",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/evidence/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "d34cfa7ebd8f61087036ebaf6ecbb15d271b5e25720ea2ed4767b820b1ec616a"
+        },
+        {
+          "path": "/api/health",
+          "url": "https://tc-of-public-tools.office-workflow-agent.pages.dev/api/health",
+          "finalUrl": "https://tc-of-public-tools.office-workflow-agent.pages.dev/api/health",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "b93974cb80901effe671efb498f5f55001e2b3f35d26820592dde555d6f19f1f"
+        }
+      ],
+      "healthMode": "ok"
+    },
+    {
+      "label": "production-commit",
+      "base": "https://ba1206fa.office-workflow-agent.pages.dev",
+      "sourceCommit": "6290c4f9ccf6d6d4a5e5f0df77126179284f6efa",
+      "deploymentId": "ba1206fa-7386-494f-b6df-a50a3b7041dc",
+      "records": [
+        {
+          "path": "/",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "4a1c87596e80bc10f075c65609886281989a743e2041729bd54013d1ba94c0a5"
+        },
+        {
+          "path": "/assets/workbench-BnPsbIcf.js",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "0136ba6fd32166639eaa406b9097c08b2926be37c652b67550e12dc737bcc2e4"
+        },
+        {
+          "path": "/assets/validation-Ds-O0Tuf.js",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "6909bcc2156821d6e90e8b9a38d99f56f6a681685a2ed2715d4eb2922303cd0c"
+        },
+        {
+          "path": "/assets/workbench-DKqZvVOF.css",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "4b4c1d39ab7ffeafa09402a9adc89c8a68f312b50171b8000f9bc4156ee6f13d"
+        },
+        {
+          "path": "/agent-capabilities.json",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/agent-capabilities.json",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/agent-capabilities.json",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "c6af0e37a1109ec442c53d56c82678db237a05fa69cb40d1ae8120827c42d33f"
+        },
+        {
+          "path": "/evidence/retained-flows.json",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "f31f3ce5ad188c9417c7809536e39cd9c17fe019921686775d9f5974a78cfa1d"
+        },
+        {
+          "path": "/materials.html",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/materials.html",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/materials",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "fdc3817a9d871cacd48bdf8f0bc0cbc0a5a91e4389a321471bf19944a3e81f61"
+        },
+        {
+          "path": "/evidence/",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/evidence/",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/evidence/",
+          "status": 200,
+          "expectedStatus": 200,
+          "tlsVerified": true,
+          "sha256": "d34cfa7ebd8f61087036ebaf6ecbb15d271b5e25720ea2ed4767b820b1ec616a"
+        },
+        {
+          "path": "/api/health",
+          "url": "https://ba1206fa.office-workflow-agent.pages.dev/api/health",
+          "finalUrl": "https://ba1206fa.office-workflow-agent.pages.dev/api/health",
+          "status": 403,
+          "expectedStatus": 403,
+          "tlsVerified": true,
+          "sha256": "a36a5c1b22b4666ff8d074b338fdfffe54b1915983e0b3467c78856d3aeceea1"
+        }
+      ],
+      "healthMode": "denied"
+    },
+    {
+      "label": "production-canonical",
+      "base": "https://office-workflow-agent.pages.dev",
+      "sourceCommit": "6290c4f9ccf6d6d4a5e5f0df77126179284f6efa",
+      "deploymentId": "ba1206fa-7386-494f-b6df-a50a3b7041dc",
+      "records": [
+        {
+          "path": "/",
+          "url": "https://office-workflow-agent.pages.dev/",
+          "finalUrl": "https://office-workflow-agent.pages.dev/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4a1c87596e80bc10f075c65609886281989a743e2041729bd54013d1ba94c0a5"
+        },
+        {
+          "path": "/assets/workbench-BnPsbIcf.js",
+          "url": "https://office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "finalUrl": "https://office-workflow-agent.pages.dev/assets/workbench-BnPsbIcf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "0136ba6fd32166639eaa406b9097c08b2926be37c652b67550e12dc737bcc2e4"
+        },
+        {
+          "path": "/assets/validation-Ds-O0Tuf.js",
+          "url": "https://office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "finalUrl": "https://office-workflow-agent.pages.dev/assets/validation-Ds-O0Tuf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "6909bcc2156821d6e90e8b9a38d99f56f6a681685a2ed2715d4eb2922303cd0c"
+        },
+        {
+          "path": "/assets/workbench-DKqZvVOF.css",
+          "url": "https://office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "finalUrl": "https://office-workflow-agent.pages.dev/assets/workbench-DKqZvVOF.css",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4b4c1d39ab7ffeafa09402a9adc89c8a68f312b50171b8000f9bc4156ee6f13d"
+        },
+        {
+          "path": "/agent-capabilities.json",
+          "url": "https://office-workflow-agent.pages.dev/agent-capabilities.json",
+          "finalUrl": "https://office-workflow-agent.pages.dev/agent-capabilities.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "c6af0e37a1109ec442c53d56c82678db237a05fa69cb40d1ae8120827c42d33f"
+        },
+        {
+          "path": "/evidence/retained-flows.json",
+          "url": "https://office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "finalUrl": "https://office-workflow-agent.pages.dev/evidence/retained-flows.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "f31f3ce5ad188c9417c7809536e39cd9c17fe019921686775d9f5974a78cfa1d"
+        },
+        {
+          "path": "/materials.html",
+          "url": "https://office-workflow-agent.pages.dev/materials.html",
+          "finalUrl": "https://office-workflow-agent.pages.dev/materials",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "fdc3817a9d871cacd48bdf8f0bc0cbc0a5a91e4389a321471bf19944a3e81f61"
+        },
+        {
+          "path": "/evidence/",
+          "url": "https://office-workflow-agent.pages.dev/evidence/",
+          "finalUrl": "https://office-workflow-agent.pages.dev/evidence/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "d34cfa7ebd8f61087036ebaf6ecbb15d271b5e25720ea2ed4767b820b1ec616a"
+        },
+        {
+          "path": "/api/health",
+          "url": "https://office-workflow-agent.pages.dev/api/health",
+          "finalUrl": "https://office-workflow-agent.pages.dev/api/health",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "df223dd08b23c9bd5be8f9f6b38a1e934b938f67f31b9950c29e188cf7e4a1e9"
+        }
+      ],
+      "healthMode": "ok"
+    },
+    {
+      "label": "production-domain",
+      "base": "https://office-workflow-agent.baby2b.online",
+      "sourceCommit": "6290c4f9ccf6d6d4a5e5f0df77126179284f6efa",
+      "deploymentId": "ba1206fa-7386-494f-b6df-a50a3b7041dc",
+      "records": [
+        {
+          "path": "/",
+          "url": "https://office-workflow-agent.baby2b.online/",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4a1c87596e80bc10f075c65609886281989a743e2041729bd54013d1ba94c0a5"
+        },
+        {
+          "path": "/assets/workbench-BnPsbIcf.js",
+          "url": "https://office-workflow-agent.baby2b.online/assets/workbench-BnPsbIcf.js",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/assets/workbench-BnPsbIcf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "0136ba6fd32166639eaa406b9097c08b2926be37c652b67550e12dc737bcc2e4"
+        },
+        {
+          "path": "/assets/validation-Ds-O0Tuf.js",
+          "url": "https://office-workflow-agent.baby2b.online/assets/validation-Ds-O0Tuf.js",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/assets/validation-Ds-O0Tuf.js",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "6909bcc2156821d6e90e8b9a38d99f56f6a681685a2ed2715d4eb2922303cd0c"
+        },
+        {
+          "path": "/assets/workbench-DKqZvVOF.css",
+          "url": "https://office-workflow-agent.baby2b.online/assets/workbench-DKqZvVOF.css",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/assets/workbench-DKqZvVOF.css",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "4b4c1d39ab7ffeafa09402a9adc89c8a68f312b50171b8000f9bc4156ee6f13d"
+        },
+        {
+          "path": "/agent-capabilities.json",
+          "url": "https://office-workflow-agent.baby2b.online/agent-capabilities.json",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/agent-capabilities.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "c6af0e37a1109ec442c53d56c82678db237a05fa69cb40d1ae8120827c42d33f"
+        },
+        {
+          "path": "/evidence/retained-flows.json",
+          "url": "https://office-workflow-agent.baby2b.online/evidence/retained-flows.json",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/evidence/retained-flows.json",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "f31f3ce5ad188c9417c7809536e39cd9c17fe019921686775d9f5974a78cfa1d"
+        },
+        {
+          "path": "/materials.html",
+          "url": "https://office-workflow-agent.baby2b.online/materials.html",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/materials",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "fdc3817a9d871cacd48bdf8f0bc0cbc0a5a91e4389a321471bf19944a3e81f61"
+        },
+        {
+          "path": "/evidence/",
+          "url": "https://office-workflow-agent.baby2b.online/evidence/",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/evidence/",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "d34cfa7ebd8f61087036ebaf6ecbb15d271b5e25720ea2ed4767b820b1ec616a"
+        },
+        {
+          "path": "/api/health",
+          "url": "https://office-workflow-agent.baby2b.online/api/health",
+          "finalUrl": "https://office-workflow-agent.baby2b.online/api/health",
+          "status": 200,
+          "tlsVerified": true,
+          "sha256": "df223dd08b23c9bd5be8f9f6b38a1e934b938f67f31b9950c29e188cf7e4a1e9"
+        }
+      ],
+      "healthMode": "ok"
+    }
+  ],
+  "history": {
+    "recordCount": 10,
+    "distinctEndNodes": 10,
+    "assertionsPassed": 230,
+    "assertionsFailed": 0,
+    "originalBytesPreserved": true
+  },
+  "businessEffects": {
+    "toolTriggeredApiRequests": 0,
+    "businessWrites": 0,
+    "modelCalls": 0,
+    "runtimeRedeployment": false,
+    "schemaMigration": false
+  },
+  "incident": {
+    "symptom": "Canonical preview was skipped",
+    "cause": "Feature branch absent from custom preview allowlist",
+    "fix": "Appended only tc/of-public-tools; retried existing Git deployment",
+    "recheck": "Canonical commit/branch previews, production deployment and artifacts passed",
+    "diagnosticHarnessCorrections": [
+      "Canonical Pages308 materials.html redirect accepted before final200",
+      "Cloudflare analytics POSTs blocked and recorded separately from business writes",
+      "Production commit-host API expected403 ORIGIN_DENIED; official custom and canonical hosts health200; no origin rule changed"
+    ]
+  },
+  "rollback": {
+    "previousPagesDeployment": "d8747920-a325-4db0-b477-ff78a2b79299",
+    "workerAndDatabase": "unchanged"
+  },
+  "limitations": [
+    "This is a snapshot of the identified verified release, not an attestation about later commits",
+    "Native WebMCP conformance and real bfcache navigation not verified",
+    "No token CPU or latency benefit measurement",
+    "Tool output is public summary only; no session procurement material model or business write access",
+    "Persistent lifecycle regression coverage and two optional maintenance cleanups remain follow-ups",
+    "Existing mobile sidebar materials link is hidden at390; direct materials route works; mobile discoverability not verified",
+    "OCR consumes structured results and VTT consumes supplied captions; no OCR or ASR inference provider integrated",
+    "No new procurement execution performed; historical workflows retained without replay"
+  ]
+}

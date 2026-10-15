@@ -4,9 +4,9 @@
   "runtime": "webmcp-experimental",
   "discovery": "project-defined-not-standard",
   "status": {
-    "implementation": "implemented-local",
+    "implementation": "verified-local",
     "native": "not-verified",
-    "publication": "local"
+    "publication": "released"
   },
   "tools": [
     {
@@ -76,5 +76,11 @@
     "modelCalls": false,
     "businessWrites": false,
     "crossOrigin": false
+  },
+  "verification": {
+    "recordKind": "verified-release-snapshot",
+    "sourceCommit": "6290c4f9ccf6d6d4a5e5f0df77126179284f6efa",
+    "deploymentId": "ba1206fa-7386-494f-b6df-a50a3b7041dc",
+    "evidence": "/evidence/agent-interface-verification.json"
   }
 }
