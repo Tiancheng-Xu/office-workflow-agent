@@ -19,7 +19,7 @@ const indexSchema = z.object({
 const detailSchema = z.object({
   schema: z.literal('officeflow-retained-local-flow-v1'), syntheticOnly: z.literal(true),
   recordId: text, actualEndStage: text, startedAt: text, endedAt: text,
-  runStatus: recordSchema.innerType().shape.runStatus, effectStatus: recordSchema.innerType().shape.effectStatus,
+  runStatus: recordSchema.shape.runStatus, effectStatus: recordSchema.shape.effectStatus,
   steps: z.array(z.object({ sequence: z.number().int().positive(), name: text, kind: text,
     method: text.optional(), completedAt: text.optional(), response: z.object({status:z.number().int()}).optional(),
   })).max(100),
