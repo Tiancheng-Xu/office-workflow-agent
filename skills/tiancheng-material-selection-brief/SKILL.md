@@ -1,11 +1,11 @@
 ---
 name: "tiancheng-material-selection-brief"
-display_name: "商品选材提案｜双图约束·验收清单"
-display_name_en: "Product Material Selection Brief"
+display_name: "商品双图选材约束与验收清单"
+display_name_en: "Product-Material-Selection-Brief"
 description: "把商品原图与材质样本整理为选材提示词和逐图验收清单。用于材质替换提案准备，不直接生图或判断可制造性。"
 description_zh: "把商品原图与材质样本整理为选材提示词和逐图验收清单。用于材质替换提案准备，不直接生图或判断可制造性。"
 description_en: "Prepare product/material references, edit constraints and acceptance checks. Does not generate images."
-version: "0.1.0"
+version: "0.1.1"
 author: "xutiancheng"
 examples_zh: ["按随包合成样例整理输入，输出可复核结果与缺项，不发送或批准。"]
 examples_en: ["Use the bundled synthetic example and return reviewable findings without sending or approving anything."]

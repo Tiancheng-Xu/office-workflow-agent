@@ -1,6 +1,6 @@
 # Source and scope
 
-Author/maintainer: Tiancheng-Xu (xutiancheng). Version 0.1.1, 2026-10-30.
+Author/maintainer: Tiancheng-Xu (xutiancheng). Version 0.1.2, 2026-10-30.
 
 This package contains newly written workflow instructions and deterministic Python helpers, extracted as a bounded business capability for the existing Office Workflow Agent project. No customer data, private account state, local machine paths or secrets are included.
 
