@@ -1,0 +1,17 @@
+{
+  "product": "合成通勤包",
+  "productReference": "合成商品图1",
+  "replace": "袋身面料",
+  "preserve": [
+    "黑色提手",
+    "缝线位置",
+    "Logo和文字",
+    "原有背景"
+  ],
+  "materials": [
+    {
+      "name": "雾蓝织物",
+      "reference": "合成材质图2"
+    }
+  ]
+}

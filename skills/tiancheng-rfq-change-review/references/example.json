@@ -1,0 +1,32 @@
+{
+  "A": [
+    {
+      "sku": "SYN-01",
+      "quantity": "100",
+      "unit": "件",
+      "currency": "CNY",
+      "unitPrice": "2.50",
+      "source": "合成A:行1"
+    }
+  ],
+  "B": [
+    {
+      "sku": "SYN-01",
+      "quantity": "200",
+      "unit": "件",
+      "currency": "CNY",
+      "unitPrice": "2.50",
+      "source": "合成B:行1"
+    }
+  ],
+  "Q": [
+    {
+      "sku": "SYN-01",
+      "quantity": "100",
+      "unit": "件",
+      "currency": "CNY",
+      "unitPrice": "2.50",
+      "source": "合成Q:行1"
+    }
+  ]
+}
