@@ -1,0 +1,18 @@
+{
+  "schema": "rfq-change-review-v1",
+  "status": "needs-review",
+  "findings": [
+    {
+      "code": "stale",
+      "sku": "SYN-01",
+      "field": "quantity",
+      "latest": "200",
+      "quoted": "100",
+      "latestSource": "合成B:行1",
+      "quoteSource": "合成Q:行1"
+    }
+  ],
+  "approval": "not-approved",
+  "originalDocumentsVerified": false,
+  "limits": "仅核对用户规范化字段；不识别原件/OCR，不换算单位/币种/税额，不批准或发送报价。"
+}

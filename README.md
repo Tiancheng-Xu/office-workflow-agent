@@ -50,3 +50,14 @@ Agent-friendly 公开只读入口：[接口与安全说明](docs/agent-interface
 `/materials.html` 支持文本、真实VTT时间码和结构化OCR结果导入，按来源定位字段并人工确认。采购人核只形成未批准草稿；外贸核对合同、订单和产品资料的数量、单位、币种、金额与交期，保存差异并导出核对包。租户案例、版本CAS及当前运行版本/哈希关联分别记录。
 
 扫描识别与音视频转录引擎未接入；OCR合成样例不是识别准确率验收。使用范围、容量及恢复行为见 [资料核对说明](docs/materials-workspace.md) 与 [架构](docs/architecture/enterprise-materials-2026-10-11.md)。
+
+## 可安装的采购与选材技能
+
+在现有资料核对模块之外，`skills/` 提供两个独立的轻量入口（Python 3标准库，无模型依赖）：
+
+- [询价变更复核](skills/tiancheng-rfq-change-review/SKILL.md)：对照规范化A/B/Q，检查旧值残留、单位/币种冲突与来源；仅输出未批准复核报告。
+- [商品选材提案](skills/tiancheng-material-selection-brief/SKILL.md)：整理商品与材质双图引用、替换/保留要求及验收清单；不直接生图。
+
+包内带合成输入与脚本真实输出。执行 `python3 tests/commercial-skills.test.py` 验证新增确定性逻辑；不代表平台模型实跑或企业流程验收。
+
+通过 Skills CLI 可选择安装：`npx skills add Tiancheng-Xu/office-workflow-agent --skill tiancheng-rfq-change-review` 或将最后的名称改为 `tiancheng-material-selection-brief`。GitHub可安装与skills.sh榜单收录分别核验；不通过重复安装制造排名。WorkBuddy ZIP按当前官方格式由同一源码打包，安装/扫描/模型实跑/市场审核分别记录。各技能目录的MIT许可只适用于其新文件。

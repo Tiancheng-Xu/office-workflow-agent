@@ -1,0 +1,22 @@
+{
+  "schema": "material-selection-brief-v1",
+  "stage": "brief-only",
+  "modelCalled": false,
+  "proposals": [
+    {
+      "material": "雾蓝织物",
+      "productReference": "合成商品图1",
+      "materialReference": "合成材质图2",
+      "prompt": "图1为合成通勤包商品原图，图2为雾蓝织物材质参考。仅替换袋身面料。保留黑色提手、缝线位置、Logo和文字、原有背景；保持轮廓、结构、比例、透视与原有文字，不添加品牌或新文字。纹理随表面透视。",
+      "checks": [
+        "结构和尺寸比例",
+        "Logo与文字",
+        "纹理方向与尺度",
+        "保留区域有无变动",
+        "实物工艺另由厂家确认"
+      ]
+    }
+  ],
+  "acceptance": "待真实生成后逐图人工核验；提案不证明视觉效果或可制造性",
+  "limits": "仅整理提供的事实与引用，不读图、不抓取引用、不生图、不上传、不报价。"
+}
