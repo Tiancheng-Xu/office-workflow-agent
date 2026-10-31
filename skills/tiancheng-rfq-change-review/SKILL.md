@@ -1,11 +1,11 @@
 ---
 name: "tiancheng-rfq-change-review"
-display_name: "询价变更复核｜旧值残留·来源对照"
-display_name_en: "RFQ Change Review"
+display_name: "询价旧值残留与来源复核"
+display_name_en: "RFQ-Change-Review"
 description: "对照旧询价A、最新要求B和待发报价Q的规范化字段，定位旧数量、单位、币种和单价残留，输出待人工复核清单。"
 description_zh: "对照旧询价A、最新要求B和待发报价Q的规范化字段，定位旧数量、单位、币种和单价残留，输出待人工复核清单。"
 description_en: "Compare normalized previous RFQ, latest requirements and draft quote. Preserve sources and require human review."
-version: "0.1.1"
+version: "0.1.2"
 author: "xutiancheng"
 examples_zh: ["按随包合成样例整理输入，输出可复核结果与缺项，不发送或批准。"]
 examples_en: ["Use the bundled synthetic example and return reviewable findings without sending or approving anything."]
